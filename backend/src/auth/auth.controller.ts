@@ -25,10 +25,4 @@ export class AuthController {
   native_register(@Body() user: user): Promise<string> {
     return this.authService.addUser(user);
   }
-
-  @Post('register/external')
-  @HttpCode(HttpStatus.CREATED)
-  async external_register(@Body() user: user): Promise<any> {
-    return this.authService.addUser(user);
-  }
 }

@@ -1,0 +1,52 @@
+<div class="modal-body">
+    <div class="column" id="secondary"></div>
+    <div>
+        <svg _ngcontent-fac-c104="" width="67px" height="578px" viewBox="0 0 67 578" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <defs></defs>
+            <title _ngcontent-fac-c104="">Path</title>
+            <desc _ngcontent-fac-c104="">Created with Sketch.</desc>
+            <g _ngcontent-fac-c104="" id="g-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+                transform="matrix(-0.951369, 0, 0, 1.001163, 384.792847, -37.768806)">
+                <path _ngcontent-fac-c104=""
+                    d="M 349.067 37.725 C 330.235 74.446 342.826 164.483 386.839 307.834 C 408.665 378.924 392.57 481.554 338.553 615.725 L 404.682 615.725 L 404.682 37.725 L 349.067 37.725 Z"
+                    id="path-1" fill="#1a79ff"></path>
+            </g>
+        </svg>
+    </div>
+    <div class="column" id="main">
+
+        <form #registerUser="ngForm">
+            <mat-form-field appearance="fill">
+                <mat-label>Tapez votre email</mat-label>
+                <input matInput ngModel required name="email" type="email" [pattern]="emailRegex">
+                <button mat-icon-button matSuffix>
+                    <mat-icon>alternate_email</mat-icon>
+                </button>
+                <mat-error *ngIf="registerUser.form.controls['email']?.touched && registerUser.form.controls['email'].getError('required')">
+                    * Champ requis
+                </mat-error>
+                <mat-error *ngIf="registerUser.form.controls['email']?.touched && registerUser.form.controls['email'].getError('pattern')">
+                    * Email non valide
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Tapez votre mot de passe</mat-label>
+                <input matInput name="password" ngModel required [pattern]="passwordRegex" [type]="hide ? 'password' : 'text'">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="registerUser.form.controls['password']?.touched && registerUser.form.controls['password'].getError('required')">
+                    * Champ requis
+                </mat-error>
+                <mat-error *ngIf="registerUser.form.controls['password']?.touched && registerUser.form.controls['password'].getError('pattern')">
+                    * mot de passe faible
+                </mat-error>
+            </mat-form-field>
+
+            <button mat-flat-button matSuffix color="primary" class="registerButton">
+                S'INSCRIRE
+            </button>
+        </form>
+    </div>
+
+</div>

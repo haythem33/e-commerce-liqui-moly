@@ -1,5 +1,13 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UsePipes,
+} from '@nestjs/common';
 import { user } from './models/user.model';
+import { FirebaseUserPipe } from './pipes/firebase-user.pipe';
 import { AuthService } from './services/auth.service';
 
 @Controller({
@@ -8,21 +16,18 @@ import { AuthService } from './services/auth.service';
 })
 export class AuthController {
   constructor(private authService: AuthService) {}
-  @Post('login/native')
+
+  @Post('login')
+  @UsePipes(FirebaseUserPipe)
   @HttpCode(HttpStatus.ACCEPTED)
-  native_login(@Body() body: user): Promise<any> {
-    return;
+  login(@Body() body: user): Promise<any> {
+    return this.authService.login(body);
   }
 
-  @Post('login/external')
-  @HttpCode(HttpStatus.ACCEPTED)
-  external_login(@Body() body: user): Promise<any> {
-    return;
-  }
-
-  @Post('register/native')
+  @Post('register')
+  @UsePipes(FirebaseUserPipe)
   @HttpCode(HttpStatus.CREATED)
   native_register(@Body() user: user): Promise<string> {
-    return this.authService.addUser(user);
+    return this.authService.register(user);
   }
 }

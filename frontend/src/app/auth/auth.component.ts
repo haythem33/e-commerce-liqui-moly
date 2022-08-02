@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth.component.sass'],
 })
 export class AuthComponent implements OnInit {
-  constructor() {}
+  constructor(private authService: AuthService) {}
   ngOnInit(): void {}
+  openModel() {
+    this.authService.open_auth_dialog();
+  }
 }

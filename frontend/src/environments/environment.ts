@@ -4,15 +4,16 @@
 
 export const environment = {
   production: false,
-  firebase_config : {
-    apiKey: "AIzaSyCZXoEWYAqbrBGSSJeeO3itP2hWIZWeD20",
-    authDomain: "liquimoly-871fd.firebaseapp.com",
-    projectId: "liquimoly-871fd",
-    storageBucket: "liquimoly-871fd.appspot.com",
-    messagingSenderId: "978005805119",
-    appId: "1:978005805119:web:881300173640118e80108a",
-    measurementId: "G-V9NZM62J2T"
-  }
+  server_url: 'http://localhost:3000',
+  firebase_config: {
+    apiKey: 'AIzaSyCZXoEWYAqbrBGSSJeeO3itP2hWIZWeD20',
+    authDomain: 'liquimoly-871fd.firebaseapp.com',
+    projectId: 'liquimoly-871fd',
+    storageBucket: 'liquimoly-871fd.appspot.com',
+    messagingSenderId: '978005805119',
+    appId: '1:978005805119:web:881300173640118e80108a',
+    measurementId: 'G-V9NZM62J2T',
+  },
 };
 
 /*

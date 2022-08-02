@@ -1,0 +1,38 @@
+.modal-body
+    display: flex
+    flex-direction: row
+    padding: 0
+    border-radius: 4rem
+    font-family: 'PT Sans', sans-serif
+
+@media screen and ( max-width:  600px)
+    .modal-body
+        flex-direction: column
+
+.column
+    flex: 50%
+    padding: 10px
+    &#main
+        flex: 75%
+        padding: 50px
+        margin-top: 30px
+        margin-left: 15px
+
+#secondary
+    background-color: #1a79ff
+
+.loginButton
+    width: 70%
+    padding: 6px
+    font-size: 17px
+.social-container
+    margin: 20px 0
+    & a
+        border: 1px solid #DDDDDD
+        border-radius: 50%
+        display: inline-flex
+        justify-content: center
+        align-items: center
+        margin: 0 5px
+        height: 60px
+        width: 60px

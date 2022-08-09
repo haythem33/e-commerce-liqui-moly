@@ -19,34 +19,19 @@ export class AuthService {
     if (user.provider === 'INTERNAL') {
       const findUser = await this.userModel.findOne({
         email: user.email,
-        password: user.password,
       });
       if (!findUser) {
         throw new HttpException('USER NOT FOUND', HttpStatus.NOT_FOUND);
       }
       return 'SUCCESS';
     }
-    const findUser = await this.userModel.findOne({ email: user.email });
-    if (!findUser) {
-      if (user.phoneNumber === null) {
-        throw new HttpException(
-          'MISSING INFORMATION',
-          HttpStatus.NOT_ACCEPTABLE,
-        );
-      }
-      if (!user.emailVerified) {
-        throw new HttpException('ACCOUNT NOT CONFIRMED', HttpStatus.FORBIDDEN);
-      }
-      return this.addUser(user);
-    }
-    return 'SUCCESS';
   }
   async register(user: user): Promise<string> {
-    if (user.phoneNumber === null) {
+    if (
+      user.phoneNumber === null ||
+      !Object.values(user.adresse).every((x) => x === null || x === '')
+    ) {
       throw new HttpException('MISSING INFORMATION', HttpStatus.NOT_ACCEPTABLE);
-    }
-    if (!user.emailVerified) {
-      throw new HttpException('ACCOUNT NOT CONFIRMED', HttpStatus.FORBIDDEN);
     }
     return this.addUser(user);
   }

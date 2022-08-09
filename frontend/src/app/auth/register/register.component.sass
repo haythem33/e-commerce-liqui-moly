@@ -1,65 +1,45 @@
 .modal-body
-    display: flex
-    flex-direction: row
-    padding: 0
-    border-radius: 4rem
-    font-family: 'PT Sans', sans-serif
+  display: flex
+  flex-direction: row
+  padding: 0
+  border-radius: 4rem
+  font-family: 'PT Sans', sans-serif
 
 @media screen and ( max-width:  600px)
-    .modal-body
-        flex-direction: column
-
-.column
+  .column
     flex: 50%
     padding: 10px
-
     &#main
-        flex: 75%
-        padding: 50px
-        margin-top: 30px
-        margin-left: 15px
+      flex: 75%
+      padding: 0!important
+      margin: 30px
+.column
+  flex: 50%
+  padding: 10px
+  &#main
+    flex: 75%
+    padding: 50px
+    margin-left: 15px
 
 #secondary
-    background-color: #1a79ff
-
-#main .form-control
-    border-radius: 0
-    font-size: .9em
-
-.btn
-    text-transform: uppercase
-    border-radius: .15rem
-    width: 200px
-    padding: .150rem .75rem
-    margin: 30px auto
-    font-family: 'PT Sans', sans-serif
-    letter-spacing: 2px
-
-    &-primary
-        border-color: rgba( 255, 255, 255, 255)
-        background: #1a79ff
-        background: -moz-linear-gradient(left, #1a79ff 0%, #6cdafc 99%)
-        background: -webkit-linear-gradient(left, #1a79ff 0%,#6cdafc 99%)
-        background: linear-gradient(to right, #1a79ff 0%,#6cdafc 99%)
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a79ff', endColorstr='#6cdafc',GradientType=1 )
-
-    &-primary:hover
-        border-color: rgba( 255, 255, 255, 0)
-
-    #main &-primary
-        width: 100%
-
-    #secondary &-primary
-        background: #f8f9fa4f
-        color: #000
-
-.modal-body label
-    margin-bottom: 0
-
-.sec-content
-    margin-top: 85%
+  background-color: #1a79ff
 
 .registerButton
-    width: 70%
-    padding: 6px
-    font-size: 17px
+  padding: 6px 20px 6px 20px
+  font-size: 17px
+.social-container
+  margin: 20px 0
+  & a
+    border: 1px solid #DDDDDD
+    border-radius: 50%
+    display: inline-flex
+    justify-content: center
+    align-items: center
+    margin: 0 5px
+    height: 60px
+    width: 60px
+
+#chart
+  width: 30
+svg
+  width: 100px

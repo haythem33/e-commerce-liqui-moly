@@ -21,6 +21,7 @@ export class AuthController {
   @UsePipes(FirebaseUserPipe)
   @HttpCode(HttpStatus.ACCEPTED)
   login(@Body() body: user): Promise<any> {
+    console.log(body);
     return this.authService.login(body);
   }
 

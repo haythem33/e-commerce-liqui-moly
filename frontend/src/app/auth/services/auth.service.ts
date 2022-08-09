@@ -10,9 +10,10 @@ import {
   FacebookAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
+  createUserWithEmailAndPassword,
   User,
   UserCredential,
-  sendEmailVerification,
+  signInWithEmailAndPassword,
 } from '@angular/fire/auth';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -34,17 +35,15 @@ export class AuthService {
 
   public open_auth_dialog(data?: any): MatDialogRef<Auth_Modal_Component> {
     this.Auth_Dialog_Ref = this.dialog.open(Auth_Modal_Component, {
-      width: '800px',
+      width: '70%',
       data: { ...data },
     });
     return this.Auth_Dialog_Ref;
   }
+
   public open_missing_information_dialog(
     user: User
   ): MatDialogRef<MissingInformationComponent> {
-    if (this.Auth_Dialog_Ref.getState() === MatDialogState.OPEN) {
-      this.Auth_Dialog_Ref.close();
-    }
     this.Missing_Information_Ref = this.dialog.open(
       MissingInformationComponent,
       {
@@ -54,14 +53,14 @@ export class AuthService {
     );
     return this.Missing_Information_Ref;
   }
-  public async goole_login(): Promise<any> {
+
+  public async google_login(): Promise<any> {
     try {
       let userCredential: UserCredential = await signInWithPopup(
         this.fireAuth,
         new GoogleAuthProvider()
       );
-      let user = { ...userCredential.user, provider: 'GOOGLE' };
-      return { userCredential: user, observable: this.send_user_data(user) };
+      return { ...userCredential.user, provider: 'GOOGLE' };
     } catch (error) {
       this.snackBar.open(`CONNEXION ECHOUE`, 'Dismiss', {
         horizontalPosition: 'right',
@@ -74,39 +73,33 @@ export class AuthService {
   public facebook_login(): Promise<UserCredential> {
     return signInWithPopup(this.fireAuth, new FacebookAuthProvider());
   }
-  public async sendVerificationMail(user: User): Promise<void> {
-    await sendEmailVerification(user);
-    this.snackBar
-      .open(
-        `UN E-MAIL DE CONFIRMATION A ÉTÉ ENVOYÉ A L'ADRESSE ${user.email}`,
-        'Dismiss',
-        {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 3000,
-        }
-      )
-      .afterDismissed()
-      .subscribe(() => this.Auth_Dialog_Ref.close());
+
+  public async native_login(user_info: any): Promise<any> {
+    let { email, password } = user_info;
+    try {
+      let userCredential = await signInWithEmailAndPassword(
+        this.fireAuth,
+        email,
+        password
+      );
+      return { ...userCredential.user, provider: 'INTERNAL' };
+    } catch (error) {
+      return;
+    }
   }
 
-  public send_user_data(user: User): Observable<any> {
-    return this.http.post(environment.server_url + '/auth/login', user, {
-      responseType: 'text',
-    });
-  }
-  public handleLoginError(error: any, user: User): void {
-    if (error.message === 'ACCOUNT NOT CONFIRMED') {
-      this.sendVerificationMail(user);
-      return;
-    }
-    if (error.message === 'MISSING INFORMATION') {
-      this.open_missing_information_dialog(user);
-      return;
-    }
-    if (error.message === 'USER NOT FOUND') {
+  public async create_account(user: any): Promise<any> {
+    let { email, password } = user;
+    try {
+      let userCredential: UserCredential = await createUserWithEmailAndPassword(
+        this.fireAuth,
+        email,
+        password
+      );
+      return { ...userCredential.user, provider: 'INTERNAL' };
+    } catch (error) {
       this.snackBar.open(
-        "AUCUN COMPTE N'A ETE TROUVE AVEC CETTE ADRESSE MAIL",
+        `UN COMPTE ET DEJA ASSOCIE AVEC CETTE ADRESSE`,
         'Dismiss',
         {
           horizontalPosition: 'right',
@@ -114,6 +107,21 @@ export class AuthService {
           duration: 3000,
         }
       );
+      return;
     }
+  }
+
+  public send_user_data(
+    user: User,
+    type: 'REGISTER' | 'LOGIN'
+  ): Observable<any> {
+    if (type === 'REGISTER') {
+      return this.http.post(environment.server_url + '/auth/register', user, {
+        responseType: 'text',
+      });
+    }
+    return this.http.post(environment.server_url + '/auth/login', user, {
+      responseType: 'text',
+    });
   }
 }

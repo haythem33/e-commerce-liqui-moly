@@ -10,18 +10,16 @@ import {
 export class FirebaseUserPipe implements PipeTransform {
   transform(firebase_user: any, metadata: ArgumentMetadata) {
     return {
-      displayName: firebase_user.displayName,
+      displayName: firebase_user.displayName || null,
       email: firebase_user.email,
-      password:
-        firebase_user.provider === 'INTERNAL' ? firebase_user.password : null,
-      phoneNumber: firebase_user.phoneNumber,
+      phoneNumber: firebase_user.phoneNumber || null,
       photoURL: firebase_user.photoURL,
       provider: firebase_user.provider,
       emailVerified: firebase_user.emailVerified,
       adresse: {
-        street: firebase_user.street,
-        city: firebase_user.city,
-        state: firebase_user.state,
+        street: firebase_user.street || null,
+        city: firebase_user.city || null,
+        state: firebase_user.state || null,
       },
     };
   }

@@ -1,0 +1,90 @@
+<form #missingInformation="ngForm">
+  <mat-stepper linear #stepper>
+    <mat-step [stepControl]="missingInformation.form.controls['phoneNumber']">
+      <ng-template matStepLabel>Remplissez votre numéro de téléphone</ng-template>
+      <mat-form-field class="d-flex justify-content-center m-2" appearance="fill" floatLabel="always">
+        <mat-label>Numéro telephone</mat-label>
+        <input type="phone" name="phoneNumber" matInput ngModel required [pattern]="phoneNumberRegex">
+        <span matPrefix>+216—&nbsp;</span>
+        <mat-error
+          *ngIf="missingInformation.form.controls['phoneNumber']?.touched && missingInformation.form.controls['phoneNumber'].getError('required')">
+          Champ requis
+        </mat-error>
+        <mat-error
+          *ngIf="missingInformation.form.controls['phoneNumber']?.touched && missingInformation.form.controls['phoneNumber'].getError('pattern')">
+          Numéro de telephone non valide
+        </mat-error>
+      </mat-form-field>
+      <div class="d-flex justify-content-center m-2">
+        <button mat-flat-button matSuffix color="primary" class="loginButton" matStepperNext>Next</button>
+      </div>
+      <div class="svg">
+        <svg _ngcontent-fac-c104="" viewBox="-256.068 256.067 579.808 68.554" version="1.1"
+          xmlns="http://www.w3.org/2000/svg">
+          <defs></defs>
+          <title _ngcontent-fac-c104="">Path</title>
+          <desc _ngcontent-fac-c104="">Created with Sketch.</desc>
+          <g _ngcontent-fac-c104="" id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+            transform="matrix(1.003483, 0.003723, -0.004028, 1.085602, 0.707291, -23.182764)">
+            <path _ngcontent-fac-c104=""
+              d="M 11.384 0 C -7.448 36.721 5.143 126.758 49.156 270.11 C 70.983 341.199 54.887 443.83 0.871 578.001 L 67 578.001 L 67 0 L 11.384 0 Z"
+              id="Path" fill="#1a79ff"
+              transform="matrix(0.007885, 0.999969, -0.999969, 0.007885, 322.659429, 252.787332)"></path>
+          </g>
+        </svg>
+      </div>
+      <div class="column" id="secondary"></div>
+    </mat-step>
+    <mat-step [stepControl]="missingInformation.form">
+      <ng-template matStepLabel>Remplissez votre adresse</ng-template>
+      <mat-form-field appearance="fill" class="d-flex justify-content-center m-2">
+        <mat-label>Rue</mat-label>
+        <input type="text" matInput name="street" ngModel [pattern]="streetRegex" required>
+        <mat-error
+          *ngIf="missingInformation.form.controls['street']?.touched && missingInformation.form.controls['street'].getError('required')">
+          Champ requis
+        </mat-error>
+        <mat-error
+          *ngIf="missingInformation.form.controls['street']?.touched && missingInformation.form.controls['street'].getError('pattern')">
+          Rue non valide
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="d-flex justify-content-center m-2">
+        <mat-label>Ville</mat-label>
+        <input type="text" matInput name="city" ngModel required>
+        <mat-error
+          *ngIf="missingInformation.form.controls['city']?.touched && missingInformation.form.controls['street'].getError('required')">
+          Champ requis
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="d-flex justify-content-center m-2">
+        <mat-label>Etat</mat-label>
+        <input type="text" matInput name="state" ngModel required>
+        <mat-error
+          *ngIf="missingInformation.form.controls['state']?.touched && missingInformation.form.controls['state'].getError('required')">
+          Champ requis
+        </mat-error>
+      </mat-form-field>
+      <div class="d-flex justify-content-center m-2">
+        <button mat-flat-button matSuffix color="primary" class="loginButton" matStepperNext
+          (click)="sendMissingInformation(missingInformation)" [disabled]="missingInformation.invalid">FINISH</button>
+      </div>
+      <div class="svg">
+        <svg _ngcontent-fac-c104="" viewBox="-256.068 256.067 579.808 68.554" version="1.1"
+          xmlns="http://www.w3.org/2000/svg">
+          <defs></defs>
+          <title _ngcontent-fac-c104="">Path</title>
+          <desc _ngcontent-fac-c104="">Created with Sketch.</desc>
+          <g _ngcontent-fac-c104="" id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"
+            transform="matrix(1.003483, 0.003723, -0.004028, 1.085602, 0.707291, -23.182764)">
+            <path _ngcontent-fac-c104=""
+              d="M 11.384 0 C -7.448 36.721 5.143 126.758 49.156 270.11 C 70.983 341.199 54.887 443.83 0.871 578.001 L 67 578.001 L 67 0 L 11.384 0 Z"
+              id="Path" fill="#1a79ff"
+              transform="matrix(0.007885, 0.999969, -0.999969, 0.007885, 322.659429, 252.787332)"></path>
+          </g>
+        </svg>
+      </div>
+      <div class="column" id="secondary"></div>
+    </mat-step>
+  </mat-stepper>
+</form>

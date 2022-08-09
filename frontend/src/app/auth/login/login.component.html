@@ -1,0 +1,47 @@
+<div class="modal-body">
+    <div class="column" id="main">
+        <div class="social-container d-flex justify-content-center">
+            <a (click)="google_login()" style="cursor: pointer;" class="social"><img src="./../../../assets/images/icons8-logo-google-48.png" /></a>
+            <a (click)="facebook_login()" style="cursor: pointer;" class="social"><img src="./../../../assets/images/icons8-facebook-nouveau-48.png" /></a>
+        </div>
+        <span class="d-block text-center my-4 text-muted">— or —</span>
+        <form #loginUser="ngForm">
+            <mat-form-field class="d-flex justify-content-center" appearance="fill">
+                <mat-label>Tapez votre email</mat-label>
+                <input matInput ngModel required name="email" type="email" [pattern]="emailRegex">
+                <mat-icon matSuffix>alternate_email</mat-icon>
+                <mat-error *ngIf="loginUser.form.controls['email']?.touched && loginUser.form.controls['email'].getError('required')">
+                    * Champ requis
+                </mat-error>
+                <mat-error *ngIf="loginUser.form.controls['email']?.touched && loginUser.form.controls['email'].getError('pattern')">
+                    * Email non valide
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="d-flex justify-content-center" appearance="fill">
+                <mat-label>Tapez votre mot de passe</mat-label>
+                <input matInput name="password" ngModel required [pattern]="passwordRegex" [type]="hide ? 'password' : 'text'">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="loginUser.form.controls['password']?.touched && loginUser.form.controls['password'].getError('required')">
+                    * Champ requis
+                </mat-error>
+            </mat-form-field>
+            <div class="d-flex justify-content-center">
+                <button mat-flat-button matSuffix color="primary" (click)="nativeLogin(loginUser)" [disabled]="loginUser.invalid" class="loginButton">CONNEXION</button>
+            </div>
+        </form>
+    </div>
+    <ng-container *ngIf="!mobileQuery.matches">
+        <svg viewBox="0 0 67 578" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <title>Path</title>
+            <desc>Created with Sketch.</desc>
+            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <path
+                    d="M11.3847656,-5.68434189e-14 C-7.44726562,36.7213542 5.14322917,126.757812 49.15625,270.109375 C70.9827986,341.199016 54.8877465,443.829224 0.87109375,578 L67,578 L67,-5.68434189e-14 L11.3847656,-5.68434189e-14 Z"
+                    id="Path" fill="#1a79ff"></path>
+            </g>
+        </svg>
+        <div class="column" id="secondary"></div>
+    </ng-container>
+</div>

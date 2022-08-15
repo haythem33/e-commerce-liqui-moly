@@ -7,15 +7,15 @@ import { user, UserDocument } from '../models/user.model';
 export class AuthService {
   constructor(@InjectModel(user.name) private userModel: Model<UserDocument>) {}
 
-  async addUser(user: user): Promise<string> {
+  async addUser(user: user): Promise<{ message: string; user: user }> {
     const findUser = await this.userModel.findOne({ email: user.email });
     if (findUser) {
       throw new HttpException('USER ALEARDY EXIST', HttpStatus.FOUND);
     }
     await this.userModel.create(user);
-    return 'USER ADDED SUCCESSFULY';
+    return { message: 'USER ADDED SUCCESSFULY', user: user };
   }
-  async login(user: user): Promise<string> {
+  async login(user: user): Promise<{ message: string; user: user }> {
     if (user.provider === 'INTERNAL') {
       const findUser = await this.userModel.findOne({
         email: user.email,
@@ -23,14 +23,15 @@ export class AuthService {
       if (!findUser) {
         throw new HttpException('USER NOT FOUND', HttpStatus.NOT_FOUND);
       }
-      return 'SUCCESS';
+      return { message: 'SUCCESS', user: findUser };
     }
+    if (user.phoneNumber === null) {
+      throw new HttpException('MISSING INFORMATION', HttpStatus.NOT_ACCEPTABLE);
+    }
+    return this.addUser(user);
   }
-  async register(user: user): Promise<string> {
-    if (
-      user.phoneNumber === null ||
-      !Object.values(user.adresse).every((x) => x === null || x === '')
-    ) {
+  async register(user: user): Promise<{ message: string; user: user }> {
+    if (user.phoneNumber === null) {
       throw new HttpException('MISSING INFORMATION', HttpStatus.NOT_ACCEPTABLE);
     }
     return this.addUser(user);

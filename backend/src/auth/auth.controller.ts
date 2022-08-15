@@ -20,15 +20,16 @@ export class AuthController {
   @Post('login')
   @UsePipes(FirebaseUserPipe)
   @HttpCode(HttpStatus.ACCEPTED)
-  login(@Body() body: user): Promise<any> {
-    console.log(body);
+  login(@Body() body: user): Promise<{ message: string; user: user }> {
     return this.authService.login(body);
   }
 
   @Post('register')
   @UsePipes(FirebaseUserPipe)
   @HttpCode(HttpStatus.CREATED)
-  native_register(@Body() user: user): Promise<string> {
+  native_register(
+    @Body() user: user,
+  ): Promise<{ message: string; user: user }> {
     return this.authService.register(user);
   }
 }

@@ -2,7 +2,6 @@
     <div class="column" id="main">
         <div class="social-container d-flex justify-content-center">
             <a (click)="google_login()" style="cursor: pointer;" class="social"><img src="./../../../assets/images/icons8-logo-google-48.png" /></a>
-            <a (click)="facebook_login()" style="cursor: pointer;" class="social"><img src="./../../../assets/images/icons8-facebook-nouveau-48.png" /></a>
         </div>
         <span class="d-block text-center my-4 text-muted">— or —</span>
         <form #loginUser="ngForm">
@@ -19,7 +18,7 @@
             </mat-form-field>
             <mat-form-field class="d-flex justify-content-center" appearance="fill">
                 <mat-label>Tapez votre mot de passe</mat-label>
-                <input matInput name="password" ngModel required [pattern]="passwordRegex" [type]="hide ? 'password' : 'text'">
+                <input matInput name="password" autocomplete="on" ngModel required [pattern]="passwordRegex" [type]="hide ? 'password' : 'text'">
                 <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
@@ -28,7 +27,7 @@
                 </mat-error>
             </mat-form-field>
             <div class="d-flex justify-content-center">
-                <button mat-flat-button matSuffix color="primary" (click)="nativeLogin(loginUser)" [disabled]="loginUser.invalid" class="loginButton">CONNEXION</button>
+                <button mat-flat-button matSuffix color="primary" (click)="native_login(loginUser)" [disabled]="loginUser.invalid" class="loginButton">CONNEXION</button>
             </div>
         </form>
     </div>

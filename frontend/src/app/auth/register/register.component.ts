@@ -7,10 +7,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'firebase/auth';
-import { ReplaySubject, Subject, switchMap, takeUntil } from 'rxjs';
+import { ReplaySubject, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { Auth_Modal_Component } from '../auth-modal/auth-modal.component';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -28,12 +29,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
   mobileQuery!: MediaQueryList;
   private _mobileQueryListener!: () => void;
-  private readonly destroyed$ = new Subject();
+  private readonly destroyed = new Subject();
   constructor(
     private authService: AuthService,
     private media: MediaMatcher,
-    private changeDetectorRef: ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private dialogRef: MatDialogRef<Auth_Modal_Component>,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.mobileQuery = this.media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => this.changeDetectorRef.detectChanges();
@@ -43,48 +45,50 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.complete();
+    this.destroyed.next(true);
+    this.destroyed.complete();
     this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
-  public createAccount(user: NgForm): void {
+  register(user: NgForm): void {
     this.authService
-      .open_missing_information_dialog({
-        ...user.value,
-        provider: 'INTERNAL',
-        displayName: user.value.lastname + ' ' + user.value.name,
-        photoURL: 'DEFAULT',
-      })
-      .afterClosed()
+      .create_user(user.value.email, user.value.password)
       .pipe(
-        switchMap((complete_user) => {
-          if (!complete_user) {
-            throw 'PROCESS NOT COMPLETE';
-          }
-          return this.authService.send_user_data(complete_user, 'REGISTER');
-        }),
-        takeUntil(this.destroyed$)
+        tap({ error: (err) => this.handleFireError(err.code) }),
+        takeUntil(this.destroyed)
       )
       .subscribe({
-        next: async () => await this.authService.create_account(user.value),
-        error: (err) => this.handleRegisterError(err),
+        next: () => {
+          this.authService.open_missing_information_dialog({
+            type: 'REGISTER',
+            user: {
+              ...user.value,
+              displayName: user.value.name + ' ' + user.value.lastname,
+              photoURL: 'DEFAULT',
+              provider: 'INTERNAL',
+            },
+          });
+          this.dialogRef.close();
+        },
       });
   }
-
-  private handleRegisterError(err: any): void {
-    if (err === 'PROCESS NOT COMPLETE') {
+  handleFireError(err: string) {
+    if (err === 'auth/email-already-in-use') {
+      this.print_error('ADRESSE MAIL DEJA UTILISE');
       return;
     }
-    if (JSON.parse(err.error).message === 'USER ALEARDY EXIST') {
-      this.snackBar.open(
-        'UN COMPTE ET DEJA ASSOCIE AVEC CETTE ADRESSE',
-        'Dismiss',
-        {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          duration: 3000,
-        }
-      );
+    if (err === 'auth/invalid-email') {
+      this.print_error('INVALIDE ADRESSE MAIL');
+      return;
     }
+    if (err === 'auth/weak-password') {
+      this.print_error('MOT DE PASSE FAIBLE');
+    }
+  }
+  print_error(message: string) {
+    this.snackbar.open(message, 'Dismiss', {
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
   }
 }

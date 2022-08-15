@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { LoginComponent } from './login/login.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegisterComponent } from './register/register.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,6 +23,9 @@ import { MissingInformationComponent } from './missing-information/missing-infor
 import { MatStepperModule } from '@angular/material/stepper';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { StoreModule } from '@ngrx/store';
+import { Authreducers } from './services/auth.reducers';
+
 @NgModule({
   declarations: [
     LoginComponent,
@@ -47,6 +50,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     HttpClientModule,
     FormsModule,
     MatProgressSpinnerModule,
+    StoreModule.forFeature('authFeature', Authreducers),
   ],
   exports: [AuthComponent],
   providers: [

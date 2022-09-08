@@ -36,4 +36,11 @@ export class AuthService {
     }
     return this.addUser(user);
   }
+  async get_user(email: string): Promise<{ message: string; user: user }> {
+    const findUser = await this.userModel.findOne({ email });
+    if (!findUser) {
+      throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
+    }
+    return { message: 'SUCCESS', user: findUser };
+  }
 }

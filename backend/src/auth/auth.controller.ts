@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   UsePipes,
 } from '@nestjs/common';
@@ -28,8 +30,15 @@ export class AuthController {
   @UsePipes(FirebaseUserPipe)
   @HttpCode(HttpStatus.CREATED)
   native_register(
-    @Body() user: user,
+    @Body() body: user,
   ): Promise<{ message: string; user: user }> {
-    return this.authService.register(user);
+    return this.authService.register(body);
+  }
+  @Get('currentUser/:email')
+  @HttpCode(HttpStatus.OK)
+  get_user(
+    @Param('email') email: string,
+  ): Promise<{ message: string; user: user }> {
+    return this.authService.get_user(email);
   }
 }

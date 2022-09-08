@@ -10,11 +10,12 @@ import {
   UserCredential,
   signInWithEmailAndPassword,
 } from '@angular/fire/auth';
-import { HttpClient } from '@angular/common/http';
-import { catchError, from, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { catchError, first, from, Observable, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MissingInformationComponent } from '../missing-information/missing-information.component';
+import { Store } from '@ngrx/store';
+import { signIn, signOut } from './auth.actions';
 @Injectable({
   providedIn: 'root',
 })
@@ -23,8 +24,10 @@ export class AuthService {
     public dialog: MatDialog,
     private fireAuth: Auth,
     private http: HttpClient,
-    private snackBar: MatSnackBar
-  ) {}
+    private store: Store
+  ) {
+    this.check_current_user();
+  }
   open_auth_dialog(): void {
     this.dialog.open(Auth_Modal_Component, {
       width: '70%',
@@ -69,5 +72,21 @@ export class AuthService {
           })
         )
       );
+  }
+  get_user(email: string): Observable<{ message: string; user: User }> {
+    return this.http.get<{ message: string; user: User }>(
+      `${environment.server_url}/auth/currentUser/${email}`
+    );
+  }
+  check_current_user() {
+    this.fireAuth.onAuthStateChanged((user) => {
+      user
+        ? this.get_user(user.email as string)
+            .pipe(first())
+            .subscribe({
+              next: (msg) => this.store.dispatch(signIn(msg.user)),
+            })
+        : this.store.dispatch(signOut());
+    });
   }
 }

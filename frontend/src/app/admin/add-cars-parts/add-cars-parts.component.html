@@ -1,0 +1,31 @@
+<app-admin-side-bar>
+  <div class="container-fluid text-center" sidebarContent>
+    <h2>AJOUTER DES PIECES</h2>
+    <form #carPart="ngForm">
+      <mat-form-field appearance="fill" class="d-flex justify-content-center">
+        <mat-label>Nom de la Piece</mat-label>
+        <input type="text" matInput ngModel required name="name">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="d-flex justify-content-center">
+        <mat-label>Referance</mat-label>
+        <input type="text" matInput ngModel required name="referance">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="d-flex justify-content-center">
+        <mat-label>Prix</mat-label>
+        <input type="number" matInput ngModel required name="price">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="d-flex justify-content-center">
+        <mat-label>les images de la Piece</mat-label>
+        <input type="text" matInput ngModel required name="image_urls">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="d-flex justify-content-center">
+        <mat-label>Categories de la Piece</mat-label>
+        <input type="text" matInput ngModel required name="category">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="d-flex justify-content-center">
+        <mat-label>Categories de la Piece</mat-label>
+        <input type="text" matInput ngModel required name="category">
+      </mat-form-field>
+    </form>
+  </div>
+</app-admin-side-bar>

@@ -6,7 +6,7 @@ import { Model } from 'mongoose';
 import { car, CarDocument } from '../models/car.model';
 
 @Injectable()
-export class InitServiceService implements OnApplicationBootstrap {
+export class ShopService implements OnApplicationBootstrap {
   constructor(
     private readonly httpService: HttpService,
     private configService: ConfigService,

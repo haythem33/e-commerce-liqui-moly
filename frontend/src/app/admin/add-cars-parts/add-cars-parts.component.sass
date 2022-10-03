@@ -1,0 +1,101 @@
+.file-upload
+  width: 50%
+  margin: 0 auto
+  padding: 20px
+  cursor: pointer
+
+.file-upload-input
+  position: relative
+  margin: 0
+  padding: 0
+  width: 100%
+  height: 100%
+  outline: none
+  opacity: 0
+  cursor: pointer
+
+.image-upload-wrap
+  margin-top: 20px
+  border: 4px solid #3f51b5
+  position: relative
+
+.image-dropping,
+.image-upload-wrap:hover
+  background-color: #3f51b5
+  border: 4px solid #ffffff
+  h3
+    color: white
+
+.drag-text
+  text-align: center
+  & h3
+    font-weight: 100
+    text-transform: uppercase
+    color: #3f51b5
+    padding: 60px 0
+
+.images
+  display: flex
+  flex-wrap: wrap
+  margin-top: 20px
+
+.images .img,
+.images .pic
+  flex-basis: 31%
+  margin-bottom: 10px
+  border-radius: 4px
+
+.images .img
+  background-size: contain
+  background-repeat: no-repeat
+  margin-right: 10px
+  background-position: center
+  display: flex
+  align-items: center
+  justify-content: center
+  cursor: pointer
+  position: relative
+  overflow: hidden
+  padding: 40px
+
+  &:nth-child(1n)
+    margin-right: 0
+
+    & span
+      display: none
+      text-transform: capitalize
+      z-index: 2
+
+    &::after
+      content: ''
+      width: 100%
+      height: 100%
+      transition: opacity .1s ease-in
+      border-radius: 4px
+      opacity: 0
+      position: absolute
+
+    &:hover::after
+      display: block
+      background-color: #000
+      opacity: .5
+
+    &:hover span
+      display: block
+      color: #fff
+
+.images .pic
+  background-color: #3f51b5
+  align-self: center
+  text-align: center
+  padding: 40px 0
+  text-transform: uppercase
+  color: #F5F7FA
+  font-size: 12px
+  cursor: pointer
+
+.image-upload-wrap:hover .pic
+  background-color: #F5F7FA
+  color: #3f51b5
+.submit-button
+  width: 20%

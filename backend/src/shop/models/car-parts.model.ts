@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { car } from './car.model';
 import * as mongoose from 'mongoose';
+import { CarCategory } from './car-category.model';
 
 export type CarPartsDocument = CarParts & Document;
 
@@ -10,16 +11,21 @@ export class CarParts {
   @Prop({ required: true })
   name: string;
   @Prop({ required: true })
-  referance: string;
+  quantity: number;
   @Prop({ required: true })
   price: string;
   @Prop({ required: true })
   image_urls: string[];
-  @Prop({ required: true })
-  category: string;
   @Prop({
     required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'carparts',
+  })
+  category: CarCategory;
+  @Prop({
+    required: false,
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cars' }],
+    default: [],
   })
   cars: car[];
 }

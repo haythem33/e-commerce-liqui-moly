@@ -8,7 +8,11 @@ import { CoreModule } from '../core/core.module';
 import { WhishListComponent } from './whish-list/whish-list.component';
 
 @NgModule({
-  declarations: [ListProductComponent, DetailProductComponent, WhishListComponent],
+  declarations: [
+    ListProductComponent,
+    DetailProductComponent,
+    WhishListComponent,
+  ],
   imports: [CommonModule, ShopRoutingModule, CoreModule],
 })
 export class ShopModule {}

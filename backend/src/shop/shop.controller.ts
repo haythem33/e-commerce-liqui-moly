@@ -1,4 +1,11 @@
-import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Query,
+} from '@nestjs/common';
 import { CarCategory } from './models/car-category.model';
 import { car } from './models/car.model';
 import { ShopService } from './services/shop.service';
@@ -15,9 +22,9 @@ export class ShopController {
   filter_car(@Query('car_filter') filter: string): Promise<car[]> {
     return this.shopService.find_cars_by_string(filter);
   }
-  @Get('get_categorys')
+  @Get('get_categorys/:full')
   @HttpCode(HttpStatus.OK)
-  getCategorys(): Promise<CarCategory[]> {
-    return this.shopService.getCategory();
+  getCategorys(@Param('full') full: boolean): Promise<CarCategory[]> {
+    return this.shopService.getCategory(full);
   }
 }

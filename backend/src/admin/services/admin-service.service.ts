@@ -19,9 +19,11 @@ export class AdminServiceService implements OnApplicationBootstrap {
     @InjectModel(CarCategory.name)
     private carCategoryModel: Model<CarCategoryDocument>,
   ) {}
+
   onApplicationBootstrap() {
     console.log('INSERT ADMIN');
   }
+
   public async add_car_parts(
     car_parts: CarParts,
     images_url: Array<Express.Multer.File>,
@@ -36,13 +38,15 @@ export class AdminServiceService implements OnApplicationBootstrap {
     car_parts.cars = car_parts.cars.map((cars) =>
       JSON.parse(cars as unknown as string),
     );
+    car_parts.category = JSON.parse(car_parts.category as unknown as string);
+    const added_car_parts = await this.carPartModel.create(car_parts);
     await this.carCategoryModel.findOneAndUpdate(
       { name: car_parts.category.name },
-      { $push: { cars_part: car_parts } },
+      { $push: { cars_part: added_car_parts } },
     );
-    await this.carPartModel.create(car_parts);
     return 'ADDED';
   }
+
   public async add_car_category(
     car_category: CarCategory,
     image: Express.Multer.File,
@@ -53,7 +57,7 @@ export class AdminServiceService implements OnApplicationBootstrap {
     if (findCarCategory) {
       throw new HttpException('CART CATEGORY EXIST', HttpStatus.CONFLICT);
     }
-    car_category.image_url = image.fieldname;
+    car_category.image_url = image.filename;
     await this.carCategoryModel.create(car_category);
     return 'ADDED';
   }

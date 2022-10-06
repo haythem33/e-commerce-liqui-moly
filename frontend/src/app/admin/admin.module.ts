@@ -13,8 +13,10 @@ import { ShopModule } from '../shop/shop.module';
 import { MatButtonModule } from '@angular/material/button';
 import { AdminServiceService } from './services/admin-service.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AddCategoryComponent } from './add-category/add-category.component';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
-  declarations: [AddCarsPartsComponent],
+  declarations: [AddCarsPartsComponent, AddCategoryComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -28,6 +30,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatButtonModule,
     ShopModule,
     MatSnackBarModule,
+    MatSelectModule,
   ],
   providers: [AdminServiceService],
 })

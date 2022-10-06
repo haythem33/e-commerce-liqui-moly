@@ -1,0 +1,28 @@
+<app-admin-side-bar>
+    <div class="text-center" sidebarContent>
+        <h2>AJOUTER DES CATEGORIES</h2>
+        <form #category="ngForm">
+
+            <mat-form-field appearance="fill">
+                <mat-label>Nom de la Piece</mat-label>
+                <input type="text" matInput ngModel required name="name">
+            </mat-form-field>
+            <div class="containers">
+                <div [ngStyle]="{'padding-bottom' : imagePreview ? '70%' : '26%'}" class="imageWrapper d-flex justify-content-md-center align-items-center">
+                    <ng-container *ngIf="!imagePreview">
+                        <input type="file" class="file-input" (change)="addFile($event)" accept="image/*">
+                        <div class="file-upload-text">
+                            <h3>ajouter une image</h3>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="imagePreview">
+                        <img class="image w-100 h-100" [src]="imagePreview" />
+                        <span class="removeSpan" (click)="removeFile()">remove</span>
+                    </ng-container>
+                </div>
+            </div>
+            <button mat-flat-button color="primary" class="submit-button" (click)="submit(category)" [disabled]="category.invalid">Ajouter</button>
+        </form>
+    </div>
+
+</app-admin-side-bar>

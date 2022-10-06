@@ -55,7 +55,13 @@ export class ShopService implements OnApplicationBootstrap {
       .limit(10);
     return car_found;
   }
-  async getCategory(): Promise<CarCategory[]> {
-    return this.carCategoryModel.find();
+  async getCategory(
+    full: boolean,
+    // @TODO
+    fieldToExclude?: string,
+  ): Promise<CarCategory[]> {
+    if (full) {
+      return this.carCategoryModel.find();
+    }
   }
 }

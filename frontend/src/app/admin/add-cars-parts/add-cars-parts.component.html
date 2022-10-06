@@ -8,9 +8,14 @@
                     <mat-label>Nom de la Piece</mat-label>
                     <input type="text" matInput ngModel required name="name">
                 </mat-form-field>
+
                 <mat-form-field appearance="fill" class="w-25">
                     <mat-label>Categories de la Piece</mat-label>
-                    <input type="text" matInput ngModel required name="category">
+                    <mat-select ngModel required name="category">
+                        <mat-option *ngFor="let category of allCategory | async" [value]="category">
+                            {{category.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
 
@@ -34,8 +39,8 @@
                         <mat-chip color="primary" *ngFor="let car of selectedCars;let i = index" (removed)="remove(i)">
                             {{car.Make}} {{car.Model}} {{car.Category}} {{car.Year}}
                             <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-              </button>
+                                <mat-icon>cancel</mat-icon>
+                            </button>
                         </mat-chip>
                         <input placeholder="nouvelle voiture" #carInput [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matAutocomplete]="auto" (keyup)="findCars(carInput.value)">
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">

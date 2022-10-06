@@ -6,7 +6,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Subject, takeUntil } from 'rxjs';
+import { first, Observable, Subject, takeUntil } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { cars } from 'src/app/models/cars.model';
 import { ShopService } from 'src/app/shop/services/shop.service';
@@ -14,6 +14,7 @@ import { NgForm } from '@angular/forms';
 import { AdminServiceService } from '../services/admin-service.service';
 import { car_parts } from 'src/app/models/cars-parts.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { cars_category } from 'src/app/models/cars-category.model';
 @Component({
   selector: 'app-add-cars-parts',
   templateUrl: './add-cars-parts.component.html',
@@ -26,6 +27,7 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
   suggestionCars!: cars[];
   all_images_upload: File[] = [];
   all_preview_images: any[] = [];
+  allCategory!: Observable<cars_category[]>;
   @ViewChild('carInput') carInput!: ElementRef<HTMLInputElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -38,7 +40,9 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
     this.destroy.next(true);
     this.destroy.complete();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.allCategory = this.shopService.getAllCategory().pipe(first());
+  }
 
   remove(index: number): void {
     this.selectedCars.splice(index, 1);
@@ -79,7 +83,7 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
     car_part.append('name', carForm.value.name);
     car_part.append('quantity', carForm.value.quantity);
     car_part.append('price', carForm.value.price);
-    car_part.append('category', carForm.value.category);
+    car_part.append('category', JSON.stringify(carForm.value.category));
     this.selectedCars.map((car) =>
       car_part.append('cars[]', JSON.stringify(car))
     );
@@ -95,7 +99,6 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
             verticalPosition: 'bottom',
           }),
         error: (err) => {
-          console.error(err);
           if (err.status === 409) {
             this._snackBar.open('CAR PARTS ALEARDY EXIST', 'Dismiss', {
               duration: 2000,

@@ -9,10 +9,20 @@ import { environment } from 'src/environments/environment';
 })
 export class AdminServiceService {
   constructor(private http: HttpClient) {}
+
   public add_cars_parts(car_part: FormData): Observable<any> {
     return this.http.post(
       environment.server_url + '/admin/addCarParts',
       car_part,
+      {
+        responseType: 'text',
+      }
+    );
+  }
+  public addCarsCategory(cars_category: FormData): Observable<any> {
+    return this.http.post(
+      environment.server_url + '/admin/addCarCategory',
+      cars_category,
       {
         responseType: 'text',
       }

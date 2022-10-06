@@ -19,7 +19,7 @@ export class CarParts {
   @Prop({
     required: true,
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'carparts',
+    ref: 'carcategories',
   })
   category: CarCategory;
   @Prop({

@@ -5832,7 +5832,7 @@ select.form-control-sm {
 }
 
 .block-finder__subtitle {
-    margin: 60px 0 60px;
+    margin: 0 0 60px;
     font-size: 18px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, .2)
 }

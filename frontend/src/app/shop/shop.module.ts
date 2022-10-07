@@ -5,9 +5,10 @@ import { ShopRoutingModule } from './shop-routing.module';
 import { ListProductComponent } from './list-product/list-product.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
 import { CoreModule } from '../core/core.module';
+import { WhishListComponent } from './whish-list/whish-list.component';
 
 @NgModule({
-  declarations: [ListProductComponent, DetailProductComponent],
+  declarations: [ListProductComponent, DetailProductComponent, WhishListComponent],
   imports: [CommonModule, ShopRoutingModule, CoreModule],
 })
 export class ShopModule {}

@@ -1,3 +1,4 @@
+import { cars_category } from './cars-category.model';
 import { cars } from './cars.model';
 
 export interface car_parts {
@@ -5,6 +6,6 @@ export interface car_parts {
   quantity: number;
   price: number;
   image_urls: File[];
-  category: string;
+  category: cars_category;
   cars?: cars[];
 }

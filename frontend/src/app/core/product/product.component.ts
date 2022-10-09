@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { car_parts } from 'src/app/models/cars-parts.model';
 
 @Component({
   selector: 'app-product',
@@ -6,6 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./product.component.sass'],
 })
 export class ProductComponent implements OnInit {
+  @Input('product') product!: car_parts;
+  @Input('view') view!: 'carousel' | 'table' | 'large' | 'small';
+
   constructor() {}
 
   ngOnInit(): void {}

@@ -27,6 +27,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     RouterModule,
   ],
-  exports: [NavbarComponent, AdminSideBarComponent, FooterComponent],
+  exports: [
+    NavbarComponent,
+    AdminSideBarComponent,
+    FooterComponent,
+    ProductComponent,
+  ],
 })
 export class CoreModule {}

@@ -20,14 +20,14 @@ export class CarParts {
   @Prop({
     required: true,
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'carcategories',
+    ref: CarCategory.name,
   })
   category: CarCategory;
   @Prop({ required: false })
   sub_category: string[];
   @Prop({
     required: false,
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cars' }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: car.name }],
     default: [],
   })
   cars: car[];

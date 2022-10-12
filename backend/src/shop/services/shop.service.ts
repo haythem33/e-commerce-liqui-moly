@@ -70,6 +70,17 @@ export class ShopService implements OnApplicationBootstrap {
     }
   }
   async getProducts(): Promise<CarParts[]> {
-    return this.carPartsModel.find();
+    return this.carPartsModel
+      .find()
+      .populate({
+        path: 'category',
+        model: CarCategory.name,
+        select: '-_id -cars_part -__v',
+      })
+      .populate({
+        path: 'cars',
+        model: car.name,
+        select: '-_id -__v',
+      });
   }
 }

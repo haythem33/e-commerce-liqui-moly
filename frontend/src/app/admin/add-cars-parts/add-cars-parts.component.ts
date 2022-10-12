@@ -41,7 +41,7 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
   ngOnInit(): void {
-    this.allCategory = this.shopService.getAllCategory().pipe(first());
+    this.allCategory = this.shopService.getAllCategory(true).pipe(first());
   }
 
   remove(index: number): void {

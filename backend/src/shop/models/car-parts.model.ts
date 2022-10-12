@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import { car } from './car.model';
 import * as mongoose from 'mongoose';
 import { CarCategory } from './car-category.model';
+import { ReadStream } from 'fs';
 
 export type CarPartsDocument = CarParts & Document;
 

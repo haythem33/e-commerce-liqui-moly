@@ -3,17 +3,22 @@ import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { FileService } from 'src/core/services/file.service';
 import { CarCategory, CarCategoryDocument } from '../models/car-category.model';
+import { CarParts, CarPartsDocument } from '../models/car-parts.model';
 import { car, CarDocument } from '../models/car.model';
 
 @Injectable()
 export class ShopService implements OnApplicationBootstrap {
   constructor(
     private readonly httpService: HttpService,
-    private configService: ConfigService,
-    @InjectModel(car.name) private carModel: Model<CarDocument>,
+    private readonly configService: ConfigService,
+    @InjectModel(car.name) private readonly carModel: Model<CarDocument>,
     @InjectModel(CarCategory.name)
-    private carCategoryModel: Model<CarCategoryDocument>,
+    private readonly carCategoryModel: Model<CarCategoryDocument>,
+    @InjectModel(CarParts.name)
+    private readonly carPartsModel: Model<CarPartsDocument>,
+    private readonly fileService: FileService,
   ) {}
   onApplicationBootstrap() {
     this.insert_list_cars();
@@ -63,5 +68,8 @@ export class ShopService implements OnApplicationBootstrap {
     if (full) {
       return this.carCategoryModel.find();
     }
+  }
+  async getProducts(): Promise<CarParts[]> {
+    return this.carPartsModel.find();
   }
 }

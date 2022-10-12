@@ -16,9 +16,12 @@ export class ShopService {
       params: new HttpParams().set('car_filter', filter),
     });
   }
-  getAllCategory(): Observable<cars_category[]> {
+  getAllCategory(
+    full: boolean,
+    fieldToExclude?: string
+  ): Observable<cars_category[]> {
     return this.http.get<cars_category[]>(
-      `${environment.server_url}/shop/get_categorys`
+      `${environment.server_url}/shop/get_categorys/${full}`
     );
   }
 }

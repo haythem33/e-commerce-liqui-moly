@@ -55,7 +55,7 @@
     </td>
     <td class="cart-table__column cart-table__column--product"><a href="#" class="cart-table__product-name">{{product.name}}</a>
         <ul class="cart-table__options">
-            <li>Categories: {{product.category}}</li>
+            <li>Categories: {{product.category.name}}</li>
             <li *ngFor="let car of product.cars">{{car.Make}} {{car.Model}} {{car.Year}}
             </li>
         </ul>

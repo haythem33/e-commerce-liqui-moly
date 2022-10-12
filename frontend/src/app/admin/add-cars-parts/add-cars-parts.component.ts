@@ -12,10 +12,10 @@ import { cars } from 'src/app/models/cars.model';
 import { ShopService } from 'src/app/shop/services/shop.service';
 import { NgForm } from '@angular/forms';
 import { AdminServiceService } from '../services/admin-service.service';
-import { car_parts } from 'src/app/models/cars-parts.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { cars_category } from 'src/app/models/cars-category.model';
 import { MatSelectChange } from '@angular/material/select';
+import { ProductService } from 'src/app/core/services/product.service';
 @Component({
   selector: 'app-add-cars-parts',
   templateUrl: './add-cars-parts.component.html',
@@ -36,6 +36,7 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
   constructor(
     private shopService: ShopService,
     private adminService: AdminServiceService,
+    private productService: ProductService,
     private _snackBar: MatSnackBar
   ) {}
   ngOnDestroy(): void {
@@ -43,8 +44,8 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
   ngOnInit(): void {
-    this.shopService
-      .getAllCategory(true)
+    this.productService
+      .getProducts_Categorys()
       .pipe(first())
       .subscribe((res) => (this.allCategory = res));
   }

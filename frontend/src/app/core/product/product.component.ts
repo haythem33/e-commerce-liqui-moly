@@ -12,10 +12,7 @@ export class ProductComponent implements OnInit {
   @Input('view') view!: 'carousel' | 'table' | 'large' | 'small';
   product_image!: SafeUrl;
 
-  constructor(
-    private productService: ProductService,
-    private sanitizer: DomSanitizer
-  ) {}
+  constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
     this.getProductImage();
@@ -25,9 +22,7 @@ export class ProductComponent implements OnInit {
     this.productService
       .getStaticFile(this.product.image_urls[0] as string)
       .subscribe((res) => {
-        this.product_image = this.sanitizer.bypassSecurityTrustUrl(
-          URL.createObjectURL(res)
-        );
+        this.product_image = res;
       });
   }
 

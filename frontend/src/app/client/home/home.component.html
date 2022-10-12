@@ -252,7 +252,10 @@ s0.4-0.1,0.5-0.2l1.8-1.8l5.3,5.3c0.2,0.2,0.4,0.2,0.5,0.2c0.2,0,0.4-0.1,0.5-0.2c0
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
+            <div *ngFor="let product of popular_products | async" class="col-md-3">
+                <app-product view="carousel" [product]="product"></app-product>
+            </div>
+            <!-- <div class="col-md-3">
                 <div class="block-products-carousel__cell">
                     <div class="product-card product-card--layout--grid">
                         <div class="product-card__actions-list"><button class="product-card__action product-card__action--quickview" type="button" aria-label="Quick view"><svg width="16" height="16">
@@ -527,7 +530,7 @@ C17.9,5.2,17.7,5,17.5,5H9.4C9.2,5,9,4.8,9,4.6V3.4C9,3.2,9.2,3,9.4,3h9.2C19.4,3,2
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -840,9 +843,6 @@ C-0.1,9.8-0.1,10.4,0.3,10.7z" />
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3 mt-2">
-                <!-- <app-product view="carousel" [product]=""></app-product> -->
-            </div>
             <div class="col-md-3 mt-2">
                 <div class="block-products-carousel__cell">
                     <div class="product-card product-card--layout--horizontal">

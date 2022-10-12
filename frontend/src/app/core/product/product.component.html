@@ -8,7 +8,8 @@
                                 M3,13h3v2H2c-0.6,0-1-0.4-1-1v-4h2V13z" />
                     </svg>
                 </button>
-                <button class="product-card__action product-card__action--wishlist" type="button" aria-label="Add to wish list"><svg width="16" height="16">
+                <button class="product-card__action product-card__action--wishlist" type="button" aria-label="Add to wish list">
+                    <svg width="16" height="16">
                         <path d="M13.9,8.4l-5.4,5.4c-0.3,0.3-0.7,0.3-1,0L2.1,8.4c-1.5-1.5-1.5-3.8,0-5.3C2.8,2.4,3.8,2,4.8,2s1.9,0.4,2.6,1.1L8,3.7
                                 l0.6-0.6C9.3,2.4,10.3,2,11.3,2c1,0,1.9,0.4,2.6,1.1C15.4,4.6,15.4,6.9,13.9,8.4z" />
                     </svg>
@@ -16,7 +17,7 @@
             </div>
             <div class="product-card__image">
                 <div class="image image--type--product">
-                    <a routerLink="/detail-product" class="image__body"><img class="image__tag" [src]="product.image_urls[0]" alt=""></a>
+                    <a routerLink="/detail-product" class="image__body"><img class="image__tag" [src]="product_image" alt=""></a>
                 </div>
             </div>
             <div class="product-card__info">
@@ -30,7 +31,7 @@
             </div>
             <div class="product-card__footer">
                 <div class="product-card__prices">
-                    <div class="product-card__price product-card__price--current">{{product.price}}</div>
+                    <div class="product-card__price product-card__price--current">{{product.price}} TND</div>
                 </div>
                 <button class="product-card__addtocart-icon" type="button" aria-label="Add to cart">
                     <svg width="20" height="20">
@@ -49,7 +50,7 @@
 <ng-container *ngIf="view === 'table'">
     <td class="cart-table__column cart-table__column--image">
         <div class="image image--type--product">
-            <a href="product-full.html" class="image__body"><img class="image__tag" [src]="product.image_urls[0]" alt=""></a>
+            <a href="product-full.html" class="image__body"><img class="image__tag" [src]="product_image" alt=""></a>
         </div>
     </td>
     <td class="cart-table__column cart-table__column--product"><a href="#" class="cart-table__product-name">{{product.name}}</a>
@@ -76,7 +77,7 @@
             </div>
             <div class="product-card__image">
                 <div class="image image--type--product">
-                    <a href="product-full.html" class="image__body"><img class="image__tag" [src]="product.image_urls[0]" alt=""></a>
+                    <a href="product-full.html" class="image__body"><img class="image__tag" [src]="product_image" alt=""></a>
                 </div>
             </div>
             <div class="product-card__info">

@@ -2,6 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CoreModule } from 'src/core/core.module';
 import { CarCategory, CarCategorySchema } from './models/car-category.model';
 import { CarParts, CarPartsSchema } from './models/car-parts.model';
 import { car, CarSchema } from './models/car.model';
@@ -17,6 +18,7 @@ import { ShopController } from './shop.controller';
       { name: CarParts.name, schema: CarPartsSchema },
       { name: CarCategory.name, schema: CarCategorySchema },
     ]),
+    CoreModule,
   ],
   providers: [ShopService],
   controllers: [ShopController],

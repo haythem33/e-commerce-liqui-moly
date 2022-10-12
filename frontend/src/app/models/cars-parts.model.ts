@@ -5,7 +5,7 @@ export interface car_parts {
   name: string;
   quantity: number;
   price: number;
-  image_urls: File[];
+  image_urls: File[] | string[];
   category: cars_category;
   cars?: cars[];
 }

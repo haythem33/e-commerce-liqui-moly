@@ -1,12 +1,16 @@
 import {
   Controller,
   Get,
+  Header,
   HttpCode,
   HttpStatus,
   Param,
   Query,
+  StreamableFile,
 } from '@nestjs/common';
+import { FileService } from 'src/core/services/file.service';
 import { CarCategory } from './models/car-category.model';
+import { CarParts } from './models/car-parts.model';
 import { car } from './models/car.model';
 import { ShopService } from './services/shop.service';
 
@@ -15,7 +19,10 @@ import { ShopService } from './services/shop.service';
   version: '1',
 })
 export class ShopController {
-  constructor(private shopService: ShopService) {}
+  constructor(
+    private shopService: ShopService,
+    private fileService: FileService,
+  ) {}
 
   @Get('filter_car')
   @HttpCode(HttpStatus.OK)
@@ -26,5 +33,10 @@ export class ShopController {
   @HttpCode(HttpStatus.OK)
   getCategorys(@Param('full') full: boolean): Promise<CarCategory[]> {
     return this.shopService.getCategory(full);
+  }
+  @Get('get_products')
+  @HttpCode(HttpStatus.OK)
+  async getProductsByPopularity(): Promise<CarParts[]> {
+    return this.shopService.getProducts();
   }
 }

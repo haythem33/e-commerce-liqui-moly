@@ -11,6 +11,8 @@ export class CarCategory {
   name: string;
   @Prop({ required: true })
   image_url: string;
+  @Prop({ required: false })
+  sub_category?: string[];
   @Prop({
     required: false,
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'carparts' }],

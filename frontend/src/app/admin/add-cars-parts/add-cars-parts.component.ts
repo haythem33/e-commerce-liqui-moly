@@ -15,6 +15,7 @@ import { AdminServiceService } from '../services/admin-service.service';
 import { car_parts } from 'src/app/models/cars-parts.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { cars_category } from 'src/app/models/cars-category.model';
+import { MatSelectChange } from '@angular/material/select';
 @Component({
   selector: 'app-add-cars-parts',
   templateUrl: './add-cars-parts.component.html',
@@ -27,7 +28,8 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
   suggestionCars!: cars[];
   all_images_upload: File[] = [];
   all_preview_images: any[] = [];
-  allCategory!: Observable<cars_category[]>;
+  allCategory!: cars_category[];
+  sub_category!: string[];
   @ViewChild('carInput') carInput!: ElementRef<HTMLInputElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -41,7 +43,10 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
   ngOnInit(): void {
-    this.allCategory = this.shopService.getAllCategory().pipe(first());
+    this.shopService
+      .getAllCategory(true)
+      .pipe(first())
+      .subscribe((res) => (this.allCategory = res));
   }
 
   remove(index: number): void {
@@ -77,6 +82,12 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
       this.fileInput.nativeElement.value = '';
     }
   }
+  public show_sub_categorie(event: MatSelectChange): void {
+    if ((event.value as cars_category).sub_category !== undefined) {
+      this.sub_category = (event.value as cars_category)
+        .sub_category as string[];
+    }
+  }
 
   submit(carForm: NgForm): void {
     let car_part = new FormData();
@@ -84,6 +95,7 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
     car_part.append('quantity', carForm.value.quantity);
     car_part.append('price', carForm.value.price);
     car_part.append('category', JSON.stringify(carForm.value.category));
+    car_part.append('sub_category', carForm.value.sub_category);
     this.selectedCars.map((car) =>
       car_part.append('cars[]', JSON.stringify(car))
     );
@@ -115,6 +127,7 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
         },
       });
   }
+
   private _make_image_preview(image: File): Promise<any> {
     let file_reader = new FileReader();
     return new Promise((resolve, reject) => {

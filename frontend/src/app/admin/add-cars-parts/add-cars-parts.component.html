@@ -2,7 +2,7 @@
     <div class="text-center" sidebarContent>
         <h2>AJOUTER DES PIECES</h2>
         <form #carPart="ngForm">
-            <div class="d-flex justify-content-around">
+            <div class="d-flex justify-content-around m-5">
                 <!--FIRST ROW-->
                 <mat-form-field appearance="fill" class="w-25">
                     <mat-label>Nom de la Piece</mat-label>
@@ -11,16 +11,24 @@
 
                 <mat-form-field appearance="fill" class="w-25">
                     <mat-label>Categories de la Piece</mat-label>
-                    <mat-select ngModel required name="category">
-                        <mat-option *ngFor="let category of allCategory | async" [value]="category">
+                    <mat-select ngModel required name="category" (selectionChange)="show_sub_categorie($event)">
+                        <mat-option *ngFor="let category of allCategory" [value]="category">
                             {{category.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="sub_category" appearance="fill" class="w-25">
+                    <mat-label>Les Sous Categories de la Piece</mat-label>
+                    <mat-select ngModel name="sub_category" multiple>
+                        <mat-option *ngFor="let sub of sub_category" [value]="sub">
+                            {{sub}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
 
             <!--SECOND ROW-->
-            <div class="d-flex justify-content-around">
+            <div class="d-flex justify-content-around m-5">
                 <mat-form-field appearance="fill" class="w-25">
                     <mat-label>Prix</mat-label>
                     <input type="number" matInput ngModel required name="price">
@@ -32,7 +40,7 @@
             </div>
 
             <!--THIRD ROW-->
-            <div class="d-flex justify-content-center">
+            <div class="d-flex justify-content-center m-5">
                 <mat-form-field appearance="fill" class="w-50">
                     <mat-label>Les Voitures Associer a la Piece</mat-label>
                     <mat-chip-list #chipList aria-label="sélectionner une voiture">

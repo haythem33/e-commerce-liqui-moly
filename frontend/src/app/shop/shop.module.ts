@@ -6,6 +6,7 @@ import { ListProductComponent } from './list-product/list-product.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
 import { CoreModule } from '../core/core.module';
 import { WhishListComponent } from './whish-list/whish-list.component';
+import { ShopService } from './services/shop.service';
 
 @NgModule({
   declarations: [
@@ -14,5 +15,6 @@ import { WhishListComponent } from './whish-list/whish-list.component';
     WhishListComponent,
   ],
   imports: [CommonModule, ShopRoutingModule, CoreModule],
+  providers: [ShopService],
 })
 export class ShopModule {}

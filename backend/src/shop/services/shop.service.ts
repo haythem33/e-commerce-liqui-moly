@@ -77,4 +77,18 @@ export class ShopService implements OnApplicationBootstrap {
         select: '-_id -__v',
       });
   }
+  async getProductById(id: string): Promise<CarParts> {
+    return this.carPartsModel
+      .findById(id)
+      .populate({
+        path: 'category',
+        model: CarCategory.name,
+        select: '-_id -cars_part -__v',
+      })
+      .populate({
+        path: 'cars',
+        model: car.name,
+        select: '-_id -__v',
+      });
+  }
 }

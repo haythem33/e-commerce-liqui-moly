@@ -18,6 +18,11 @@ import { ShopService } from './services/shop.service';
 export class ShopController {
   constructor(private shopService: ShopService) {}
 
+  @Get('/getProductBy_id/:id')
+  @HttpCode(HttpStatus.OK)
+  getProductById(@Param('id') id: string): Promise<CarParts> {
+    return this.shopService.getProductById(id);
+  }
   @Get('filter_car')
   @HttpCode(HttpStatus.OK)
   filter_car(@Query('car_filter') filter: string): Promise<car[]> {

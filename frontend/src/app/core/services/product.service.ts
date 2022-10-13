@@ -12,6 +12,11 @@ import { environment } from 'src/environments/environment';
 export class ProductService {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
+  getProductById(id: string): Observable<car_parts> {
+    return this.http.get<car_parts>(
+      `${environment.server_url}/shop/getProductBy_id/${id}`
+    );
+  }
   getProducts_ByPopularity(): Observable<car_parts[]> {
     return this.http
       .get<car_parts[]>(`${environment.server_url}/shop/get_products`)

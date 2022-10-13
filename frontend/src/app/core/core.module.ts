@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductService } from './services/product.service';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ProductService } from './services/product.service';
     MatButtonModule,
     RouterModule,
     HttpClientModule,
+    CarouselModule,
   ],
   exports: [
     NavbarComponent,

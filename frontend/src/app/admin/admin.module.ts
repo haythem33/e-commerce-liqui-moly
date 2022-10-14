@@ -15,6 +15,7 @@ import { AdminServiceService } from './services/admin-service.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDividerModule } from '@angular/material/divider';
 @NgModule({
   declarations: [AddCarsPartsComponent, AddCategoryComponent],
   imports: [
@@ -31,6 +32,7 @@ import { MatSelectModule } from '@angular/material/select';
     ShopModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatDividerModule,
   ],
   providers: [AdminServiceService],
 })

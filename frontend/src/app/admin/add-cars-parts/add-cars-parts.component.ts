@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { cars_category } from 'src/app/models/cars-category.model';
 import { MatSelectChange } from '@angular/material/select';
 import { ProductService } from 'src/app/core/services/product.service';
+import { MatChipInputEvent } from '@angular/material/chips';
 @Component({
   selector: 'app-add-cars-parts',
   templateUrl: './add-cars-parts.component.html',
@@ -30,6 +31,10 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
   all_preview_images: any[] = [];
   allCategory!: cars_category[];
   sub_category!: string[];
+  allColors: string[] = [];
+  features: [{ feature_name: string; feature_value: string }] = [
+    { feature_name: '', feature_value: '' },
+  ];
   @ViewChild('carInput') carInput!: ElementRef<HTMLInputElement>;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -83,20 +88,53 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
       this.fileInput.nativeElement.value = '';
     }
   }
+  addColor(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.allColors.push(value);
+    }
+    event.chipInput!.clear();
+  }
+
+  removeColor(color: string) {
+    const index = this.allColors.indexOf(color);
+    if (index >= 0) {
+      this.allColors.splice(index, 1);
+    }
+  }
   public show_sub_categorie(event: MatSelectChange): void {
     if ((event.value as cars_category).sub_category !== undefined) {
       this.sub_category = (event.value as cars_category)
         .sub_category as string[];
     }
   }
-
+  addFeature(): void {
+    this.features.push({ feature_name: '', feature_value: '' });
+    console.log(this.features);
+  }
+  trackFeatureForm(
+    index: number,
+    item: { feature_name: string; feature_value: string }
+  ) {
+    return item;
+  }
   submit(carForm: NgForm): void {
     let car_part = new FormData();
     car_part.append('name', carForm.value.name);
     car_part.append('quantity', carForm.value.quantity);
     car_part.append('price', carForm.value.price);
     car_part.append('category', JSON.stringify(carForm.value.category));
-    car_part.append('sub_category', carForm.value.sub_category);
+    car_part.append('description', carForm.value.description);
+    car_part.append('insertion_date', Date.now().toString());
+    carForm.value.sub_category.map((c: string) =>
+      car_part.append('sub_category[]', c)
+    );
+    this.features
+      .filter(
+        (feature) => feature.feature_name !== '' && feature.feature_value !== ''
+      )
+      .map((feature) => car_part.append('features[]', JSON.stringify(feature)));
+    this.allColors.map((color) => car_part.append('colors', color));
     this.selectedCars.map((car) =>
       car_part.append('cars[]', JSON.stringify(car))
     );

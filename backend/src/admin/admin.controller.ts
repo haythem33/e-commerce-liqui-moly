@@ -7,9 +7,11 @@ import {
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { CarParts } from 'src/shop/models/car-parts.model';
+import { CarPartsPipe } from './pipes/car_parts.pipe';
 import { AdminServiceService } from './services/admin-service.service';
 
 @Controller({
@@ -27,10 +29,10 @@ export class AdminController {
   @Post('addCarParts')
   @HttpCode(HttpStatus.CREATED)
   add_cars_parts(
-    @Body() cars_parts: CarParts,
+    @Body(CarPartsPipe) cars_part: CarParts,
     @UploadedFiles() image_urls: Array<Express.Multer.File>,
   ): Promise<string> {
-    return this.adminService.add_car_parts(cars_parts, image_urls);
+    return this.adminService.add_car_parts(cars_part, image_urls);
   }
   @UseInterceptors(
     FileInterceptor('image_url', {

@@ -1,4 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { car } from './car.model';
 import * as mongoose from 'mongoose';
@@ -31,5 +31,20 @@ export class CarParts {
     default: [],
   })
   cars: car[];
+  @Prop({ required: true })
+  description: string;
+  @Prop(
+    raw([
+      {
+        feature_name: { type: String },
+        feature_value: { type: String },
+      },
+    ]),
+  )
+  features: Record<string, string>[];
+  @Prop({ required: false })
+  colors: string[];
+  @Prop({ required: true })
+  insertion_date: Date;
 }
 export const CarPartsSchema = SchemaFactory.createForClass(CarParts);

@@ -1,14 +1,15 @@
 <app-admin-side-bar>
-    <div class="text-center" sidebarContent>
+    <div class="text-center m-3" sidebarContent>
         <h2>AJOUTER DES PIECES</h2>
         <form #carPart="ngForm">
-            <div class="d-flex justify-content-around m-5">
+            <!--FIRST ROW-->
+            <div class="d-flex justify-content-evenly m-5">
                 <!--FIRST ROW-->
                 <mat-form-field appearance="fill" class="w-25">
                     <mat-label>Nom de la Piece</mat-label>
                     <input type="text" matInput ngModel required name="name">
                 </mat-form-field>
-
+                <mat-divider vertical></mat-divider>
                 <mat-form-field appearance="fill" class="w-25">
                     <mat-label>Categories de la Piece</mat-label>
                     <mat-select ngModel required name="category" (selectionChange)="show_sub_categorie($event)">
@@ -17,6 +18,7 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
+                <mat-divider *ngIf="sub_category" vertical></mat-divider>
                 <mat-form-field *ngIf="sub_category" appearance="fill" class="w-25">
                     <mat-label>Les Sous Categories de la Piece</mat-label>
                     <mat-select ngModel name="sub_category" multiple>
@@ -26,22 +28,48 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-
+            <mat-divider></mat-divider>
             <!--SECOND ROW-->
-            <div class="d-flex justify-content-around m-5">
+            <div class="d-flex justify-content-evenly m-5">
                 <mat-form-field appearance="fill" class="w-25">
                     <mat-label>Prix</mat-label>
                     <input type="number" matInput ngModel required name="price">
                 </mat-form-field>
+                <mat-divider vertical></mat-divider>
                 <mat-form-field appearance="fill" class="w-25">
                     <mat-label>Quantite</mat-label>
                     <input type="number" matInput ngModel required name="quantity">
                 </mat-form-field>
             </div>
-
+            <mat-divider></mat-divider>
             <!--THIRD ROW-->
-            <div class="d-flex justify-content-center m-5">
-                <mat-form-field appearance="fill" class="w-50">
+            <div class="d-flex justify-content-evenly m-5">
+                <mat-form-field appearance="fill" class="w-25">
+                    <mat-label>Description de la piece</mat-label>
+                    <textarea matInput ngModel required name="description"></textarea>
+                </mat-form-field>
+                <mat-divider vertical></mat-divider>
+                <div class="w-25 text-center">
+                    <h3>Principales caractéristiques</h3>
+                    <ng-template class="row" ngFor let-feature let-i="index" [ngForOf]="features" [ngForTrackBy]="trackFeatureForm">
+                        <mat-form-field appearance="fill" class="col-md-5 m-1">
+                            <mat-label>Nom de la caractéristique</mat-label>
+                            <input type="text" matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="feature.feature_name" [value]="feature.feature_name">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="col-md-5 m-1">
+                            <mat-label>valeur de la caractéristique</mat-label>
+                            <input type="text" matInput [ngModelOptions]="{standalone: true}" [(ngModel)]="feature.feature_value" [value]="feature.feature_value">
+                        </mat-form-field>
+                    </ng-template>
+                    <button (click)="$event.preventDefault();addFeature()" mat-flat-button color="primary">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <!--FOUR ROW-->
+            <div class="d-flex justify-content-evenly m-5">
+                <mat-form-field appearance="fill" class="w-25">
                     <mat-label>Les Voitures Associer a la Piece</mat-label>
                     <mat-chip-list #chipList aria-label="sélectionner une voiture">
                         <mat-chip color="primary" *ngFor="let car of selectedCars;let i = index" (removed)="remove(i)">
@@ -58,8 +86,22 @@
                         </mat-autocomplete>
                     </mat-chip-list>
                 </mat-form-field>
+                <mat-divider vertical></mat-divider>
+                <mat-form-field appearance="fill" class="w-25">
+                    <mat-label>Les Couleurs Associer a la Piece par exemple : #ffffff</mat-label>
+                    <mat-chip-list #ColorchipList>
+                        <mat-chip *ngFor="let color of allColors" (removed)="removeColor(color)" color="primary">
+                            {{color}}
+                            <button matChipRemove>
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip>
+                        <input placeholder="nouvelle couleur" [matChipInputFor]="ColorchipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addColor($event)" />
+                    </mat-chip-list>
+                </mat-form-field>
             </div>
-            <!--FOUR ROW-->
+            <mat-divider></mat-divider>
+            <!--FIVE ROW-->
             <div class="file-upload">
                 <div class="image-upload-wrap" (click)="fileInput.click()">
                     <input class="file-upload-input" #fileInput (change)="addFile($event)" type='file' accept="image/*" multiple />

@@ -147,56 +147,12 @@
                 <div class="product__excerpt">Many philosophical debates that began in ancient times are still debated today. In one general sense, philosophy is associated with wisdom, intellectual culture and a search for knowledge.
                 </div>
                 <div class="product__features">
-                    <div class="product__features-title">Key Features:</div>
+                    <div class="product__features-title">Principales caractéristiques:</div>
                     <ul>
-                        <li>Speed: <span>750 RPM</span></li>
-                        <li>Power Source: <span>Cordless-Electric</span></li>
-                        <li>Battery Cell Type: <span>Lithium</span></li>
-                        <li>Voltage: <span>20 Volts</span></li>
-                        <li>Battery Capacity: <span>2 Ah</span></li>
+                        <li *ngFor="let feature of product.features">{{feature.feature_name}}:
+                            <span>{{feature.feature_value}}</span>
+                        </li>
                     </ul>
-                </div>
-            </div>
-            <div class="product__tabs product-tabs product-tabs--layout--full">
-                <ul class="product-tabs__list">
-                    <li class="product-tabs__item product-tabs__item--active"><a href="#product-tab-specification">Specification</a></li>
-                </ul>
-                <div class="product-tabs__content">
-                    <div class="product-tabs__pane product-tabs__pane--active" id="product-tab-specification">
-                        <div class="spec">
-                            <div class="spec__section">
-                                <h4 class="spec__section-title">General</h4>
-                                <div class="spec__row">
-                                    <div class="spec__name">Material</div>
-                                    <div class="spec__value">Aluminium, Plastic</div>
-                                </div>
-                                <div class="spec__row">
-                                    <div class="spec__name">Engine Type</div>
-                                    <div class="spec__value">Brushless</div>
-                                </div>
-                                <div class="spec__row">
-                                    <div class="spec__name">Battery Voltage</div>
-                                    <div class="spec__value">18 V</div>
-                                </div>
-                                <div class="spec__row">
-                                    <div class="spec__name">Battery Type</div>
-                                    <div class="spec__value">Li-lon</div>
-                                </div>
-                                <div class="spec__row">
-                                    <div class="spec__name">Number of Speeds</div>
-                                    <div class="spec__value">2</div>
-                                </div>
-                                <div class="spec__row">
-                                    <div class="spec__name">Charge Time</div>
-                                    <div class="spec__value">1.08 h</div>
-                                </div>
-                                <div class="spec__row">
-                                    <div class="spec__name">Weight</div>
-                                    <div class="spec__value">1.5 kg</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="product__info">
@@ -211,6 +167,23 @@
                                 <div class="status-badge__body">
                                     <div class="status-badge__text">In Stock</div>
                                     <div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="In&#x20;Stock"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-form product__form">
+                        <div class="product-form__body">
+                            <div class="product-form__row">
+                                <div class="product-form__title">Color</div>
+                                <div class="product-form__control">
+                                    <div class="input-radio-color">
+                                        <div class="input-radio-color__list">
+                                            <label *ngFor="let color of product.colors" class="input-radio-color__item input-radio-color__item--white" data-toggle="tooltip">
+                                                <input type="radio" name="color">
+                                                <span [style]="'background: '+ color"></span>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

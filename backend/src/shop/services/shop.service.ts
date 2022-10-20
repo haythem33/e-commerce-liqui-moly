@@ -3,7 +3,6 @@ import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { FileService } from 'src/core/services/file.service';
 import { CarCategory, CarCategoryDocument } from '../models/car-category.model';
 import { CarParts, CarPartsDocument } from '../models/car-parts.model';
 import { car, CarDocument } from '../models/car.model';
@@ -18,7 +17,6 @@ export class ShopService implements OnApplicationBootstrap {
     private readonly carCategoryModel: Model<CarCategoryDocument>,
     @InjectModel(CarParts.name)
     private readonly carPartsModel: Model<CarPartsDocument>,
-    private readonly fileService: FileService,
   ) {}
   onApplicationBootstrap() {
     this.insert_list_cars();
@@ -90,5 +88,28 @@ export class ShopService implements OnApplicationBootstrap {
         model: car.name,
         select: '-_id -__v',
       });
+  }
+  async getProductsByCar(
+    Make: string,
+    model: string,
+    year: number,
+  ): Promise<CarParts[]> {
+    const findedCar = await this.carModel.findOne({ Make, model, year });
+    return this.carPartsModel.find({ cars: findedCar._id });
+  }
+  async getProductByCategory(id: string): Promise<CarParts[]> {
+    return this.carPartsModel.find({ category: id });
+  }
+  async getProductsBySubCategory(subCategory: string): Promise<CarParts[]> {
+    return this.carPartsModel.find({ sub_category: subCategory });
+  }
+  async getCarsMake(): Promise<string[]> {
+    return this.carModel.find().distinct('Make');
+  }
+  async getCarsModel(Make: string): Promise<string[]> {
+    return this.carModel.find({ Make }).distinct('Model');
+  }
+  async getCarsYear(Make: string, Model: string): Promise<number[]> {
+    return this.carModel.find({ Make, Model }).distinct('Year');
   }
 }

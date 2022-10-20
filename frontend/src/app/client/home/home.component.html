@@ -12,41 +12,30 @@
         </div>
         <div class="block-finder__body container container--max--xl">
             <div class="block-finder__title">Trouvez des pièces pour votre véhicule</div>
-            <div class="block-finder__subtitle">Sur des centaines de marques et des dizaines de milliers de pièces</div>
+            <div class="block-finder__subtitle mt-4">Sur des centaines de marques et des dizaines de milliers de pièces
+            </div>
             <form class="block-finder__form">
-                <div class="block-finder__form-control block-finder__form-control--select"><select name="year" aria-label="Vehicle Year">
-                        <option value="none">Sélectionnez l'année</option>
-                        <option>2010</option>
-                        <option>2011</option>
-                        <option>2012</option>
-                        <option>2013</option>
-                        <option>2014</option>
-                        <option>2015</option>
-                        <option>2016</option>
-                        <option>2017</option>
-                        <option>2018</option>
-                        <option>2019</option>
-                        <option>2020</option>
-                    </select></div>
-                <div class="block-finder__form-control block-finder__form-control--select"><select name="make" aria-label="Vehicle Make" disabled="disabled">
-                        <option value="none">Sélectionnez Marque</option>
-                        <option>Audi</option>
-                        <option>BMW</option>
-                        <option>Ferrari</option>
-                        <option>Ford</option>
-                        <option>KIA</option>
-                        <option>Nissan</option>
-                        <option>Tesla</option>
-                        <option>Toyota</option>
-                    </select></div>
-                <div class="block-finder__form-control block-finder__form-control--select"><select name="model" aria-label="Vehicle Model" disabled="disabled">
-                        <option value="none">Sélectionnez le modèle</option>
-                        <option>Explorer</option>
-                        <option>Focus S</option>
-                        <option>Fusion SE</option>
-                        <option>Mustang</option>
-                    </select></div>
-                <button class="block-finder__form-control block-finder__form-control--button" type="submit">Search</button>
+                <mat-form-field appearance="fill" class="block-finder__form-control block-finder__form-control--select">
+                    <mat-label>Sélectionnez la Marque</mat-label>
+                    <mat-select [(ngModel)]="carToFind.Make" (ngModelChange)="getCarModel()" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let make of car_make | async" [value]="make">{{make}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="block-finder__form-control block-finder__form-control--select">
+                    <mat-label>Sélectionnez le Model</mat-label>
+                    <mat-select [(ngModel)]="carToFind.Model" (ngModelChange)="getCarYear()" [ngModelOptions]="{standalone: true}" [disabled]="carToFind.Make === ''">
+                        <mat-option *ngFor="let model of car_model | async" [value]="model">
+                            {{model}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class=" block-finder__form-control block-finder__form-control--select">
+                    <mat-label>Sélectionnez l'année</mat-label>
+                    <mat-select [(ngModel)]="carToFind.Year" [ngModelOptions]="{standalone: true}" [disabled]="carToFind.Model === ''">
+                        <mat-option *ngFor="let year of car_year | async" [value]="year">{{year}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button class="block-finder__form-control block-finder__form-control--button" (click)="searchProductByCar()" [disabled]="!car_make || !car_model || !car_year" type="submit">Search</button>
             </form>
         </div>
     </div>

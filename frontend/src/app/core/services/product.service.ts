@@ -38,5 +38,19 @@ export class ProductService {
       `${environment.server_url}/shop/get_categorys`
     );
   }
-  getProducts_NewStocks() {}
+  getCarMake(): Observable<string[]> {
+    return this.http.get<string[]>(
+      `${environment.server_url}/shop/get_cars_make`
+    );
+  }
+  getCarModel(make: string): Observable<string[]> {
+    return this.http.get<string[]>(
+      `${environment.server_url}/shop/get_car_model/${make}`
+    );
+  }
+  getCarYear(make: string, model: string): Observable<number[]> {
+    return this.http.get<number[]>(
+      `${environment.server_url}/shop/get_car_year/${make}/${model}`
+    );
+  }
 }

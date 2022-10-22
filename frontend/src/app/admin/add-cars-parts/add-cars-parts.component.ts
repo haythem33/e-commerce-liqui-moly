@@ -126,9 +126,11 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
     car_part.append('category', JSON.stringify(carForm.value.category));
     car_part.append('description', carForm.value.description);
     car_part.append('insertion_date', Date.now().toString());
-    carForm.value.sub_category.map((c: string) =>
-      car_part.append('sub_category[]', c)
-    );
+    if (this.sub_category.length > 0) {
+      carForm.value.sub_category.map((c: string) =>
+        car_part.append('sub_category[]', c)
+      );
+    }
     this.features
       .filter(
         (feature) => feature.feature_name !== '' && feature.feature_value !== ''

@@ -18,8 +18,8 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-divider *ngIf="sub_category" vertical></mat-divider>
-                <mat-form-field *ngIf="sub_category" appearance="fill" class="w-25">
+                <mat-divider *ngIf="sub_category && sub_category.length > 0" vertical></mat-divider>
+                <mat-form-field *ngIf="sub_category && sub_category.length > 0" appearance="fill" class="w-25">
                     <mat-label>Les Sous Categories de la Piece</mat-label>
                     <mat-select ngModel name="sub_category" multiple>
                         <mat-option *ngFor="let sub of sub_category" [value]="sub">

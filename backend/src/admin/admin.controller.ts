@@ -7,7 +7,6 @@ import {
   UploadedFile,
   UploadedFiles,
   UseInterceptors,
-  UsePipes,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { CarParts } from 'src/shop/models/car-parts.model';

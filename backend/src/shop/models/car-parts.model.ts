@@ -14,7 +14,7 @@ export class CarParts {
   @Prop({ required: true })
   quantity: number;
   @Prop({ required: true })
-  price: string;
+  price: number;
   @Prop({ required: true })
   image_urls: string[];
   @Prop({

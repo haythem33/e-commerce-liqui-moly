@@ -1,5 +1,6 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { CarParts } from 'src/shop/models/car-parts.model';
 export type UserDocument = user & Document;
 
 @Schema()
@@ -26,5 +27,22 @@ export class user {
     }),
   )
   adresse: Record<string, string>;
+  @Prop({
+    required: true,
+    default: [],
+    type: raw([
+      {
+        car_part: { type: mongoose.Schema.Types.ObjectId, ref: CarParts.name },
+        quantity: { type: Number },
+      },
+    ]),
+  })
+  cart: Array<Record<string, string>>;
+  @Prop({
+    required: true,
+    default: [],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: CarParts.name }],
+  })
+  whistList: CarParts[];
 }
 export const UserSchema = SchemaFactory.createForClass(user);

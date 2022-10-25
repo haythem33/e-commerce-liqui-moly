@@ -1,0 +1,35 @@
+<div class="vehicle-picker-modal__panel vehicle-picker-modal__panel--active">
+    <div class="vehicle-picker-modal__title card-title">Ajouter une Véhicule</div>
+    <div class="vehicle-form vehicle-form--layout--modal">
+        <div class="vehicle-form__item vehicle-form__item--select">
+            <mat-form-field appearance="fill" class="block-finder__form-control block-finder__form-control--select">
+                <mat-label>Sélectionnez la Marque</mat-label>
+                <mat-select [(ngModel)]="carToFind.Make" (ngModelChange)="getCarModel()" [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let make of car_make | async" [value]="make">{{make}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="vehicle-form__item vehicle-form__item--select">
+            <mat-form-field appearance="fill" class="block-finder__form-control block-finder__form-control--select">
+                <mat-label>Sélectionnez le Model</mat-label>
+                <mat-select [(ngModel)]="carToFind.Model" (ngModelChange)="getCarYear()" [ngModelOptions]="{standalone: true}" [disabled]="carToFind.Make === ''">
+                    <mat-option *ngFor="let model of car_model | async" [value]="model">
+                        {{model}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="vehicle-form__item vehicle-form__item--select">
+            <mat-form-field appearance="fill" class=" block-finder__form-control block-finder__form-control--select">
+                <mat-label>Sélectionnez l'année</mat-label>
+                <mat-select [(ngModel)]="carToFind.Year" [ngModelOptions]="{standalone: true}" [disabled]="carToFind.Model === ''">
+                    <mat-option *ngFor="let year of car_year | async" [value]="year">{{year}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="vehicle-picker-modal__actions">
+        <button type="button" class="btn btn-sm btn-secondary vehicle-picker-modal__close-button" (click)="cancel()">Cancel</button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="addCar()" [disabled]="!carToFind.Make || !carToFind.Model || !carToFind.Year">Add A Vehicle</button>
+    </div>
+</div>

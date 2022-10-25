@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { CarCategory, CarCategoryDocument } from '../models/car-category.model';
 import { CarParts, CarPartsDocument } from '../models/car-parts.model';
 import { car, CarDocument } from '../models/car.model';
@@ -94,6 +94,7 @@ export class ShopService implements OnApplicationBootstrap {
     model: string,
     year: number,
   ): Promise<CarParts[]> {
+    console.log(Make, model, year);
     const findedCar = await this.carModel.findOne({ Make, model, year });
     return this.carPartsModel.find({ cars: findedCar._id });
   }
@@ -111,5 +112,63 @@ export class ShopService implements OnApplicationBootstrap {
   }
   async getCarsYear(Make: string, Model: string): Promise<number[]> {
     return this.carModel.find({ Make, Model }).distinct('Year');
+  }
+  async fullFilter(
+    category: CarCategory[],
+    subCategory: string[],
+    cars: car[],
+    brands: string[],
+    price: { min: number; max: number },
+  ): Promise<CarParts[]> {
+    return this.carPartsModel
+      .find(await this.queryByCarOrBrands(cars, brands))
+      .find(this.queryByCategory(category))
+      .find(this.queryBySubCategory(subCategory))
+      .find(this.queryByPrice(price));
+  }
+  async queryByCarOrBrands(cars: car[], brands: string[]) {
+    if (cars.length === 0 && brands.length === 0) {
+      return {};
+    }
+    if (cars.length > 0) {
+      return {
+        cars: {
+          $in: await this.carModel
+            .find({
+              Make: cars.map((car) => car.Make),
+              Model: cars.map((car) => car.Model),
+              Year: cars.map((car) => car.Year),
+            })
+            .distinct('_id'),
+        },
+      };
+    }
+    if (brands.length > 0) {
+      return {
+        cars: {
+          $in: await this.carModel.find({ Make: brands }).distinct('_id'),
+        },
+      };
+    }
+  }
+  queryByCategory(categorys: CarCategory[]) {
+    if (categorys.length === 0) {
+      return {};
+    }
+    return { category: categorys.map((category) => (category as any)._id) };
+  }
+  queryBySubCategory(subCategory: string[]) {
+    if (subCategory.length === 0) {
+      return {};
+    }
+    return { sub_category: { $in: subCategory } };
+  }
+  queryByPrice(price: { min: number; max: number }) {
+    return {
+      price: {
+        $gte: price.min > 0 ? price.min : 1,
+        $lte: price.max > 0 ? price.max : 100000,
+      },
+    };
   }
 }

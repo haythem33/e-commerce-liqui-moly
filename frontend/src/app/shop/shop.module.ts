@@ -7,14 +7,47 @@ import { CoreModule } from '../core/core.module';
 import { WhishListComponent } from './whish-list/whish-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ShopService } from './services/shop.service';
-
+import { StoreModule } from '@ngrx/store';
+import { ClientReducers } from '../client/services/client.reducers';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSliderModule } from '@angular/material/slider';
+import { FormsModule } from '@angular/forms';
+import { AddCarDialogComponent } from './add-car-dialog/add-car-dialog.component';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 @NgModule({
   declarations: [
     ListProductComponent,
     DetailProductComponent,
     WhishListComponent,
+    AddCarDialogComponent,
   ],
-  imports: [CommonModule, ShopRoutingModule, HttpClientModule, CoreModule],
+  imports: [
+    CommonModule,
+    ShopRoutingModule,
+    HttpClientModule,
+    CoreModule,
+    MatExpansionModule,
+    MatListModule,
+    MatIconModule,
+    MatSliderModule,
+    FormsModule,
+    MatBottomSheetModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatChipsModule,
+    MatDividerModule,
+    ScrollingModule,
+    StoreModule.forFeature('clientFeature', ClientReducers),
+  ],
   providers: [ShopService],
 })
 export class ShopModule {}

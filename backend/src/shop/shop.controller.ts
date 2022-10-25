@@ -1,14 +1,17 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Param,
   Query,
+  UsePipes,
 } from '@nestjs/common';
 import { CarCategory } from './models/car-category.model';
 import { CarParts } from './models/car-parts.model';
 import { car } from './models/car.model';
+import { FilterPipe } from './pipes/filter.pipe';
 import { ShopService } from './services/shop.service';
 
 @Controller({
@@ -74,5 +77,23 @@ export class ShopController {
     @Param('model') model: string,
   ): Promise<number[]> {
     return this.shopService.getCarsYear(make, model);
+  }
+  @Get('fullFilter')
+  @UsePipes(FilterPipe)
+  @HttpCode(HttpStatus.OK)
+  async fullFilter(
+    @Query('category') category: CarCategory[],
+    @Query('subCategory') subCategory: string[],
+    @Query('car') cars: car[],
+    @Query('brand') brands: string[],
+    @Query('price') price: { min: number; max: number },
+  ): Promise<CarParts[]> {
+    return this.shopService.fullFilter(
+      category,
+      subCategory,
+      cars,
+      brands,
+      price,
+    );
   }
 }

@@ -6,7 +6,7 @@ import { ProductService } from 'src/app/core/services/product.service';
 import { cars_category } from 'src/app/models/cars-category.model';
 import { car_parts } from 'src/app/models/cars-parts.model';
 import { cars } from 'src/app/models/cars.model';
-import { queryProductByCar } from '../services/client.actions';
+import { queryProductBy } from '../services/client.actions';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
     this.car_make = this.productService.getCarMake();
   }
   private getProductsPopularity(): void {
-    this.popular_products = this.productService.getProducts_ByPopularity();
+    this.popular_products = this.productService.getAllProducts();
   }
   private getAllCategory() {
     this.productService
@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
     );
   }
   async searchProductByCar(): Promise<void> {
-    this.store.dispatch(queryProductByCar(this.carToFind));
+    this.store.dispatch(queryProductBy(this.carToFind));
     await this.router.navigate(['shop']);
   }
 }

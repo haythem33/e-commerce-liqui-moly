@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { ShopModule } from './shop/shop.module';
 import { AdminModule } from './admin/admin.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AdminModule } from './admin/admin.module';
     ConfigModule.forRoot({ isGlobal: true }),
     ShopModule,
     AdminModule,
+    CartModule,
   ],
   controllers: [AppController],
   providers: [AppService],

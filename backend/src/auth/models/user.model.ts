@@ -32,12 +32,17 @@ export class user {
     default: [],
     type: raw([
       {
-        car_part: { type: mongoose.Schema.Types.ObjectId, ref: CarParts.name },
-        quantity: { type: Number },
+        car_part: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: CarParts.name,
+          required: true,
+        },
+        quantity: { type: Number, required: true },
       },
     ]),
+    _id: false,
   })
-  cart: Array<Record<string, string>>;
+  cart: Array<{ car_part: CarParts; quantity: number }>;
   @Prop({
     required: true,
     default: [],

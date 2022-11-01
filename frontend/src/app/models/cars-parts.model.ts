@@ -12,6 +12,5 @@ export interface car_parts {
   cars?: cars[];
   description: string;
   features: [{ feature_name: string; feature_value: string }];
-  colors: string[];
   insertion_date: Date;
 }

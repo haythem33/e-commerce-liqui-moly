@@ -86,19 +86,6 @@
                         </mat-autocomplete>
                     </mat-chip-list>
                 </mat-form-field>
-                <mat-divider vertical></mat-divider>
-                <mat-form-field appearance="fill" class="w-25">
-                    <mat-label>Les Couleurs Associer a la Piece par exemple : #ffffff</mat-label>
-                    <mat-chip-list #ColorchipList>
-                        <mat-chip *ngFor="let color of allColors" (removed)="removeColor(color)" color="primary">
-                            {{color}}
-                            <button matChipRemove>
-                                <mat-icon>cancel</mat-icon>
-                            </button>
-                        </mat-chip>
-                        <input placeholder="nouvelle couleur" [matChipInputFor]="ColorchipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addColor($event)" />
-                    </mat-chip-list>
-                </mat-form-field>
             </div>
             <mat-divider></mat-divider>
             <!--FIVE ROW-->

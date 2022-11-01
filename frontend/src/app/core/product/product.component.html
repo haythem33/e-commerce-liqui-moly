@@ -20,41 +20,40 @@
                     <div class="image image--type--product">
                         <a [routerLink]="['/shop/detail-product',product._id]" class="image__body"><img class="image__tag" [src]="$any(product_image) | async" alt=""></a>
                     </div>
+                    <div class="status-badge status-badge--style--success product__stock status-badge--has-text m-2" *ngIf="product.quantity > 0">
+                        <div class="status-badge__body">
+                            <div class="status-badge__text">En stock</div>
+                            <div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="In&#x20;Stock">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="status-badge status-badge--style--failure product__stock status-badge--has-text m-2" *ngIf="product.quantity === 0">
+                        <div class="status-badge__body">
+                            <div class="status-badge__text">Rupture de stock</div>
+                            <div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="Rupture de stock"></div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="product-card__info">
-                    <div class="product-card__meta"><span class="product-card__meta-title">{{product.category.name}}</span>
+                    <div class="product-card__meta">
+                        <span class="product-card__meta-title">{{product.category.name|uppercase}}</span>
                     </div>
                     <div class="product-card__name">
                         <div>
-                            <a href="product-full.html">{{product.name}}</a>
+                            <a [routerLink]="['/shop/detail-product',product._id]" style="text-decoration:none;font-weight: 500;">{{product.name|uppercase}}</a>
                         </div>
                     </div>
                 </div>
                 <div class="product-card__footer">
                     <div class="product-card__prices">
-                        <div class="product-card__price product-card__price--current">{{product.price}} TND</div>
+                        <div class="product-card__price product-card__price--current">{{product.price|number:'2.3'}} TND
+                        </div>
                     </div>
                     <ng-content select="[CarouselButton]"></ng-content>
                 </div>
             </div>
         </div>
-    </ng-container>
-    <ng-container *ngIf="view === 'table'">
-        <td class="cart-table__column cart-table__column--image">
-            <div class="image image--type--product">
-                <a href="product-full.html" class="image__body"><img class="image__tag" [src]="$any(product_image) | async" alt=""></a>
-            </div>
-        </td>
-        <td class="cart-table__column cart-table__column--product"><a href="#" class="cart-table__product-name">{{product.name}}</a>
-            <ul class="cart-table__options">
-                <li>Categories: {{product.category.name}}</li>
-                <li *ngFor="let car of product.cars">{{car.Make}} {{car.Model}} {{car.Year}}
-                </li>
-            </ul>
-        </td>
-        <td class="cart-table__column cart-table__column--price" data-title="Price">
-            {{product.price}}
-        </td>
     </ng-container>
     <ng-container *ngIf="view === 'large'">
         <div class="product__body">
@@ -119,42 +118,24 @@
                     <div class="product__info-body">
                         <div class="product__prices-stock">
                             <div class="product__prices">
-                                <div class="product__price product__price--current">{{product.price}} TND
+                                <div class="product__price product__price--current">{{product.price|number:'2.3'}} TND
                                 </div>
                             </div>
-                            <div class="status-badge status-badge--style--success product__stock status-badge--has-text">
+                            <div class="status-badge status-badge--style--success product__stock status-badge--has-text" *ngIf="product.quantity > 0">
                                 <div class="status-badge__body">
-                                    <div class="status-badge__text">In Stock</div>
+                                    <div class="status-badge__text">En stock</div>
                                     <div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="In&#x20;Stock"></div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="product-form product__form">
-                        <div class="product-form__body">
-                            <div class="product-form__row">
-                                <div class="product-form__title">Color</div>
-                                <div class="product-form__control">
-                                    <div class="input-radio-color">
-                                        <div class="input-radio-color__list">
-                                            <label *ngFor="let color of product.colors" class="input-radio-color__item input-radio-color__item--white" data-toggle="tooltip">
-                                                <input type="radio" name="color">
-                                                <span [style]="'background: '+ color"></span>
-                                            </label>
-                                        </div>
-                                    </div>
+                            <div class="status-badge status-badge--style--failure product__stock status-badge--has-text" *ngIf="product.quantity ===0">
+                                <div class="status-badge__body">
+                                    <div class="status-badge__text">Rupture de stock</div>
+                                    <div class="status-badge__tooltip" tabindex="0" data-toggle="tooltip" title="Rupture de stock"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="product__actions">
-                        <div class="product__actions-item product__actions-item--quantity">
-                            <div class="input-number">
-                                <input class="input-number__input form-control form-control-lg" type="number" min="1" max="{{product.quantity}}" value="1">
-                                <div class="input-number__add"></div>
-                                <div class="input-number__sub"></div>
-                            </div>
-                        </div>
                         <div class="product__actions-item product__actions-item--addtocart">
                             <ng-content select="[fullButton]"></ng-content>
                         </div>
@@ -337,5 +318,4 @@ s0.4-0.1,0.5-0.2l1.8-1.8l5.3,5.3c0.2,0.2,0.4,0.2,0.5,0.2c0.2,0,0.4-0.1,0.5-0.2c0
             </div>
         </div>
     </ng-container>
-
 </ng-container>

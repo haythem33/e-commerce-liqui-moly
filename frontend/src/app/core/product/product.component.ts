@@ -4,6 +4,7 @@ import { ProductService } from '../services/product.service';
 import { SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { OwlOptions, SlidesOutputData } from 'ngx-owl-carousel-o';
+import { CartService } from 'src/app/cart/services/cart.service';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -67,7 +68,10 @@ export class ProductComponent implements OnInit {
     },
     nav: false,
   };
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.getProductImage();
@@ -93,5 +97,6 @@ export class ProductComponent implements OnInit {
     }
     this.activeSlide = index;
   }
+  public updateQuantity(operation: 'ADD' | 'REMOVE') {}
   public addProduct_ToWhishlist() {}
 }

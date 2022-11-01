@@ -30,7 +30,7 @@ import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 export class CartButtonComponent implements OnInit, OnDestroy {
   @Input('view') view!: 'fullButton' | 'CarouselButton' | 'NavButton';
   @Input('product') product!: car_parts;
-
+  @ViewChild('menuTrigger') trigger!: MatMenuTrigger;
   user!: user_shop | null;
   checkPrduct!: boolean;
   destroyed: Subject<boolean> = new Subject();
@@ -90,6 +90,29 @@ export class CartButtonComponent implements OnInit, OnDestroy {
           ),
         error: (err) => console.error(err),
       });
+  }
+  removeFromCart(id: string | undefined) {
+    if (this.user === null) {
+      return;
+    }
+    this.cartService
+      .deleteProductCart(this.user._id as string, id as string)
+      .pipe(first())
+      .subscribe({
+        next: () =>
+          this.store.dispatch(removeProductFromCart({ _id: id as string })),
+        error: (err) => console.error(err),
+      });
+  }
+  toggleMenuCart(): void {
+    if (this.user === null) {
+      this.authService.open_auth_dialog();
+      return;
+    }
+    if (this.cart_list.length === 0) {
+      return;
+    }
+    this.trigger.openMenu();
   }
   private checkPrductCart(): void {
     this.store

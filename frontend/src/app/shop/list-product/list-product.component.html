@@ -1,4 +1,3 @@
-<app-navbar></app-navbar>
 <div class="block-split block-split--has-sidebar mt-5">
     <div class="container">
         <div class="block-split__row row no-gutters">
@@ -191,7 +190,10 @@ C11.2,9.8,11.2,10.4,10.8,10.8z" />
                             <div class="products-list__content">
                                 <div class="products-list__item" *ngFor="let product of products | async">
                                     <div class="product-card">
-                                        <app-product [view]="'carousel'" [product]="product"></app-product>
+                                        <app-product [view]="'carousel'" [product]="product">
+                                            <app-cart-button CarouselButton view="CarouselButton" [product]="product">
+                                            </app-cart-button>
+                                        </app-product>
                                     </div>
                                 </div>
                             </div>
@@ -203,4 +205,3 @@ C11.2,9.8,11.2,10.4,10.8,10.8z" />
         <div class="block-space block-space--layout--before-footer"></div>
     </div>
 </div>
-<app-footer></app-footer>

@@ -99,7 +99,6 @@ export class ListProductComponent implements OnInit {
       });
   }
   applyFilter(): void {
-    console.log(this.allFilters);
     this.products = this.shopService.fullFilter(this.allFilters);
   }
   resetFilter(): void {

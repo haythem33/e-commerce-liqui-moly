@@ -2,11 +2,13 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Param,
   Post,
 } from '@nestjs/common';
+import { CarParts } from 'src/shop/models/car-parts.model';
 import { CartService } from './services/cart.service';
 
 @Controller({
@@ -31,5 +33,12 @@ export class CartController {
     @Param('id_product') id_product,
   ): Promise<string> {
     return this.cartService.removeProduct(id, id_product);
+  }
+  @Get('get-user-cart/:id_user')
+  @HttpCode(HttpStatus.OK)
+  async getUserCart(
+    @Param('id_user') id_user: string,
+  ): Promise<{ car_part: CarParts; quantity: number }[]> {
+    return this.cartService.getUserCart(id_user);
   }
 }

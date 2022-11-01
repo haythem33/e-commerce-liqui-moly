@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { car_parts } from 'src/app/models/cars-parts.model';
 import { ProductService } from '../services/product.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { OwlOptions, SlidesOutputData } from 'ngx-owl-carousel-o';
 @Component({
@@ -11,7 +11,7 @@ import { OwlOptions, SlidesOutputData } from 'ngx-owl-carousel-o';
 })
 export class ProductComponent implements OnInit {
   @Input('product') product!: car_parts;
-  @Input('view') view!: 'carousel' | 'table' | 'large' | 'small';
+  @Input('view') view!: 'carousel' | 'table' | 'large' | 'cart';
   product_image!: Observable<SafeUrl> | Observable<SafeUrl>[];
   activeSlide: number = 0;
   fullWithOption: OwlOptions = {
@@ -94,6 +94,4 @@ export class ProductComponent implements OnInit {
     this.activeSlide = index;
   }
   public addProduct_ToWhishlist() {}
-
-  public addProduct_ToCart() {}
 }

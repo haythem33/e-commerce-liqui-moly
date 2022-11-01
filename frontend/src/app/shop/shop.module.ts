@@ -22,6 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CartModule } from '../cart/cart.module';
 @NgModule({
   declarations: [
     ListProductComponent,
@@ -46,6 +47,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatChipsModule,
     MatDividerModule,
     ScrollingModule,
+    CartModule,
     StoreModule.forFeature('clientFeature', ClientReducers),
   ],
   providers: [ShopService],

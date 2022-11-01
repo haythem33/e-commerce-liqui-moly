@@ -50,4 +50,12 @@ export class CartService {
     );
     return 'REMOVED';
   }
+  async getUserCart(
+    user_id: string,
+  ): Promise<{ car_part: CarParts; quantity: number }[]> {
+    const user = await this.userModel
+      .findById(user_id)
+      .populate({ path: 'cart.car_part', model: CarParts.name });
+    return user.cart;
+  }
 }

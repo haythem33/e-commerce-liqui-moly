@@ -16,6 +16,7 @@ import { environment } from 'src/environments/environment';
 import { MissingInformationComponent } from '../missing-information/missing-information.component';
 import { Store } from '@ngrx/store';
 import { signIn, signOut } from './auth.actions';
+import { user_shop } from 'src/app/models/user-shop.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -35,7 +36,7 @@ export class AuthService {
   }
   open_missing_information_dialog(data?: {
     type: 'LOGIN' | 'REGISTER';
-    user: User;
+    user: user_shop;
   }): void {
     this.dialog.open(MissingInformationComponent, {
       width: '45%',
@@ -73,8 +74,8 @@ export class AuthService {
         )
       );
   }
-  get_user(email: string): Observable<{ message: string; user: User }> {
-    return this.http.get<{ message: string; user: User }>(
+  get_user(email: string): Observable<{ message: string; user: user_shop }> {
+    return this.http.get<{ message: string; user: user_shop }>(
       `${environment.server_url}/auth/currentUser/${email}`
     );
   }
@@ -88,5 +89,8 @@ export class AuthService {
             })
         : this.store.dispatch(signOut());
     });
+  }
+  async logout() {
+    await this.fireAuth.signOut();
   }
 }

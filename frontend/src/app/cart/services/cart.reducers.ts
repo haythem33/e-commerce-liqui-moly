@@ -1,9 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import { car_parts } from 'src/app/models/cars-parts.model';
 import {
+  addProductQuantity,
   addProductToCart,
   loadUserCart,
   removeProductFromCart,
+  removeProductQuantity,
 } from './cart.actions';
 
 export interface cart_State {
@@ -18,7 +20,21 @@ export const CartReducers = createReducer(
   on(addProductToCart, (state, product) => ({
     cart: [...state.cart, product],
   })),
-  on(removeProductFromCart, (state, product) => ({
-    cart: state.cart.filter((part) => part.car_part._id !== product._id),
+  on(removeProductFromCart, (state, { _id }) => ({
+    cart: state.cart.filter((part) => part.car_part._id !== _id),
+  })),
+  on(addProductQuantity, (state, { _id }) => ({
+    cart: state.cart.map((product) =>
+      product.car_part._id === _id
+        ? { ...product, quantity: product.quantity + 1 }
+        : product
+    ),
+  })),
+  on(removeProductQuantity, (state, { _id }) => ({
+    cart: state.cart.map((product) =>
+      product.car_part._id === _id
+        ? { ...product, quantity: product.quantity - 1 }
+        : product
+    ),
   }))
 );

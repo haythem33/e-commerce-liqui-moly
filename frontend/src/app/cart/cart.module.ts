@@ -15,6 +15,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { CoreModule } from '../core/core.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [CartButtonComponent, CheckoutComponent, CartListComponent],
@@ -27,6 +28,7 @@ import { CoreModule } from '../core/core.module';
     MatBadgeModule,
     MatListModule,
     MatDividerModule,
+    FormsModule,
     StoreModule.forFeature('cartFeature', CartReducers),
   ],
   exports: [CartButtonComponent],

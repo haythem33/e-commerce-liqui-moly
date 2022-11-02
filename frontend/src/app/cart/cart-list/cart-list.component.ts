@@ -8,7 +8,11 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { car_parts } from 'src/app/models/cars-parts.model';
 import { user_shop } from 'src/app/models/user-shop.model';
-import { loadUserCart } from '../services/cart.actions';
+import {
+  addProductQuantity,
+  loadUserCart,
+  removeProductQuantity,
+} from '../services/cart.actions';
 import { getCartSelector } from '../services/cart.selectors';
 import { CartService } from '../services/cart.service';
 
@@ -25,7 +29,6 @@ export class CartListComponent implements OnInit, OnDestroy {
   cart_productsImages!: Observable<SafeUrl>[];
   constructor(
     private cartService: CartService,
-    private authService: AuthService,
     private productService: ProductService,
     private store: Store,
     private router: Router
@@ -37,6 +40,47 @@ export class CartListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed.next(true);
     this.destroyed.complete();
+  }
+  updateQuantity(
+    cart: { car_part: car_parts; quantity: number },
+    operation: 'ADD' | 'REMOVE'
+  ): void {
+    if (operation === 'ADD') {
+      if (cart.quantity === cart.car_part.quantity) {
+        return;
+      }
+      this.store.dispatch(
+        addProductQuantity({ _id: cart.car_part._id as string })
+      );
+      this.saveChanges({ ...cart, quantity: cart.quantity + 1 });
+      return;
+    }
+    if (operation === 'REMOVE') {
+      if (cart.quantity - 1 === 0) {
+        return;
+      }
+      this.store.dispatch(
+        removeProductQuantity({ _id: cart.car_part._id as string })
+      );
+      this.saveChanges({ ...cart, quantity: cart.quantity - 1 });
+      return;
+    }
+  }
+  saveChanges(cart: { car_part: car_parts; quantity: number }): void {
+    this.cartService
+      .addProductCart(
+        {
+          car_part_id: cart.car_part._id as string,
+          quantity: cart.quantity,
+        },
+        this.user?._id as string
+      )
+      .pipe(first())
+      .subscribe({
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
   private checkUserIsConnected(): void {
     this.store

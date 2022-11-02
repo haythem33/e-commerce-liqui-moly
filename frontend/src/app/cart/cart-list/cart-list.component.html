@@ -28,7 +28,7 @@
                                 </div>
                             </td>
                             <td class="cart-table__column cart-table__column--product">
-                                <a [routerLink]="['/shop/detail-product',cart.car_part._id]" class="cart-table__product-name">{{cart.car_part.name}}</a>
+                                <a style="font-weight: 500;text-decoration: none;" [routerLink]="['/shop/detail-product',cart.car_part._id]" class="cart-table__product-name">{{cart.car_part.name|uppercase}}</a>
                                 <ul class="cart-table__options">
                                     <li *ngFor="let feature of cart.car_part.features">
                                         {{feature.feature_name}}: {{feature.feature_value}}
@@ -40,13 +40,13 @@
                             </td>
                             <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
                                 <div class="cart-table__quantity input-number">
-                                    <input class="form-control input-number__input" type="number" min="1" [max]="cart.car_part.quantity" [value]="cart.quantity">
-                                    <div class="input-number__add"></div>
-                                    <div class="input-number__sub"></div>
+                                    <input class="form-control input-number__input" [readonly]="true" type="number" [(ngModel)]="cart.quantity" (ngModelChange)="saveChanges(cart)" [value]="cart.quantity">
+                                    <div class="input-number__add" (click)="updateQuantity(cart,'ADD')"></div>
+                                    <div class="input-number__sub" (click)="updateQuantity(cart,'REMOVE')"></div>
                                 </div>
                             </td>
                             <td class="cart-table__column cart-table__column--total" data-title="Total">
-                                {{cart.car_part.price * cart.quantity}} TND
+                                {{cart.car_part.price * cart.quantity|number:'2.3'}} TND
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
                                 <button type="button" class="cart-table__remove btn btn-sm btn-icon btn-muted">
@@ -69,7 +69,7 @@
                             <thead>
                                 <tr>
                                     <th>Sous Total</th>
-                                    <td>{{totalPrice}} TND</td>
+                                    <td>{{totalPrice|number:'2.3'}} TND</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,7 +85,7 @@
                             <tfoot>
                                 <tr>
                                     <th>Total TTC</th>
-                                    <td>{{totalPrice * 1.20}} TND</td>
+                                    <td>{{totalPrice * 1.20|number:'2.3'}} TND</td>
                                 </tr>
                             </tfoot>
                         </table>

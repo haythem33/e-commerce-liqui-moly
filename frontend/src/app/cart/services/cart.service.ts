@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { car_parts } from 'src/app/models/cars-parts.model';
+import { user_shop } from 'src/app/models/user-shop.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -39,5 +40,27 @@ export class CartService {
     return this.http.get<{ car_part: car_parts; quantity: number }[]>(
       `${environment.server_url}/cart/get-user-cart/${id_user}`
     );
+  }
+  loadPayment(sum: number, user: user_shop): Observable<any> {
+    return this.http.post(
+      `${environment.paymeeConfig.api_url}/api/v1/payments/create`,
+      {
+        vendor: environment.paymeeConfig.accountNum,
+        amount: sum,
+        note: `${user.email}`,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${environment.paymeeConfig.token}`,
+        },
+      }
+    );
+  }
+  loadGateWay(res: any): Observable<any> {
+    if (res.message !== 'Success') {
+      return of('Payment Failed');
+    }
+    return of(`https://sandbox.paymee.tn/gateway/${res.data.token}`);
   }
 }

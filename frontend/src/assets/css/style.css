@@ -12415,7 +12415,7 @@ select.form-control-sm {
 .product-card:active .product-card__addtocart-icon:before,
 .product-card:hover .product-card__addtocart-icon:before {
     transform: scale(1);
-    background: #1a79ff
+    background: #3f51b5
 }
 
 .product-card:active .product-card__addtocart-icon:hover,

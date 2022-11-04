@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { CartRoutingModule } from './cart-routing.module';
 import { CartButtonComponent } from './cart-button/cart-button.component';
-import { CheckoutComponent } from './checkout/checkout.component';
+import {
+  CheckoutComponent,
+  EditAdressComponent,
+} from './checkout/checkout.component';
 import { CartListComponent } from './cart-list/cart-list.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { StoreModule } from '@ngrx/store';
@@ -14,11 +17,20 @@ import { CartService } from './services/cart.service';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
-import { CoreModule } from '../core/core.module';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { FormsModule } from '@angular/forms';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
-  declarations: [CartButtonComponent, CheckoutComponent, CartListComponent],
+  declarations: [
+    CartButtonComponent,
+    CheckoutComponent,
+    CartListComponent,
+    EditAdressComponent,
+  ],
   imports: [
     CommonModule,
     CartRoutingModule,
@@ -29,6 +41,12 @@ import { FormsModule } from '@angular/forms';
     MatListModule,
     MatDividerModule,
     FormsModule,
+    MatStepperModule,
+    MatBottomSheetModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
     StoreModule.forFeature('cartFeature', CartReducers),
   ],
   exports: [CartButtonComponent],

@@ -14,6 +14,11 @@ export const environment = {
     appId: '1:978005805119:web:881300173640118e80108a',
     measurementId: 'G-V9NZM62J2T',
   },
+  paymeeConfig: {
+    api_url: 'https://sandbox.paymee.tn',
+    token: 'c0d2bbb79dabe9eac33f9df4cb9fbca75433e291',
+    accountNum: 2529,
+  },
 };
 
 /*

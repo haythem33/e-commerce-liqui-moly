@@ -61,7 +61,7 @@ export class AuthService {
       )
     );
   }
-  send_user_register(user: User): Observable<any> {
+  send_user_register(user: user_shop): Observable<any> {
     return this.http
       .post(environment.server_url + '/auth/register', user, {
         responseType: 'text',

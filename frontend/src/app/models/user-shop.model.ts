@@ -9,8 +9,8 @@ export interface user_shop {
   photoURL: string;
   provider: string;
   emailVerified: boolean;
-  address: {
-    string: string;
+  adresse: {
+    street: string;
     city: string;
     state: string;
   };

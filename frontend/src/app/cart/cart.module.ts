@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CartRoutingModule } from './cart-routing.module';
 import { CartButtonComponent } from './cart-button/cart-button.component';
-import {
-  CheckoutComponent,
-  EditAdressComponent,
-} from './checkout/checkout.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 import { CartListComponent } from './cart-list/cart-list.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { StoreModule } from '@ngrx/store';
@@ -24,12 +21,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { InvoiceComponent } from './checkout/invoice/invoice.component';
+import { EditAdresseComponent } from './checkout/edit-adresse/edit-adresse.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 @NgModule({
   declarations: [
     CartButtonComponent,
     CheckoutComponent,
     CartListComponent,
-    EditAdressComponent,
+    InvoiceComponent,
+    EditAdresseComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +48,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    PdfViewerModule,
     StoreModule.forFeature('cartFeature', CartReducers),
   ],
   exports: [CartButtonComponent],

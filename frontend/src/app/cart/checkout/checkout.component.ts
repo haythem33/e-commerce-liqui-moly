@@ -1,47 +1,31 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
-  Inject,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthService } from 'src/app/auth/services/auth.service';
+
 import { user_shop } from 'src/app/models/user-shop.model';
 import { AuthSelectors } from '../../auth/services/auth.selectors';
-import { signIn } from 'src/app/auth/services/auth.actions';
 import { getCartSelector } from '../services/cart.selectors';
 import { car_parts } from '../../models/cars-parts.model';
-import {
-  first,
-  map,
-  Observable,
-  Subject,
-  switchMap,
-  takeUntil,
-  tap,
-} from 'rxjs';
+import { first, map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatStepper, StepperOrientation } from '@angular/material/stepper';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import {
-  MatBottomSheet,
-  MatBottomSheetRef,
-  MAT_BOTTOM_SHEET_DATA,
-} from '@angular/material/bottom-sheet';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { CartService } from '../services/cart.service';
-import {
-  DomSanitizer,
-  SafeResourceUrl,
-  SafeUrl,
-} from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { EditAdresseComponent } from './edit-adresse/edit-adresse.component';
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.sass'],
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
   user!: user_shop;
   cart_list!: { car_part: car_parts; quantity: number }[];
   destroyed: Subject<boolean> = new Subject<boolean>();
@@ -71,7 +55,11 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.checkUserIsConntected();
   }
-
+  ngOnDestroy(): void {
+    this.destroyed.next(true);
+    this.destroyed.complete();
+  }
+  // PUBLIC METHOD
   nextStep(step: 1 | 2 | 3 | 4) {
     if (step === 1) {
       this.checkoutStepper.next();
@@ -99,6 +87,8 @@ export class CheckoutComponent implements OnInit {
             },
           });
       } else {
+        this.stepsComplete.step3 = true;
+        this.nextStep(4);
       }
       return;
     }
@@ -106,12 +96,12 @@ export class CheckoutComponent implements OnInit {
       this.checkoutStepper.next();
     }
   }
-
   editAdress(): void {
-    this._bottomSheet.open(EditAdressComponent, {
+    this._bottomSheet.open(EditAdresseComponent, {
       data: { ...this.user },
     });
   }
+
   chosePayment(checkedIndex: 0 | 1): void {
     if (checkedIndex === 0) {
       this.paymentMethode.PayWithDeleviry = false;
@@ -123,6 +113,20 @@ export class CheckoutComponent implements OnInit {
     this.paymentMethode.bankTransfer = false;
     this.stepsComplete.step2 = true;
   }
+  PaymentComplete(): void {
+    if (!this.paymentFrame) {
+      return;
+    }
+    window.addEventListener('message', (event: any) => {
+      if (event.data.event_id === 'paymee.complete') {
+        this.stepsComplete.step3 = true;
+        this.nextStep(4);
+        window.removeEventListener('message', () => {});
+      }
+    });
+  }
+
+  // PRIVATE METHOD
   private checkUserIsConntected(): void {
     this.store
       .select(AuthSelectors)
@@ -156,46 +160,5 @@ export class CheckoutComponent implements OnInit {
         prevVal + currentVal.car_part.price * currentVal.quantity,
       0
     );
-  }
-  public awaitPaymentComplete(): void {
-    if (!this.paymentFrame) {
-      return;
-    }
-    window.addEventListener('message', (event: any) => {
-      if (event.data.event_id === 'paymee.complete') {
-        this.stepsComplete.step3 = true;
-        this.nextStep(4);
-        window.removeEventListener('message', () => {});
-      }
-    });
-  }
-}
-
-@Component({
-  selector: 'app-edit-adress',
-  templateUrl: './editAdress.component.html',
-})
-export class EditAdressComponent implements OnInit {
-  streetRegex: RegExp = new RegExp(/^\s*\S+(?:\s+\S+){2}/);
-  alwaysAdressEdit: boolean = false;
-  adresse!: { state: string; city: string; street: string };
-  constructor(
-    private _bottomSheetRef: MatBottomSheetRef<EditAdressComponent>,
-    private store: Store,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public user: user_shop
-  ) {}
-  ngOnInit(): void {
-    this.adresse = { ...this.user.adresse };
-  }
-
-  save() {
-    if (this.alwaysAdressEdit) {
-      // SAVE THE EDITED ADRESS
-    }
-    this.store.dispatch(signIn({ ...this.user, adresse: this.adresse }));
-    this._bottomSheetRef.dismiss();
-  }
-  cancel() {
-    this._bottomSheetRef.dismiss();
   }
 }

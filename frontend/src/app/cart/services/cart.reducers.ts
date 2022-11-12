@@ -4,6 +4,7 @@ import {
   addProductQuantity,
   addProductToCart,
   loadUserCart,
+  removeAllCart,
   removeProductFromCart,
   removeProductQuantity,
 } from './cart.actions';
@@ -36,5 +37,6 @@ export const CartReducers = createReducer(
         ? { ...product, quantity: product.quantity - 1 }
         : product
     ),
-  }))
+  })),
+  on(removeAllCart, (state) => ({ cart: [] }))
 );

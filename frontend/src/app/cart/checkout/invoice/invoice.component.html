@@ -1,107 +1,111 @@
 <ng-container *ngIf="user">
-    <div class="d-flex justify-content-center" *ngIf="pdfProgress">
+    <div class="d-flex justify-content-center mt-5" style="min-height: 300px;" *ngIf="pdfProgress">
         <mat-spinner></mat-spinner>
     </div>
-    <div class="d-flex justify-content-center" *ngIf="!pdfProgress">
-        <button mat-raised-button color="primary" (click)="savePdf()">Télécharger la facture</button>
+    <div style="min-height: 300px;" class="mt-5">
+        <div class="d-flex justify-content-center " *ngIf="!pdfProgress">
+            <button mat-raised-button class="m-2" color="primary" (click)="savePdf()">Télécharger la facture</button>
+            <ng-content select="[nextStep]"></ng-content>
+        </div>
     </div>
-    <div *ngIf="!pdfProgress" #invoice class="container mt-3" style="background-color: #d1d3d5;">
-        <div class="d-flex justify-content-between">
-            <div>
-                <img src="../../../../assets/images/logo_SCODEP-1.png" style="width:50%" />
+    <div style="visibility: hidden">
+        <div #invoice class="container" style="background-color: #d1d3d5;">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <img src="../../../../assets/images/logo_SCODEP-1.png" style="width:50%" />
+                </div>
+                <div>
+                    <mat-list dense>
+                        <mat-list-item style="color:#1c2a6c">
+                            Date : {{date_facture|date:'yyyy-MM-dd'}}
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            Nom du destinaire: {{user.displayName}}
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            Etat: {{user.adresse.state}}
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            Ville: {{user.adresse.city}}
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            Rue : {{user.adresse.street}}
+                        </mat-list-item>
+                    </mat-list>
+                </div>
             </div>
-            <div>
-                <mat-list dense>
-                    <mat-list-item style="color:#1c2a6c">
-                        Date : {{date_facture|date:'yyyy-MM-dd'}}
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        Nom du destinaire: {{user.displayName}}
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        Etat: {{user.adresse.state}}
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        Ville: {{user.adresse.city}}
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        Rue : {{user.adresse.street}}
-                    </mat-list-item>
-                </mat-list>
-            </div>
-        </div>
-        <div class="text-center mt-4">
-            <table class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr style="background-color:#1c2a6c;color: white;">
-                        <th scope="col">Description</th>
-                        <th scope="col">Quantité</th>
-                        <th scope="col">Prix unitaire HT</th>
-                        <th scope="col">Prix total HT</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let cart of cart_list">
-                        <th scope="row">{{cart.car_part.name}}</th>
-                        <td>{{cart.quantity}}</td>
-                        <td>{{cart.car_part.price|number:'2.3'}} TND</td>
-                        <td>{{cart.car_part.price * cart.quantity|number:'2.3'}} TND</td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-        <div class="d-flex justify-content-between mt-4">
-            <div style="width: 33%;">
+            <div class="text-center mt-4">
                 <table class="table table-bordered">
                     <thead class="thead-dark">
                         <tr style="background-color:#1c2a6c;color: white;">
-                            <th scope="col">Remarques et instructions de paiement :</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Prix unitaire HT</th>
+                            <th scope="col">Prix total HT</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                À inclure ici: L’indemnité forfaitaire pour frais de recouvrement en cas de retard de paiement Numéro de compte bancaire, BIC, IBAN...
-                            </td>
+                        <tr *ngFor="let cart of cart_list">
+                            <th scope="row">{{cart.car_part.name}}</th>
+                            <td>{{cart.quantity}}</td>
+                            <td>{{cart.car_part.price|number:'2.3'}} TND</td>
+                            <td>{{cart.car_part.price * cart.quantity|number:'2.3'}} TND</td>
                         </tr>
+
                     </tbody>
                 </table>
             </div>
-            <div>
-                <mat-list dense>
-                    <mat-list-item style="color:#1c2a6c">
-                        SOUS-TOTAL: {{totalPrice|number:'2.3'}} TND
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        REMISE: 0.000 TND
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        SOUS-TOTAL MOINS LES REMISES : 0.000 TND
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        TAUX TVA : 19%
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        TOTAL TTC : {{totalPrice * 1.19|number:'2.3'}} TND
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        EXPÉDITION ET MANUTENTION : 0.000 TND
-                    </mat-list-item>
-                    <mat-list-item style="color:#1c2a6c">
-                        SOMME FINALE À PAYER : {{totalPrice * 1.19|number:'2.3'}} TND
-                    </mat-list-item>
-                </mat-list>
+            <div class="d-flex justify-content-between mt-4">
+                <div style="width: 33%;">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr style="background-color:#1c2a6c;color: white;">
+                                <th scope="col">Remarques et instructions de paiement :</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    À inclure ici: L’indemnité forfaitaire pour frais de recouvrement en cas de retard de paiement Numéro de compte bancaire, BIC, IBAN...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <mat-list dense>
+                        <mat-list-item style="color:#1c2a6c">
+                            SOUS-TOTAL: {{totalPrice|number:'2.3'}} TND
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            REMISE: 0.000 TND
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            SOUS-TOTAL MOINS LES REMISES : 0.000 TND
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            TAUX TVA : 19%
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            TOTAL TTC : {{totalPrice * 1.19|number:'2.3'}} TND
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            EXPÉDITION ET MANUTENTION : 0.000 TND
+                        </mat-list-item>
+                        <mat-list-item style="color:#1c2a6c">
+                            SOMME FINALE À PAYER : {{totalPrice * 1.19|number:'2.3'}} TND
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </div>
+            <div class="text-center mt-4" style="color:#1c2a6c">
+                <h4>Nous apprécions votre clientèle.</h4>
+                <p>Si vous-avez des questions sur cette facture, n'hésitez pas à nous contacter.</p>
+            </div>
+            <div class="text-center mt-4" style="color:#1c2a6c">
+                <h4>contact: scodep@topnet.tn<br> Télèphone: 98 754 741
+                </h4>
             </div>
         </div>
-        <div class="text-center mt-4" style="color:#1c2a6c">
-            <h4>Nous apprécions votre clientèle.</h4>
-            <p>Si vous-avez des questions sur cette facture, n'hésitez pas à nous contacter.</p>
-        </div>
-        <div class="text-center mt-4" style="color:#1c2a6c">
-            <h4>contact: scodep@topnet.tn<br> Télèphone: 98 754 741
-            </h4>
-        </div>
     </div>
-
 </ng-container>

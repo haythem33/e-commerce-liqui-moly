@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { user, UserDocument } from 'src/auth/models/user.model';
 import { CarParts, CarPartsDocument } from 'src/shop/models/car-parts.model';
-
+import { orderState, paymentMethod } from 'src/auth/models/user.model';
 @Injectable()
 export class CartService {
   constructor(
@@ -57,5 +57,46 @@ export class CartService {
       .findById(user_id)
       .populate({ path: 'cart.car_part', model: CarParts.name });
     return user.cart;
+  }
+  async add_order(
+    id_user: string,
+    invoice: Express.Multer.File,
+    body: {
+      orderPayment: paymentMethod;
+      totalPriceTTC: number;
+      totalPriceHT: number;
+      adress?: Record<string, string>;
+    },
+  ): Promise<string> {
+    const user = await this.userModel.findById(id_user);
+    if (!user) {
+      throw new HttpException('Invalid user', HttpStatus.FORBIDDEN);
+    }
+    const order = {
+      orderStatus: orderState.waiting_delivery,
+      orderInvoiceUrl: invoice.filename,
+      orderPayment: body.orderPayment,
+      order: user.cart,
+      totalPriceTTC: body.totalPriceTTC,
+      totalPriceHT: body.totalPriceHT,
+      adress: body.adress === undefined ? body.adress : user.adresse,
+      order_date: new Date(),
+    };
+    await Promise.all(
+      user.cart.map((value) =>
+        this.carPartModel.updateOne(
+          { _id: value.car_part },
+          { $inc: { quantity: -value.quantity } },
+        ),
+      ),
+    );
+    await this.userModel.updateOne(
+      { _id: id_user },
+      {
+        $push: { orders: order },
+        $set: { cart: [] },
+      },
+    );
+    return 'ORDER ADDED';
   }
 }

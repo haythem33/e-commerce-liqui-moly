@@ -6,6 +6,8 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -21,13 +23,14 @@ import { jsPDF } from 'jspdf';
   styleUrls: ['./invoice.component.sass'],
 })
 export class InvoiceComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input('payment') payment!: 'bankTransfer' | 'PayWithDeleviry';
+  @Output() invoice_change: EventEmitter<Blob> = new EventEmitter<Blob>();
   destroyed = new Subject<boolean>();
   user!: user_shop;
   cart_list!: { car_part: car_parts; quantity: number }[];
   totalPrice: number = 0;
   date_facture = Date.now();
   pdfProgress: boolean = true;
+  private saveFunction!: Function;
   @ViewChild('invoice') pdfView!: ElementRef;
   constructor(private store: Store, private router: Router) {}
 
@@ -63,7 +66,7 @@ export class InvoiceComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.destroyed))
       .subscribe((cart) => {
         if (cart.length === 0) {
-          this.router.navigate(['/shop']);
+          // this.router.navigate(['/shop']);
           return;
         }
         this.cart_list = cart;
@@ -77,7 +80,7 @@ export class InvoiceComponent implements OnInit, OnDestroy, AfterViewInit {
       0
     );
   }
-  private async generatePdf(): Promise<void> {
+  private generatePdf(): void {
     if (!this.pdfView) {
       return;
     }
@@ -91,10 +94,16 @@ export class InvoiceComponent implements OnInit, OnDestroy, AfterViewInit {
       ],
     });
     pdf.html(this.pdfView.nativeElement, {
-      callback: async (doc: jsPDF) => {},
+      callback: (doc: jsPDF) => {
+        this.invoice_change.emit(doc.output('blob'));
+        this.saveFunction = () =>
+          doc.save(`${this.user.displayName}-FACTURE.pdf`);
+        this.pdfView.nativeElement.remove();
+        this.pdfProgress = false;
+      },
     });
   }
   public savePdf(): void {
-    this.pdfView.nativeElement.remove();
+    this.saveFunction();
   }
 }

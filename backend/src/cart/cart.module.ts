@@ -4,9 +4,10 @@ import { user, UserSchema } from 'src/auth/models/user.model';
 import { CarParts, CarPartsSchema } from 'src/shop/models/car-parts.model';
 import { CartController } from './cart.controller';
 import { CartService } from './services/cart.service';
+import { CheckoutController } from './checkout/checkout.controller';
 
 @Module({
-  controllers: [CartController],
+  controllers: [CartController, CheckoutController],
   imports: [
     MongooseModule.forFeature([
       { name: CarParts.name, schema: CarPartsSchema },

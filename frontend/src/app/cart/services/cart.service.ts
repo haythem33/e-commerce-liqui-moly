@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { car_parts } from 'src/app/models/cars-parts.model';
-import { user_shop } from 'src/app/models/user-shop.model';
+import { paymentMethod, user_shop } from 'src/app/models/user-shop.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -62,5 +62,14 @@ export class CartService {
       return of('Payment Failed');
     }
     return of(`https://sandbox.paymee.tn/gateway/${res.data.token}`);
+  }
+  sendOrder(user_id: string, order: FormData): Observable<string> {
+    return this.http.post(
+      `${environment.server_url}/checkout/add-order/${user_id}`,
+      order,
+      {
+        responseType: 'text',
+      }
+    );
   }
 }

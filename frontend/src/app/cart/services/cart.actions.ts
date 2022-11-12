@@ -21,3 +21,4 @@ export const removeProductFromCart = createAction(
   'removeProductFromCart',
   props<{ _id: string }>()
 );
+export const removeAllCart = createAction('removeAllCart');

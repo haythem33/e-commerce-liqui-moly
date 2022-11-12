@@ -20,21 +20,21 @@ export class EditAdresseComponent implements OnInit {
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<EditAdresseComponent>,
     private store: Store,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public user: user_shop
+    @Inject(MAT_BOTTOM_SHEET_DATA)
+    public user_adress: { state: string; city: string; street: string }
   ) {}
 
   ngOnInit(): void {
-    this.adresse = { ...this.user.adresse };
+    this.adresse = { ...this.user_adress };
   }
 
   save() {
     if (this.alwaysAdressEdit) {
       // SAVE THE EDITED ADRESS
     }
-    this.store.dispatch(signIn({ ...this.user, adresse: this.adresse }));
-    this._bottomSheetRef.dismiss();
+    this._bottomSheetRef.dismiss(this.adresse);
   }
   cancel() {
-    this._bottomSheetRef.dismiss();
+    this._bottomSheetRef.dismiss(this.adresse);
   }
 }

@@ -1,4 +1,5 @@
 import { car_parts } from './cars-parts.model';
+import { cars } from './cars.model';
 export enum orderState {
   waiting_delivery = 'EN ATTENTE DE LIVRAISON',
   Out_for_delivery = 'EN COURS DE LIVRAISON',
@@ -31,4 +32,5 @@ export interface user_shop {
       order: Array<{ car_part: car_parts; quantity: number }>;
     }
   ];
+  cars: cars[];
 }

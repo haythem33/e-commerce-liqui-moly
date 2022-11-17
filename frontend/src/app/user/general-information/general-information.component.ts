@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Store } from '@ngrx/store';
 import { first, Subject, takeUntil } from 'rxjs';
+import { signIn } from 'src/app/auth/services/auth.actions';
 import { AuthSelectors } from 'src/app/auth/services/auth.selectors';
 import { EditAdresseComponent } from 'src/app/cart/checkout/edit-adresse/edit-adresse.component';
 import { user_shop } from 'src/app/models/user-shop.model';
@@ -28,12 +29,13 @@ export class GeneralInformationComponent implements OnInit, OnDestroy {
   editAdress(): void {
     this._bottomSheet
       .open(EditAdresseComponent, {
-        data: { ...this.adresse },
+        data: { ...this.adresse, always: true },
       })
       .afterDismissed()
       .pipe(first())
       .subscribe({
         next: (adress) => {
+          this.store.dispatch(signIn({ ...this.user, adresse: adress }));
           this.adresse = adress;
         },
       });

@@ -51,5 +51,6 @@ import { CartModule } from '../cart/cart.module';
     StoreModule.forFeature('clientFeature', ClientReducers),
   ],
   providers: [ShopService],
+  exports: [AddCarDialogComponent],
 })
 export class ShopModule {}

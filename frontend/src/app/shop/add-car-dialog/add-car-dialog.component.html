@@ -30,6 +30,6 @@
     </div>
     <div class="vehicle-picker-modal__actions">
         <button type="button" class="btn btn-sm btn-secondary vehicle-picker-modal__close-button" (click)="cancel()">Cancel</button>
-        <button type="button" class="btn btn-sm btn-primary" (click)="addCar()" [disabled]="!carToFind.Make || !carToFind.Model || !carToFind.Year">Add A Vehicle</button>
+        <button type="button" class="btn btn-sm" style="background-color: #3f51b5; color: white;" (click)="addCar()" [disabled]="!carToFind.Make || !carToFind.Model || !carToFind.Year">Add A Vehicle</button>
     </div>
 </div>

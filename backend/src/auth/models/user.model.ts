@@ -1,6 +1,7 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { CarParts } from 'src/shop/models/car-parts.model';
+import { car } from 'src/shop/models/car.model';
 export type UserDocument = user & Document;
 export enum orderState {
   waiting_delivery = 'EN ATTENTE DE LIVRAISON',
@@ -94,5 +95,11 @@ export class user {
     adress: Record<string, string>;
     order: Array<{ car_part: CarParts; quantity: number }>;
   }>;
+  @Prop({
+    required: true,
+    default: [],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: car.name }],
+  })
+  cars: car[];
 }
 export const UserSchema = SchemaFactory.createForClass(user);

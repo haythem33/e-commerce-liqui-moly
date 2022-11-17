@@ -25,7 +25,12 @@ export class EditAdresseComponent implements OnInit {
     private store: Store,
     private cartService: CartService,
     @Inject(MAT_BOTTOM_SHEET_DATA)
-    public user_adress: { state: string; city: string; street: string }
+    public user_adress: {
+      state: string;
+      city: string;
+      street: string;
+      always: boolean;
+    }
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +38,9 @@ export class EditAdresseComponent implements OnInit {
   }
 
   save() {
-    console.log(this.alwaysAdressEdit);
+    if (this.user_adress.always) {
+      this.alwaysAdressEdit = true;
+    }
     if (!this.alwaysAdressEdit) {
       this._bottomSheetRef.dismiss(this.adresse);
       return;

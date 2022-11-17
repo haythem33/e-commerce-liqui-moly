@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Param,
+  Post,
   Query,
   UsePipes,
 } from '@nestjs/common';
@@ -95,5 +97,21 @@ export class ShopController {
       brands,
       price,
     );
+  }
+  @Post('add-user-cars/:user_id')
+  @HttpCode(HttpStatus.OK)
+  async addUserCars(
+    @Param('user_id') user_id: string,
+    @Body() user_car: car,
+  ): Promise<string> {
+    return this.shopService.addUserCar(user_id, user_car);
+  }
+  @Post('remove-user-cars/:user_id')
+  @HttpCode(HttpStatus.OK)
+  async removeUserCars(
+    @Param('user_id') user_id: string,
+    @Body() user_car: car,
+  ): Promise<string> {
+    return this.shopService.removeUserCar(user_id, user_car);
   }
 }

@@ -1,8 +1,14 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  OnApplicationBootstrap,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
+import { user, UserDocument } from 'src/auth/models/user.model';
 import { CarCategory, CarCategoryDocument } from '../models/car-category.model';
 import { CarParts, CarPartsDocument } from '../models/car-parts.model';
 import { car, CarDocument } from '../models/car.model';
@@ -17,6 +23,7 @@ export class ShopService implements OnApplicationBootstrap {
     private readonly carCategoryModel: Model<CarCategoryDocument>,
     @InjectModel(CarParts.name)
     private readonly carPartsModel: Model<CarPartsDocument>,
+    @InjectModel(user.name) private readonly userModel: Model<UserDocument>,
   ) {}
   onApplicationBootstrap() {
     this.insert_list_cars();
@@ -126,7 +133,43 @@ export class ShopService implements OnApplicationBootstrap {
       .find(this.queryBySubCategory(subCategory))
       .find(this.queryByPrice(price));
   }
-  async queryByCarOrBrands(cars: car[], brands: string[]) {
+  async addUserCar(user_id: string, user_car: car): Promise<string> {
+    const findCar = await this.carModel.findOne({
+      Make: user_car.Make,
+      Model: user_car.Model,
+      Year: user_car.Year,
+    });
+    const result = await this.userModel.updateOne(
+      {
+        id: user_id,
+        cars: { $ne: findCar._id },
+      },
+      {
+        $addToSet: { cars: findCar },
+      },
+    );
+    if (result.modifiedCount === 0) {
+      throw new HttpException('CAR ALEARDY EXISTS', HttpStatus.FORBIDDEN);
+    }
+    return 'CAR ADDED';
+  }
+  async removeUserCar(user_id: string, user_car: car): Promise<string> {
+    const findCar = await this.carModel.findOne({
+      Make: user_car.Make,
+      Model: user_car.Model,
+      Year: user_car.Year,
+    });
+    const result = await this.userModel.updateOne(
+      { _id: user_id },
+      { $pull: { cars: findCar._id } },
+    );
+    if (result.modifiedCount === 0) {
+      throw new HttpException('NO CAR FOUND', HttpStatus.NOT_FOUND);
+    }
+    return 'CAR REMOVED';
+  }
+  // PRIVATE METHODE
+  private async queryByCarOrBrands(cars: car[], brands: string[]) {
     if (cars.length === 0 && brands.length === 0) {
       return {};
     }
@@ -151,19 +194,19 @@ export class ShopService implements OnApplicationBootstrap {
       };
     }
   }
-  queryByCategory(categorys: CarCategory[]) {
+  private queryByCategory(categorys: CarCategory[]) {
     if (categorys.length === 0) {
       return {};
     }
     return { category: categorys.map((category) => (category as any)._id) };
   }
-  queryBySubCategory(subCategory: string[]) {
+  private queryBySubCategory(subCategory: string[]) {
     if (subCategory.length === 0) {
       return {};
     }
     return { sub_category: { $in: subCategory } };
   }
-  queryByPrice(price: { min: number; max: number }) {
+  private queryByPrice(price: { min: number; max: number }) {
     return {
       price: {
         $gte: price.min > 0 ? price.min : 1,

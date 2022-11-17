@@ -1,0 +1,32 @@
+<div class="dashboard" *ngIf="user">
+    <div class="dashboard__profile card profile-card">
+        <div class="card-body profile-card__body">
+            <div class="profile-card__avatar"><img [src]="user.photoURL" alt=""></div>
+            <div class="profile-card__name">{{user.displayName}}</div>
+            <div class="profile-card__email">{{user.email}}</div>
+
+        </div>
+    </div>
+    <div class="dashboard__address card address-card address-card--featured">
+        <div class="address-card__badge tag-badge" style="background-color:#3f51b5;color:white">Adresse
+        </div>
+        <div class="address-card__body">
+            <div class="address-card__name">{{adresse.state}}</div>
+            <div class="address-card__row">{{adresse.city}} {{adresse.street}}
+            </div>
+            <div class="address-card__row">
+                <div class="address-card__row-title">Numéro de téléphone</div>
+                <div class="address-card__row-content">{{user.phoneNumber}}</div>
+            </div>
+            <div class="address-card__row">
+                <div class="address-card__row-title">Adresse e-mail</div>
+                <div class="address-card__row-content">{{user.email}}</div>
+            </div>
+            <div class="address-card__footer">
+                <button mat-button color="primary" (click)="editAdress()">
+                    Modifier l'adresse
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

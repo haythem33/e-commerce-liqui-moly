@@ -23,7 +23,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { InvoiceComponent } from './checkout/invoice/invoice.component';
 import { EditAdresseComponent } from './checkout/edit-adresse/edit-adresse.component';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   declarations: [
@@ -50,10 +49,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatInputModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    PdfViewerModule,
     StoreModule.forFeature('cartFeature', CartReducers),
   ],
-  exports: [CartButtonComponent],
+  exports: [CartButtonComponent, EditAdresseComponent],
   providers: [CartService],
 })
 export class CartModule {}

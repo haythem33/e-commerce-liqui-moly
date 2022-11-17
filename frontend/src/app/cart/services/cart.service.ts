@@ -72,4 +72,14 @@ export class CartService {
       }
     );
   }
+  editUserAdresse(
+    user_id: string,
+    adresse: { state: string; city: string; street: string }
+  ): Observable<string> {
+    return this.http.post(
+      `${environment.server_url}/checkout/edit-adresse/${user_id}`,
+      adresse,
+      { responseType: 'text' }
+    );
+  }
 }

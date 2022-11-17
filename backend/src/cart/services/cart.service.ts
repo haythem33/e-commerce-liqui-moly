@@ -99,4 +99,17 @@ export class CartService {
     );
     return 'ORDER ADDED';
   }
+  async editUserAdress(
+    id_user: string,
+    adress: { state: string; city: string; street: string },
+  ): Promise<string> {
+    const editResult = await this.userModel.updateOne(
+      { _id: id_user },
+      { $set: { adresse: adress } },
+    );
+    if (!editResult.acknowledged) {
+      throw new HttpException('SERVER ERROR', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return 'SUCCESS';
+  }
 }

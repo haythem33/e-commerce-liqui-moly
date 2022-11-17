@@ -42,6 +42,6 @@ export class CheckoutController {
     @Param('id_user') id_user: string,
     @Body() adresse: { state: string; city: string; street: string },
   ): Promise<string> {
-    return '';
+    return this.cartService.editUserAdress(id_user, adresse);
   }
 }

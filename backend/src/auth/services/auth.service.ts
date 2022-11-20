@@ -45,7 +45,8 @@ export class AuthService {
       .populate({
         path: 'cars',
         model: car.name,
-      });
+      })
+      .select('-orders');
     if (!findUser) {
       throw new HttpException('NOT FOUND', HttpStatus.NOT_FOUND);
     }

@@ -199,40 +199,4 @@
         </mat-stepper>
     </div>
 </div>
-
-<!-- <div class="d-flex justify-content-around flex-wrap mt-3">
-    <div class="d-flex flex-column">
-        <figure *ngFor="let cart of cart_list;let i = index">
-            <img [src]="cart_productsImages[i] | async" alt="">
-            <figcaption>
-                <h4>{{cart.car_part.name}} * {{cart.quantity}}</h4>
-                <h6 *ngFor="let feature of cart.car_part.features">{{feature.feature_name}} : {{feature.feature_value}}
-                </h6>
-
-            </figcaption>
-        </figure>
-    </div>
-    <mat-stepper [linear]="true" orientation="vertical">
-        <mat-step [editable]="false" [completed]="false" state="orderProcess">
-            <ng-template matStepLabel>Finalisation de la commande</ng-template>
-        </mat-step>
-        <mat-step [editable]="false" [completed]="false" state="orderShipped">
-            <ng-template matStepLabel>Commande en route</ng-template>
-        </mat-step>
-        <mat-step [editable]="false" [completed]="false" state="home">
-            <ng-template matStepLabel>Commande arrivée</ng-template>
-        </mat-step>
-        
-        <ng-template matStepperIcon="orderProcess">
-            <mat-icon>list_alt</mat-icon>
-        </ng-template>
-        <ng-template matStepperIcon="orderShipped">
-            <mat-icon>delivery_dining</mat-icon>
-        </ng-template>
-        <ng-template matStepPerIcon="home">
-            <mat-icon>home</mat-icon>
-        </ng-template>
-    </mat-stepper>
-</div> -->
-
 <div class="block-space block-space--layout--before-footer"></div>

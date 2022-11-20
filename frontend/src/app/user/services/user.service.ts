@@ -3,8 +3,14 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, tap } from 'rxjs';
 import { signIn } from 'src/app/auth/services/auth.actions';
+import { car_parts } from 'src/app/models/cars-parts.model';
 import { cars } from 'src/app/models/cars.model';
-import { user_shop } from 'src/app/models/user-shop.model';
+import {
+  user_shop,
+  orderState,
+  paymentMethod,
+  order,
+} from 'src/app/models/user-shop.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -38,6 +44,16 @@ export class UserService {
       {
         responseType: 'text',
       }
+    );
+  }
+  get_ongoing_orders(user_id: string): Observable<order[]> {
+    return this.http.get<order[]>(
+      `${environment.server_url}/checkout/get-ongoing-orders/${user_id}`
+    );
+  }
+  get_completed_orders(user_id: string): Observable<order[]> {
+    return this.http.get<order[]>(
+      `${environment.server_url}/checkout/get-completed-orders/${user_id}`
     );
   }
 }

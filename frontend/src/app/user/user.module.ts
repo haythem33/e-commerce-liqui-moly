@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { UserRoutingModule } from './user-routing.module';
 import { OrderTrackingComponent } from './order-tracking/order-tracking.component';
 import { GarageComponent } from './garage/garage.component';
-import { OrderHistoryComponent } from './order-history/order-history.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GeneralInformationComponent } from './general-information/general-information.component';
 import { CartModule } from '../cart/cart.module';
@@ -13,12 +12,15 @@ import { ShopModule } from '../shop/shop.module';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [
     OrderTrackingComponent,
     GarageComponent,
-    OrderHistoryComponent,
     DashboardComponent,
     GeneralInformationComponent,
   ],
@@ -30,6 +32,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatBottomSheetModule,
     MatIconModule,
     MatSnackBarModule,
+    MatStepperModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    NgxExtendedPdfViewerModule,
     ShopModule,
   ],
 })

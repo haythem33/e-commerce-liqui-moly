@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { user, UserDocument } from 'src/auth/models/user.model';
+import { order, user, UserDocument } from 'src/auth/models/user.model';
 import { CarParts, CarPartsDocument } from 'src/shop/models/car-parts.model';
 import { orderState, paymentMethod } from 'src/auth/models/user.model';
 @Injectable()
@@ -98,6 +98,14 @@ export class CartService {
       },
     );
     return 'ORDER ADDED';
+  }
+
+  async getAllOrders(id: string): Promise<order[]> {
+    const user = await this.userModel.findById(id).populate({
+      path: 'orders.order.car_part',
+      model: CarParts.name,
+    });
+    return user.orders;
   }
   async editUserAdress(
     id_user: string,

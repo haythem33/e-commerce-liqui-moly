@@ -3,13 +3,23 @@ import mongoose, { Document } from 'mongoose';
 import { CarParts } from 'src/shop/models/car-parts.model';
 import { car } from 'src/shop/models/car.model';
 export type UserDocument = user & Document;
+
 export enum orderState {
   waiting_delivery = 'EN ATTENTE DE LIVRAISON',
   Out_for_delivery = 'EN COURS DE LIVRAISON',
+  FINISHED = 'LIVRAISON TERMINER',
 }
 export enum paymentMethod {
   bankTransfer = 'VIREMENT BANCAIRE',
   PayWithDeleviry = 'PAYMENT A LA LIVRAISON',
+}
+
+export interface order {
+  orderStatus: orderState;
+  orderInvoiceUrl: string;
+  orderPayment: paymentMethod;
+  adress: Record<string, string>;
+  order: Array<{ car_part: CarParts; quantity: number }>;
 }
 @Schema()
 export class user {
@@ -88,13 +98,7 @@ export class user {
       },
     ]),
   })
-  orders: Array<{
-    orderStatus: orderState;
-    orderInvoiceUrl: string;
-    orderPayment: paymentMethod;
-    adress: Record<string, string>;
-    order: Array<{ car_part: CarParts; quantity: number }>;
-  }>;
+  orders: order[];
   @Prop({
     required: true,
     default: [],

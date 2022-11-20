@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GarageComponent } from './garage/garage.component';
 import { GeneralInformationComponent } from './general-information/general-information.component';
-import { OrderHistoryComponent } from './order-history/order-history.component';
 import { OrderTrackingComponent } from './order-tracking/order-tracking.component';
 
 const routes: Routes = [
@@ -24,10 +23,6 @@ const routes: Routes = [
       {
         path: 'order-tracking',
         component: OrderTrackingComponent,
-      },
-      {
-        path: 'order-history',
-        component: OrderHistoryComponent,
       },
       {
         path: 'garage',

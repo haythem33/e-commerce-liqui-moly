@@ -16,6 +16,7 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
+import { user_shop } from 'src/app/models/user-shop.model';
 import { Auth_Modal_Component } from '../auth-modal/auth-modal.component';
 import { signIn } from '../services/auth.actions';
 import { AuthService } from '../services/auth.service';
@@ -100,11 +101,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  store_user(user: User): void {
+  store_user(user: user_shop): void {
     this.store.dispatch(signIn(user));
   }
 
-  open_missing_information(user: User): void {
+  open_missing_information(user: user_shop): void {
     this.authService.open_missing_information_dialog({
       type: 'LOGIN',
       user: user,

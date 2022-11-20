@@ -8,5 +8,9 @@ export interface car_parts {
   price: number;
   image_urls: File[] | string[];
   category: cars_category;
+  sub_category: string[];
   cars?: cars[];
+  description: string;
+  features: [{ feature_name: string; feature_value: string }];
+  insertion_date: Date;
 }

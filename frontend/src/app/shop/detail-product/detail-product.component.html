@@ -1,17 +1,16 @@
-<app-navbar></app-navbar>
 <ng-container *ngIf="product">
     <div class="block-split mt-5">
         <div class="container">
             <div class="block-split__row row no-gutters">
                 <div class="block-split__item block-split__item-content col-auto">
                     <div class="product product--layout--full">
-                        <app-product [product]="product" [view]="'large'"></app-product>
+                        <app-product [product]="product" view="large">
+                            <app-cart-button [product]="product" fullButton view="fullButton"></app-cart-button>
+                        </app-product>
                     </div>
                     <div class="block-space block-space--layout--divider-nl"></div>
-
                 </div>
             </div>
         </div>
     </div>
 </ng-container>
-<app-footer></app-footer>

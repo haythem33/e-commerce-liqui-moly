@@ -25,6 +25,8 @@
     "@ngrx/store-devtools": "^14.0.2",
     "bootstrap": "^5.2.0",
     "firebase": "^9.9.1",
+    "jspdf": "^2.5.1",
+    "ngx-extended-pdf-viewer": "^15.0.9",
     "ngx-owl-carousel-o": "^14.0.1",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

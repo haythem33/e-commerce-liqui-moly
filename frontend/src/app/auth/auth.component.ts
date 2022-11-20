@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { User } from 'firebase/auth';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { user_shop } from '../models/user-shop.model';
 import { AuthSelectors } from './services/auth.selectors';
 import { AuthService } from './services/auth.service';
 
@@ -11,7 +11,7 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./auth.component.sass'],
 })
 export class AuthComponent implements OnInit, OnDestroy {
-  user!: User | null;
+  user!: user_shop | null;
   private readonly destroyed = new Subject<boolean>();
   constructor(private authService: AuthService, private store: Store<any>) {}
 

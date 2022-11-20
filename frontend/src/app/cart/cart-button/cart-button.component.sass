@@ -1,0 +1,77 @@
+@import url(../../../assets/css/style.header-spaceship-variant-one.css)
+@import url(../../../assets/css/style.mobile-header-variant-one.css)
+a
+    text-decoration: none
+#svg-404
+    background-color: #2e4482
+    position: fixed
+    top: 0
+    left: 0
+
+#star
+    fill: white
+
+#wave-top
+    animation: waveMove 5s infinite
+
+#boat-group
+    animation: boatMove 5s infinite
+
+.boat
+    stroke: rgb(145, 143, 143)
+    stroke-width: 0.15em
+    fill: rgb(145, 143, 143)
+
+
+    &-flag
+        stroke: rgb(117, 103, 103)
+        stroke-width: 0.15em
+        fill: rgb(228, 143, 143)
+
+
+    &-top
+        stroke: rgb(228, 226, 226)
+        stroke-width: 0.15em
+        fill: rgb(228, 226, 226)
+
+.star
+    stroke: white
+    stroke-width: 0.15em
+    fill: white
+
+.stroke
+    stroke: #bea9de
+    stroke-width: 0.15em
+    fill: transparent
+
+
+    &-moon
+        stroke: white
+        stroke-width: 0.15em
+        fill: transparent
+
+
+    &-wave
+        stroke: #546bab
+        stroke-width: 0.20em
+        fill: #546bab
+
+@keyframes waveMove
+    0%
+        transform: translate(0,0)
+
+    50%
+        transform: translate(0,1em)
+
+    100%
+        transform: translate(0,0em)
+
+@keyframes boatMove
+    0%
+        transform: translate(0em,0em)
+
+    50%
+        transform: translate(0em,1.8em)
+
+    100%
+        transform: translate(0em,0em)

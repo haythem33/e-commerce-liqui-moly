@@ -1,0 +1,32 @@
+<div class="card" *ngIf="user">
+    <div class="card-header">
+        <h2>Mes Voitures</h2>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-body card-body--padding--2">
+        <div class="vehicles-list vehicles-list--layout--account">
+            <div class="vehicles-list__body">
+                <div class="vehicles-list__item" *ngFor="let car of allCars">
+                    <div class="vehicles-list__item-info">
+                        <div class="vehicles-list__item-name">{{car.Model}} {{car.Make}} {{car.Year}} </div>
+                        <div class="vehicles-list__item-links" style="color:#3f51b5;cursor:pointer;">
+                            Voir les produits associer
+                        </div>
+                    </div>
+                    <button (click)="removeCar(car)" type="button" class="vehicles-list__item-remove"><svg width="16"
+                            height="16">
+                            <path d="M2,4V2h3V1h6v1h3v2H2z M13,13c0,1.1-0.9,2-2,2H5c-1.1,0-2-0.9-2-2V5h10V13z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-header text-center">
+        <button mat-mini-fab (click)="addCar()" color="primary">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div class="card-divider"></div>
+</div>

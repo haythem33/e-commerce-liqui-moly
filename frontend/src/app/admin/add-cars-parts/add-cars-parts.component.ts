@@ -31,7 +31,7 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
   all_preview_images: any[] = [];
   allCategory!: cars_category[];
   sub_category!: string[];
-  allColors: string[] = [];
+
   features: [{ feature_name: string; feature_value: string }] = [
     { feature_name: '', feature_value: '' },
   ];
@@ -88,20 +88,7 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
       this.fileInput.nativeElement.value = '';
     }
   }
-  addColor(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value) {
-      this.allColors.push(value);
-    }
-    event.chipInput!.clear();
-  }
 
-  removeColor(color: string) {
-    const index = this.allColors.indexOf(color);
-    if (index >= 0) {
-      this.allColors.splice(index, 1);
-    }
-  }
   public show_sub_categorie(event: MatSelectChange): void {
     if ((event.value as cars_category).sub_category !== undefined) {
       this.sub_category = (event.value as cars_category)
@@ -136,7 +123,6 @@ export class AddCarsPartsComponent implements OnInit, OnDestroy {
         (feature) => feature.feature_name !== '' && feature.feature_value !== ''
       )
       .map((feature) => car_part.append('features[]', JSON.stringify(feature)));
-    this.allColors.map((color) => car_part.append('colors', color));
     this.selectedCars.map((car) =>
       car_part.append('cars[]', JSON.stringify(car))
     );

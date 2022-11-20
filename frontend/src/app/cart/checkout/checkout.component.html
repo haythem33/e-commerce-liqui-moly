@@ -1,190 +1,202 @@
-<app-navbar></app-navbar>
-<div class="checkout block mt-5">
+<div class="checkout block mt-5" *ngIf="user">
     <div class="container container--max--xl">
-        <div class="row">
-            <div class="col-12 mb-3">
-                <div class="alert alert-lg alert-primary">Returning customer? <a href="#">Click here to
-                        login</a></div>
-            </div>
-            <div class="col-12 col-lg-6 col-xl-7">
-                <div class="card mb-lg-0">
-                    <div class="card-body card-body--padding--2">
-                        <h3 class="card-title">Billing details</h3>
-                        <div class="form-row">
-                            <div class="form-group col-md-6"><label for="checkout-first-name">First
-                                    Name</label> <input type="text" class="form-control" id="checkout-first-name" placeholder="First Name"></div>
-                            <div class="form-group col-md-6"><label for="checkout-last-name">Last
-                                    Name</label> <input type="text" class="form-control" id="checkout-last-name" placeholder="Last Name"></div>
-                        </div>
-                        <div class="form-group"><label for="checkout-company-name">Company Name <span
-                                    class="text-muted">(Optional)</span></label> <input type="text" class="form-control" id="checkout-company-name" placeholder="Company Name">
-                        </div>
-                        <div class="form-group"><label for="checkout-country">Country</label> <select id="checkout-country" class="form-control form-control-select2">
-                                <option>Select a country...</option>
-                                <option>United States</option>
-                                <option>Russia</option>
-                                <option>Italy</option>
-                                <option>France</option>
-                                <option>Ukraine</option>
-                                <option>Germany</option>
-                                <option>Australia</option>
-                            </select></div>
-                        <div class="form-group"><label for="checkout-street-address">Street Address</label>
-                            <input type="text" class="form-control" id="checkout-street-address" placeholder="Street Address">
-                        </div>
-                        <div class="form-group"><label for="checkout-address">Apartment, suite, unit etc.
-                                <span class="text-muted">(Optional)</span></label> <input type="text" class="form-control" id="checkout-address"></div>
-                        <div class="form-group"><label for="checkout-city">Town / City</label> <input type="text" class="form-control" id="checkout-city"></div>
-                        <div class="form-group"><label for="checkout-state">State / County</label> <input type="text" class="form-control" id="checkout-state"></div>
-                        <div class="form-group"><label for="checkout-postcode">Postcode / ZIP</label> <input type="text" class="form-control" id="checkout-postcode"></div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6"><label for="checkout-email">Email
-                                    address</label> <input type="email" class="form-control" id="checkout-email" placeholder="Email address"></div>
-                            <div class="form-group col-md-6"><label for="checkout-phone">Phone</label>
-                                <input type="text" class="form-control" id="checkout-phone" placeholder="Phone">
+        <mat-stepper [linear]="true" #checkoutStepper [orientation]="(stepperOrientation | async)!">
+            <mat-step [editable]="!stepsComplete.step3" [completed]="stepsComplete.step1">
+                <ng-template matStepLabel>Détails de la facturation</ng-template>
+                <div class="row">
+                    <div class="col-12 col-lg-6 col-xl-7">
+                        <div class="card mb-lg-0">
+                            <div class="card-body profile-card__body">
+                                <div class="profile-card__avatar">
+                                    <img [src]="user.photoURL === 'DEFAULT' ? '../../../assets/images/default_user.png' : user.photoURL" alt="">
+                                </div>
+                                <div class="profile-card__name">{{user.displayName}}</div>
+                                <div class="dashboard__address card address-card address-card--featured">
+                                    <div class="address-card__badge tag-badge" style="background-color:#3f51b5;color:white">Adresse
+                                    </div>
+                                    <div class="address-card__body">
+                                        <div class="address-card__name">{{adresse.state}}</div>
+                                        <div class="address-card__row">{{adresse.city}} {{adresse.street}}
+                                        </div>
+                                        <div class="address-card__row">
+                                            <div class="address-card__row-title">Numéro de téléphone</div>
+                                            <div class="address-card__row-content">{{user.phoneNumber}}</div>
+                                        </div>
+                                        <div class="address-card__row">
+                                            <div class="address-card__row-title">Adresse e-mail</div>
+                                            <div class="address-card__row-content">{{user.email}}</div>
+                                        </div>
+                                        <div class="address-card__footer">
+                                            <button mat-button color="primary" (click)="editAdress()">
+                                                Modifier l'adresse
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-check"><span class="input-check form-check-input"><span
-                                        class="input-check__body"><input class="input-check__input" type="checkbox"
-                                            id="checkout-create-account"> <span class="input-check__box"></span> <span class="input-check__icon"><svg width="9px" height="7px">
-                                                <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" />
-                                            </svg> </span></span>
-                                </span><label class="form-check-label" for="checkout-create-account">Create an
-                                    account?</label></div>
                         </div>
                     </div>
-                    <div class="card-divider"></div>
-                    <div class="card-body card-body--padding--2">
-                        <h3 class="card-title">Shipping Details</h3>
-                        <div class="form-group">
-                            <div class="form-check"><span class="input-check form-check-input"><span
-                                        class="input-check__body"><input class="input-check__input" type="checkbox"
-                                            id="checkout-different-address"> <span class="input-check__box"></span>
-                                <span class="input-check__icon"><svg width="9px" height="7px">
-                                                <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" />
-                                            </svg> </span></span>
-                                </span><label class="form-check-label" for="checkout-different-address">Ship to a
-                                    different address?</label>
+                    <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
+                        <div class="card mb-0">
+                            <div class="card-body card-body--padding--2">
+                                <h3 class="card-title">Votre commande</h3>
+                                <table class="checkout__totals">
+                                    <thead class="checkout__totals-header">
+                                        <tr>
+                                            <th>Produit</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="checkout__totals-products">
+                                        <tr *ngFor="let cart of cart_list">
+                                            <td>{{cart.car_part.name}} × {{cart.quantity}}</td>
+                                            <td>{{cart.car_part.price * cart.quantity|number:'2.2'}}TND </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody class="checkout__totals-subtotals">
+                                        <tr>
+                                            <th>Sous Total</th>
+                                            <td>{{totalPrice|number:'2.2'}}TND</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Expédition</th>
+                                            <td>0 TND</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Taux TVA</th>
+                                            <td>20%</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot class="checkout__totals-footer">
+                                        <tr>
+                                            <th>Total TTC</th>
+                                            <td>{{totalPrice * 1.20|number:'2.2'}}TND</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <button type="submit" mat-button class="btn btn-lg btn-block" style="background-color:#3f51b5;color:white" (click)="nextStep(1)">
+                                    Passer la commande
+                                </button>
                             </div>
                         </div>
-                        <div class="form-group"><label for="checkout-comment">Order notes <span
-                                    class="text-muted">(Optional)</span></label> <textarea id="checkout-comment" class="form-control" rows="4"></textarea></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
-                <div class="card mb-0">
-                    <div class="card-body card-body--padding--2">
-                        <h3 class="card-title">Your Order</h3>
-                        <table class="checkout__totals">
-                            <thead class="checkout__totals-header">
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody class="checkout__totals-products">
-                                <tr>
-                                    <td>Glossy Gray 19" Aluminium Wheel AR-19 × 2</td>
-                                    <td>$1398.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Brandix Brake Kit BDX-750Z370-S × 1</td>
-                                    <td>$849.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Twin Exhaust Pipe From Brandix Z54 × 3</td>
-                                    <td>$3630.00</td>
-                                </tr>
-                            </tbody>
-                            <tbody class="checkout__totals-subtotals">
-                                <tr>
-                                    <th>Subtotal</th>
-                                    <td>$5877.00</td>
-                                </tr>
-                                <tr>
-                                    <th>Store Credit</th>
-                                    <td>$-20.00</td>
-                                </tr>
-                                <tr>
-                                    <th>Shipping</th>
-                                    <td>$25.00</td>
-                                </tr>
-                            </tbody>
-                            <tfoot class="checkout__totals-footer">
-                                <tr>
-                                    <th>Total</th>
-                                    <td>$5882.00</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div class="checkout__payment-methods payment-methods">
-                            <ul class="payment-methods__list">
-                                <li class="payment-methods__item payment-methods__item--active"><label class="payment-methods__item-header"><span
-                                            class="payment-methods__item-radio input-radio"><span
-                                                class="input-radio__body"><input class="input-radio__input"
-                                                    name="checkout_payment_method" type="radio" checked="checked"> <span
-                                                    class="input-radio__circle"></span> </span></span><span
-                                            class="payment-methods__item-title">Direct bank
-                                            transfer</span></label>
-                                    <div class="payment-methods__item-container">
-                                        <div class="payment-methods__item-details text-muted">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="payment-methods__item"><label class="payment-methods__item-header"><span
-                                            class="payment-methods__item-radio input-radio"><span
-                                                class="input-radio__body"><input class="input-radio__input"
-                                                    name="checkout_payment_method" type="radio"> <span
-                                                    class="input-radio__circle"></span> </span></span><span
-                                            class="payment-methods__item-title">Check
-                                            payments</span></label>
-                                    <div class="payment-methods__item-container">
-                                        <div class="payment-methods__item-details text-muted">Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="payment-methods__item"><label class="payment-methods__item-header"><span
-                                            class="payment-methods__item-radio input-radio"><span
-                                                class="input-radio__body"><input class="input-radio__input"
-                                                    name="checkout_payment_method" type="radio"> <span
-                                                    class="input-radio__circle"></span> </span></span><span
-                                            class="payment-methods__item-title">Cash on
-                                            delivery</span></label>
-                                    <div class="payment-methods__item-container">
-                                        <div class="payment-methods__item-details text-muted">Pay with cash upon delivery.
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="payment-methods__item"><label class="payment-methods__item-header"><span
-                                            class="payment-methods__item-radio input-radio"><span
-                                                class="input-radio__body"><input class="input-radio__input"
-                                                    name="checkout_payment_method" type="radio"> <span
-                                                    class="input-radio__circle"></span> </span></span><span
-                                            class="payment-methods__item-title">PayPal</span></label>
-                                    <div class="payment-methods__item-container">
-                                        <div class="payment-methods__item-details text-muted">Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="checkout__agree form-group">
-                            <div class="form-check"><span class="input-check form-check-input"><span
-                                        class="input-check__body"><input class="input-check__input" type="checkbox"
-                                            id="checkout-terms"> <span class="input-check__box"></span> <span class="input-check__icon"><svg width="9px" height="7px">
-                                                <path d="M9,1.395L3.46,7L0,3.5L1.383,2.095L3.46,4.2L7.617,0L9,1.395Z" />
-                                            </svg> </span></span>
-                                </span><label class="form-check-label" for="checkout-terms">I have read and agree to the
-                                    website <a target="_blank" href="terms.html">terms and conditions</a></label>
-                            </div>
-                        </div><button type="submit" class="btn btn-primary btn-xl btn-block">Place
-                            Order</button>
                     </div>
                 </div>
-            </div>
-        </div>
+            </mat-step>
+            <mat-step [editable]="!stepsComplete.step3" [completed]="stepsComplete.step2">
+                <ng-template matStepLabel>Méthode de paiement</ng-template>
+                <div class="checkout__payment-methods payment-methods" style="min-height: 500px;">
+                    <ul class="payment-methods__list">
+                        <li class="payment-methods__item payment-methods__item--active m-2">
+                            <label class="payment-methods__item-header">
+                                <span class="payment-methods__item-radio input-radio">
+                                    <span class="input-radio__body">
+                                        <mat-checkbox [checked]="paymentMethode.bankTransfer"
+                                            [disabled]="paymentMethode.bankTransfer" (change)="chosePayment(0)"
+                                            color="primary">
+                                        </mat-checkbox>
+                                    </span>
+                                </span>
+                                <span class="payment-methods__item-title">Virement bancaire direct</span>
+                            </label>
+                            <div class="payment-methods__item-container">
+                                <div class="payment-methods__item-details text-muted">Effectuez votre paiement directement sur notre compte bancaire. Votre commande ne sera pas expédiée tant que les fonds n'auront pas été crédités sur notre compte.
+                                </div>
+                            </div>
+                        </li>
+                        <li class="payment-methods__item payment-methods__item--active m-2">
+                            <label class="payment-methods__item-header">
+                                <span class="payment-methods__item-radio input-radio">
+                                    <span class="input-radio__body">
+                                        <mat-checkbox [checked]="paymentMethode.PayWithDeleviry"
+                                            [disabled]="paymentMethode.PayWithDeleviry" (change)="chosePayment(1)"
+                                            color="primary">
+                                        </mat-checkbox>
+                                    </span>
+                                </span>
+                                <span class="payment-methods__item-title">Paiement à la livraison</span>
+                            </label>
+                            <div class="payment-methods__item-container">
+                                <div class="payment-methods__item-details text-muted">Payez en espèces à la livraison.
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="text-center m-4">
+                        <button type="submit" mat-button class="btn btn-lg btn-block" style="background-color: #3f51b5;color:white" (click)="nextStep(2)">Suivant</button>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step [editable]="false" [completed]="stepsComplete.step3" *ngIf="paymentMethode.bankTransfer">
+                <ng-template matStepLabel>Virement bancaire</ng-template>
+                <div class="container" style="min-height: 500px;">
+                    <mat-spinner style="margin:0 auto;" *ngIf="!paymentLink" mode="indeterminate">
+                    </mat-spinner>
+                    <iframe *ngIf="paymentLink" width="100%" height="500px" [src]="paymentLink" (load)="PaymentComplete()" #paymentFrame></iframe>
+                </div>
+            </mat-step>
+            <mat-step [editable]="false" [completed]="stepsComplete.step4">
+                <ng-template matStepLabel>Generation de la facture</ng-template>
+                <ng-template matStepContent>
+                    <app-invoice (invoice_change)="addInvoice($event)">
+                        <button nextStep type="submit" mat-raised-button class="m-2" color="primary" (click)="nextStep(5)">Suivant</button>
+                    </app-invoice>
+                </ng-template>
+            </mat-step>
+            <mat-step [completed]="stepsComplete.step5">
+                <ng-template matStepLabel>Finalisation de la commande</ng-template>
+                <div class="container">
+                    <div class="d-flex justify-content-center mt-5 checkmark">
+                        <svg class='confetti' height='19' viewBox='0 0 19 19' width='19' xmlns='http://www.w3.org/2000/svg'>
+                            <path
+                                d='M8.296.747c.532-.972 1.393-.973 1.925 0l2.665 4.872 4.876 2.66c.974.532.975 1.393 0 1.926l-4.875 2.666-2.664 4.876c-.53.972-1.39.973-1.924 0l-2.664-4.876L.76 10.206c-.972-.532-.973-1.393 0-1.925l4.872-2.66L8.296.746z'
+                                fill='#3f51b5' />
+                        </svg>
+                        <svg class='confetti' height='19' viewBox='0 0 19 19' width='19' xmlns='http://www.w3.org/2000/svg'>
+                            <path
+                                d='M8.296.747c.532-.972 1.393-.973 1.925 0l2.665 4.872 4.876 2.66c.974.532.975 1.393 0 1.926l-4.875 2.666-2.664 4.876c-.53.972-1.39.973-1.924 0l-2.664-4.876L.76 10.206c-.972-.532-.973-1.393 0-1.925l4.872-2.66L8.296.746z'
+                                fill='#3f51b5' />
+                        </svg>
+                        <svg class='confetti' height='19' viewBox='0 0 19 19' width='19' xmlns='http://www.w3.org/2000/svg'>
+                            <path
+                                d='M8.296.747c.532-.972 1.393-.973 1.925 0l2.665 4.872 4.876 2.66c.974.532.975 1.393 0 1.926l-4.875 2.666-2.664 4.876c-.53.972-1.39.973-1.924 0l-2.664-4.876L.76 10.206c-.972-.532-.973-1.393 0-1.925l4.872-2.66L8.296.746z'
+                                fill='#3f51b5' />
+                        </svg>
+                        <svg class='confetti' height='19' viewBox='0 0 19 19' width='19' xmlns='http://www.w3.org/2000/svg'>
+                            <path
+                                d='M8.296.747c.532-.972 1.393-.973 1.925 0l2.665 4.872 4.876 2.66c.974.532.975 1.393 0 1.926l-4.875 2.666-2.664 4.876c-.53.972-1.39.973-1.924 0l-2.664-4.876L.76 10.206c-.972-.532-.973-1.393 0-1.925l4.872-2.66L8.296.746z'
+                                fill='#3f51b5' />
+                        </svg>
+                        <svg class='confetti' height='19' viewBox='0 0 19 19' width='19' xmlns='http://www.w3.org/2000/svg'>
+                            <path
+                                d='M8.296.747c.532-.972 1.393-.973 1.925 0l2.665 4.872 4.876 2.66c.974.532.975 1.393 0 1.926l-4.875 2.666-2.664 4.876c-.53.972-1.39.973-1.924 0l-2.664-4.876L.76 10.206c-.972-.532-.973-1.393 0-1.925l4.872-2.66L8.296.746z'
+                                fill='#3f51b5' />
+                        </svg>
+                        <svg class='confetti' height='19' viewBox='0 0 19 19' width='19' xmlns='http://www.w3.org/2000/svg'>
+                            <path
+                                d='M8.296.747c.532-.972 1.393-.973 1.925 0l2.665 4.872 4.876 2.66c.974.532.975 1.393 0 1.926l-4.875 2.666-2.664 4.876c-.53.972-1.39.973-1.924 0l-2.664-4.876L.76 10.206c-.972-.532-.973-1.393 0-1.925l4.872-2.66L8.296.746z'
+                                fill='#3f51b5' />
+                        </svg>
+                        <svg class='checkmark__check' height='36' viewBox='0 0 48 36' width='48' xmlns='http://www.w3.org/2000/svg'>
+                            <path
+                                d='M47.248 3.9L43.906.667a2.428 2.428 0 0 0-3.344 0l-23.63 23.09-9.554-9.338a2.432 2.432 0 0 0-3.345 0L.692 17.654a2.236 2.236 0 0 0 .002 3.233l14.567 14.175c.926.894 2.42.894 3.342.01L47.248 7.128c.922-.89.922-2.34 0-3.23' />
+                        </svg>
+                        <svg class='checkmark__back' height='115' viewBox='0 0 120 115' width='120' xmlns='http://www.w3.org/2000/svg'>
+                            <path
+                                d='M107.332 72.938c-1.798 5.557 4.564 15.334 1.21 19.96-3.387 4.674-14.646 1.605-19.298 5.003-4.61 3.368-5.163 15.074-10.695 16.878-5.344 1.743-12.628-7.35-18.545-7.35-5.922 0-13.206 9.088-18.543 7.345-5.538-1.804-6.09-13.515-10.696-16.877-4.657-3.398-15.91-.334-19.297-5.002-3.356-4.627 3.006-14.404 1.208-19.962C10.93 67.576 0 63.442 0 57.5c0-5.943 10.93-10.076 12.668-15.438 1.798-5.557-4.564-15.334-1.21-19.96 3.387-4.674 14.646-1.605 19.298-5.003C35.366 13.73 35.92 2.025 41.45.22c5.344-1.743 12.628 7.35 18.545 7.35 5.922 0 13.206-9.088 18.543-7.345 5.538 1.804 6.09 13.515 10.696 16.877 4.657 3.398 15.91.334 19.297 5.002 3.356 4.627-3.006 14.404-1.208 19.962C109.07 47.424 120 51.562 120 57.5c0 5.943-10.93 10.076-12.668 15.438z'
+                                fill='#3f51b5' />
+                        </svg>
+                    </div>
+                    <div class="d-flex justify-content-center flex-wrap mt-3">
+                        <button type="submit" mat-raised-button color="primary" class="m-2">
+                            Suivre mes commandes
+                        </button>
+                        <button [routerLink]="['/shop']" type="submit" mat-raised-button color="primary" class="m-2">
+                            Revenir a la boutique
+                        </button>
+                    </div>
+                </div>
+            </mat-step>
+        </mat-stepper>
     </div>
 </div>
 <div class="block-space block-space--layout--before-footer"></div>
-<app-footer></app-footer>

@@ -6,5 +6,5 @@ export interface cars_category {
   name: string;
   image_url: File | Observable<SafeUrl> | string;
   sub_category?: string[];
-  cars_parts?: car_parts[];
+  cars_part?: car_parts[];
 }

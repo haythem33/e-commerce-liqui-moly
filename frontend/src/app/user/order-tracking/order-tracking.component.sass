@@ -1,0 +1,380 @@
+figure
+    display: flex
+    img
+        width: 4rem
+        height: 4rem
+        border-radius: 50%
+        border: 1px solid #3f51b5
+        margin-right: 1.5rem
+
+    figcaption
+        display: flex
+        flex-direction: column
+        justify-content: space-evenly
+
+    h4
+        font-size: 1rem
+        font-weight: 500
+
+    h6
+        font-size: 0.9rem
+        font-weight: 300
+
+    h2
+        font-size: 1rem
+        font-weight: 500
+.order-track
+    margin-top: 2rem
+    padding: 0 1rem
+    border-top: 1px dashed #3f51b5
+    padding-top: 2.5rem
+
+// STEPPER ANIMATION
+#heroSvg
+    max-with: 60vw
+    max-height: 90vh
+
+.st0
+    opacity: 0.25
+    fill: #3f51b5
+    enable-background: new
+
+.st1
+    fill: none
+    stroke: #535461
+    stroke-width: 2
+    stroke-miterlimit: 10
+
+.st2
+    fill: #3f51b5
+
+.st3
+    fill: #3f51b5
+
+.st4
+    fill: #4caf50
+
+.st5
+    opacity: 0.1
+    fill: #ffffff
+    enable-background: new
+
+.st6
+    opacity: 0.2
+    enable-background: new
+
+.st7
+    fill: none
+    stroke: #4caf50
+    stroke-miterlimit: 10
+
+.st8
+    opacity: 0.5
+    fill: #ffffff
+    enable-background: new
+
+.st9
+    fill: url(#SVGID_1_)
+
+.st10
+    fill: #ffffff
+
+.st11
+    fill: #eeeeee
+
+.st12
+    fill: #f4f4f4
+
+.st13
+    fill: #3f51b5
+
+.st14
+    opacity: 0.2
+    fill: #3f51b5
+    enable-background: new
+
+.st15
+    fill: url(#SVGID_2_)
+
+.st16
+    fill: #fdb797
+
+.st17
+    fill: #3f51b5
+
+.st18
+    fill: #3f51b5
+
+.st19
+    opacity: 0.1
+    enable-background: new
+
+.st20
+    fill: #3f51b5
+
+.st21
+    opacity: 0.7
+
+.st22
+    opacity: 0.7
+    fill: url(#SVGID_3_)
+    enable-background: new
+
+.st23
+    fill: #e0e0e0
+
+.st24
+    fill: #535461
+
+.st25
+    opacity: 0.7
+    fill: url(#SVGID_4_)
+    enable-background: new
+
+.st26
+    fill: #3e3f49
+
+.st27
+    fill: #c6c6c6
+
+.st28
+    opacity: 0.25
+    enable-background: new
+
+.st29
+    fill: #9a1245
+
+.st30
+    fill: none
+    stroke: #000000
+    stroke-width: 3
+    stroke-miterlimit: 10
+
+.st31
+    fill: #4caf50
+    stroke: #ffffff
+    stroke-miterlimit: 10
+
+@keyframes wiggle
+    0%
+        transform: rotate(0deg)
+
+    25%
+        transform: rotate(-1deg)
+
+    50%
+        transform: rotate(2deg)
+
+    75%
+        transform: rotate(-0.4deg)
+
+    100%
+        transform: rotate(1deg)
+
+@keyframes dothatgreencheck
+    0%
+        stroke: #000000
+
+    100%
+        stroke: #4CAF50
+
+@keyframes dothabottomcheck
+    0%
+        height: 0px
+
+    100%
+        height: 15px
+
+@keyframes dothatopcheck
+    0%
+        height: 0px
+
+    50%
+        height: 0px
+
+    100%
+        height: 33px
+
+.st0
+    animation: wiggle 40s ease infinite
+    animation-direction: alternate
+    transform-origin: 0 0
+    animation-delay: 3s
+
+#plant1
+    animation: wiggle 20s ease infinite
+    animation-direction: alternate
+    transform-origin: 0 90%
+
+#plant2
+    animation: wiggle 25s ease infinite
+    animation-direction: alternate
+    transform-origin: 0 90%
+    animation-delay: 2s
+
+#tickBox1 .st30
+    animation: dothatgreencheck 0.5s ease 0s forwards
+    animation-delay: 5s
+
+#tickBox1 .st4
+    height: 0px
+    animation: dothabottomcheck 0.2s ease 0s forwards
+    animation-delay: 5s
+
+#tickBox1 .st31
+    height: 0px
+    animation: dothatopcheck 0.4s ease 0s forwards
+    animation-delay: 5s
+
+#tickBox2 .st30
+    animation: dothatgreencheck 0.5s ease 0s forwards
+    animation-delay: 3.5s
+
+#tickBox2 .st4
+    height: 0px
+    animation: dothabottomcheck 0.2s ease 0s forwards
+    animation-delay: 3.5s
+
+#tickBox2 .st31
+    height: 0px
+    animation: dothatopcheck 0.4s ease 0s forwards
+    animation-delay: 3.5s
+
+#tickBox3 .st30
+    animation: dothatgreencheck 0.5s ease 0s forwards
+    animation-delay: 2s
+
+#tickBox3 .st4
+    height: 0px
+    animation: dothabottomcheck 0.2s ease 0s forwards
+    animation-delay: 2s
+
+#tickBox3 .st31
+    height: 0px
+    animation: dothatopcheck 0.4s ease 0s forwards
+    animation-delay: 2s
+
+.svg-success
+    display: inline-block
+    vertical-align: top
+    height: 300px
+    width: 300px
+    opacity: 1
+    overflow: visible
+
+@keyframes success-tick
+    0%
+        stroke-dashoffset: 16px
+        opacity: 1
+
+    100%
+        stroke-dashoffset: 31px
+        opacity: 1
+
+@keyframes success-circle-outline
+    0%
+        stroke-dashoffset: 72px
+        opacity: 1
+
+    100%
+        stroke-dashoffset: 0px
+        opacity: 1
+
+@keyframes success-circle-fill
+    0%
+        opacity: 0
+
+    100%
+        opacity: 1
+
+.success-tick
+    fill: none
+    stroke-width: 1px
+    stroke: #ffffff
+    stroke-dasharray: 15px, 15px
+    stroke-dashoffset: -14px
+    animation: success-tick 450ms ease 1400ms forwards
+    opacity: 0
+
+.success-circle-outline
+    fill: none
+    stroke-width: 1px
+    stroke: #81c038
+    stroke-dasharray: 72px, 72px
+    stroke-dashoffset: 72px
+    animation: success-circle-outline 300ms ease-in-out 800ms forwards
+    opacity: 0
+
+.svg-success
+    display: inline-block
+    vertical-align: top
+    height: 50%
+    width: 50%
+    opacity: 1
+    overflow: visible
+
+@keyframes success-tick
+    0%
+        stroke-dashoffset: 16px
+        opacity: 1
+
+    100%
+        stroke-dashoffset: 31px
+        opacity: 1
+
+@keyframes success-circle-outline
+    0%
+        stroke-dashoffset: 72px
+        opacity: 1
+
+    100%
+        stroke-dashoffset: 0px
+        opacity: 1
+
+@keyframes success-circle-fill
+    0%
+        opacity: 0
+
+    100%
+        opacity: 1
+
+.success-tick
+    fill: none
+    stroke-width: 1px
+    stroke: #3f51b5
+    stroke-dasharray: 15px, 15px
+    stroke-dashoffset: -14px
+    animation: success-tick 0.6s ease 1.3s forwards
+    opacity: 0
+
+.success-circle-outline
+    fill: none
+    stroke-width: 1px
+    stroke: #3f51b5
+    stroke-dasharray: 72px, 72px
+    stroke-dashoffset: 72px
+    animation: success-circle-outline 1.2s ease-in-out 0s forwards
+    opacity: 0
+
+.success-circle-fill
+    fill: #81c038
+    stroke: none
+    opacity: 0
+    animation: success-circle-fill 300ms ease-out 1100ms forwards
+
+@media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none)
+    .success-tick
+        stroke-dasharray: 0
+        stroke-dashoffset: 0
+        animation: none
+        opacity: 1
+
+    .success-circle-outline
+        stroke-dasharray: 0
+        stroke-dashoffset: 0
+        animation: none
+        opacity: 1
+
+    .success-circle-fill
+        animation: none
+        opacity: 1

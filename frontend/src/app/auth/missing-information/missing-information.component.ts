@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'firebase/auth';
 import { Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { user_shop } from 'src/app/models/user-shop.model';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class MissingInformationComponent implements OnInit, OnDestroy {
   private readonly destroyed$ = new Subject();
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public config: { type: 'LOGIN' | 'REGISTER'; user: User },
+    public config: { type: 'LOGIN' | 'REGISTER'; user: user_shop },
     private auth: AuthService,
     private snackbar: MatSnackBar,
     private dialogRef: MatDialogRef<MissingInformationComponent>

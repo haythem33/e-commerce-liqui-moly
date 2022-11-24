@@ -15,8 +15,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 @NgModule({
   declarations: [
     OrderTrackingComponent,
@@ -35,7 +35,8 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     MatStepperModule,
     MatDividerModule,
     MatProgressSpinnerModule,
-    NgxExtendedPdfViewerModule,
+    MatExpansionModule,
+    PdfViewerModule,
     ShopModule,
   ],
 })

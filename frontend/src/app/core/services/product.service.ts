@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Injectable, SecurityContext } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { first, map, Observable, switchMap, tap } from 'rxjs';
 import { cars_category } from 'src/app/models/cars-category.model';
 import { car_parts } from 'src/app/models/cars-parts.model';
@@ -34,13 +34,19 @@ export class ProductService {
         )
       );
   }
-  getInvoicePdf(filename: string): Observable<Blob> {
-    return this.http.get(
-      `${environment.server_url}/core/static_file/${filename}`,
-      {
+  getInvoicePdf(filename: string): Observable<string | null> {
+    return this.http
+      .get(`${environment.server_url}/core/static_file/${filename}`, {
         responseType: 'blob',
-      }
-    );
+      })
+      .pipe(
+        map((file) =>
+          this.sanitizer.sanitize(
+            SecurityContext.URL,
+            this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file))
+          )
+        )
+      );
   }
   getProducts_Categorys() {
     return this.http.get<cars_category[]>(

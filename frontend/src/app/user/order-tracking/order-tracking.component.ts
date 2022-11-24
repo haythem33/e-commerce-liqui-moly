@@ -18,7 +18,7 @@ export class OrderTrackingComponent implements OnInit {
   pending_orders: order[] = [];
   cart_productsImages!: Observable<SafeUrl>[];
   orders_states!: number[];
-  invoice_files: Blob[] = [];
+  invoice_files: Observable<string | null>[] = [];
   constructor(
     private store: Store,
     private userService: UserService,
@@ -78,16 +78,9 @@ export class OrderTrackingComponent implements OnInit {
     });
   }
   private generateInvoiceFiles(): void {
-    this.pending_orders.map((order) =>
-      this.productService
-        .getInvoicePdf(order.orderInvoiceUrl)
-        .pipe(first())
-        .subscribe({
-          next: (file) => {
-            this.invoice_files.push(file);
-            console.log(this.invoice_files);
-          },
-        })
+    this.invoice_files = this.pending_orders.map(
+      (order) =>
+        this.productService.getInvoicePdf(order.orderInvoiceUrl).pipe(first())!
     );
   }
 }

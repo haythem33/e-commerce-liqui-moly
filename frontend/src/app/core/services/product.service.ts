@@ -34,18 +34,21 @@ export class ProductService {
         )
       );
   }
-  getInvoicePdf(filename: string): Observable<string | null> {
+  getInvoicePdf(
+    filename: string
+  ): Observable<{ url: string | null; file: Blob }> {
     return this.http
       .get(`${environment.server_url}/core/static_file/${filename}`, {
         responseType: 'blob',
       })
       .pipe(
-        map((file) =>
-          this.sanitizer.sanitize(
+        map((file) => ({
+          url: this.sanitizer.sanitize(
             SecurityContext.URL,
             this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file))
-          )
-        )
+          ),
+          file: file,
+        }))
       );
   }
   getProducts_Categorys() {

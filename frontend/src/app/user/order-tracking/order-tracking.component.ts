@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
+import { FileSaverService } from 'ngx-filesaver';
 import { first, Observable, Subject, takeUntil } from 'rxjs';
 import { AuthSelectors } from 'src/app/auth/services/auth.selectors';
 import { ProductService } from 'src/app/core/services/product.service';
@@ -18,17 +19,26 @@ export class OrderTrackingComponent implements OnInit {
   pending_orders: order[] = [];
   cart_productsImages!: Observable<SafeUrl>[];
   orders_states!: number[];
-  invoice_files: Observable<string | null>[] = [];
+  invoice_files: Observable<{ url: string | null; file: Blob }>[] = [];
   constructor(
     private store: Store,
     private userService: UserService,
-    private productService: ProductService
+    private productService: ProductService,
+    private fileSaverService: FileSaverService
   ) {}
 
   ngOnInit(): void {
     this.checkUserIsConntected();
   }
-
+  saveInvoice(index: number): void {
+    this.invoice_files[index].pipe(first()).subscribe({
+      next: (res) =>
+        this.fileSaverService.save(
+          res.file,
+          `facture-${this.user.displayName}-commande-${index + 1}.pdf`
+        ),
+    });
+  }
   private checkUserIsConntected(): void {
     this.store
       .select(AuthSelectors)
@@ -49,7 +59,6 @@ export class OrderTrackingComponent implements OnInit {
       .pipe(first())
       .subscribe({
         next: (orders) => {
-          console.log(orders);
           this.pending_orders = orders;
           this.generateProductsImage();
           this.arrangeOrdersState();

@@ -17,6 +17,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { FileSaverModule } from 'ngx-filesaver';
 @NgModule({
   declarations: [
     OrderTrackingComponent,
@@ -37,6 +38,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     MatProgressSpinnerModule,
     MatExpansionModule,
     PdfViewerModule,
+    FileSaverModule,
     ShopModule,
   ],
 })

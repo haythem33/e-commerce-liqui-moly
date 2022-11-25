@@ -352,8 +352,15 @@
                                 Facture
                             </div>
                             <div class="address-card__body text-center" style="padding: 0.5rem;">
-                                <pdf-viewer class="invoice-pdf mt-4" *ngIf="(invoice_files[o] | async) !== null" [src]="(invoice_files[o] | async)!" [render-text]="false" [fit-to-page]="true" [page]="1" [stick-to-page]="true" [show-all]="false" [original-size]="true">
-                                </pdf-viewer>
+                                <div class="invoice-pdf-container">
+                                    <pdf-viewer class="invoice-pdf mt-4" *ngIf="(invoice_files[o] | async) !== null" [src]="(invoice_files[o] | async)!.url!" [render-text]="false" [fit-to-page]="true" [page]="1" [stick-to-page]="true" [show-all]="false" [original-size]="true">
+                                    </pdf-viewer>
+                                    <div class="invoice-pdf-download text-center" (click)="saveInvoice(o)">
+                                        <button mat-icon-button color="primary" class="invoice-pdf-download-button">
+                                            <mat-icon>file_download</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

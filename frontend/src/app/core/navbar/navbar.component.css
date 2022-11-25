@@ -1686,7 +1686,7 @@
     -ms-flex-item-align: end;
     align-self: flex-end;
     justify-self: center;
-    bottom: -24px;
+    bottom: -23px;
     width: 480px
 }
 
@@ -1703,11 +1703,11 @@
 }
 
 .header__topbar-start-bg:before {
-    background: #1a79ff
+    background: #3f51b5
 }
 
 .header__topbar-end-bg:before {
-    background: #da291f
+    background: #3f51b5
 }
 
 .header__logo {

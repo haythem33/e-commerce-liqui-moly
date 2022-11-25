@@ -66,7 +66,10 @@ export class ShopService implements OnApplicationBootstrap {
     return car_found;
   }
   async getCategory(): Promise<CarCategory[]> {
-    return this.carCategoryModel.find();
+    return this.carCategoryModel.find().populate({
+      path: 'cars_part',
+      model: CarParts.name,
+    });
   }
   async getProducts(): Promise<CarParts[]> {
     return this.carPartsModel

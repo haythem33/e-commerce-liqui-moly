@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { car_parts } from './cars-parts.model';
 
 export interface cars_category {
+  _id?: string;
   name: string;
   image_url: File | Observable<SafeUrl> | string;
   sub_category?: string[];

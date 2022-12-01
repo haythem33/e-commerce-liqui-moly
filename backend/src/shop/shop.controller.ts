@@ -52,14 +52,16 @@ export class ShopController {
   ): Promise<CarParts[]> {
     return this.shopService.getProductsByCar(make, model, year);
   }
-  @Get('get_products_by_category')
+  @Get('get_products_by_category/:id')
   @HttpCode(HttpStatus.OK)
   async getProductsByCategory(@Param('id') id: string): Promise<CarParts[]> {
     return this.shopService.getProductByCategory(id);
   }
-  @Get('get_products_by_subCategory')
+  @Get('get_products_by_subCategory/:sub')
   @HttpCode(HttpStatus.OK)
-  async getProductsBySubCategory(subCategory: string): Promise<CarParts[]> {
+  async getProductsBySubCategory(
+    @Param('sub') subCategory: string,
+  ): Promise<CarParts[]> {
     return this.shopService.getProductsBySubCategory(subCategory);
   }
   @Get('get_cars_make')

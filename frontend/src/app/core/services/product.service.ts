@@ -19,9 +19,9 @@ export class ProductService {
     );
   }
   getAllProducts(): Observable<car_parts[]> {
-    return this.http
-      .get<car_parts[]>(`${environment.server_url}/shop/get_products`)
-      .pipe(first());
+    return this.http.get<car_parts[]>(
+      `${environment.server_url}/shop/get_products`
+    );
   }
   getStaticFile(filename: string) {
     return this.http
@@ -66,6 +66,16 @@ export class ProductService {
           year: car.Year,
         },
       }
+    );
+  }
+  getProductsByCategory(id: string): Observable<car_parts[]> {
+    return this.http.get<car_parts[]>(
+      `${environment.server_url}/shop/get_products_by_category/${id}`
+    );
+  }
+  getProductsBySubCategory(subCategory: string): Observable<car_parts[]> {
+    return this.http.get<car_parts[]>(
+      `${environment.server_url}/shop/get_products_by_subCategory/${subCategory}`
     );
   }
   getCarMake(): Observable<string[]> {

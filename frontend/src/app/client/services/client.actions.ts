@@ -5,6 +5,9 @@ import { cars } from 'src/app/models/cars.model';
 
 export const queryProductBy = createAction(
   'searchProductBy',
-  props<cars | car_parts | cars_category>()
+  props<{
+    query_type: 'CARS' | 'CATEGORY' | 'CAR_PARTS';
+    value: cars | car_parts | cars_category;
+  }>()
 );
 export const removeQuery = createAction('removeQuery');

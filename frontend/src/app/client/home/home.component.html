@@ -34,7 +34,7 @@
                         <mat-option *ngFor="let year of car_year | async" [value]="year">{{year}}</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button class="block-finder__form-control block-finder__form-control--button" (click)="searchProductByCar()" [disabled]="!car_make || !car_model || !car_year" style="background-color:#3f51b5" type="submit">Search</button>
+                <button class="block-finder__form-control block-finder__form-control--button" (click)="searchProductByCar('CARS',carToFind)" [disabled]="!car_make || !car_model || !car_year" style="background-color:#3f51b5" type="submit">Search</button>
             </form>
         </div>
     </div>
@@ -222,13 +222,13 @@ s0.4-0.1,0.5-0.2l1.8-1.8l5.3,5.3c0.2,0.2,0.4,0.2,0.5,0.2c0.2,0,0.4-0.1,0.5-0.2c0
                     </div>
                     <div class="category-card__content">
                         <div class="category-card__info">
-                            <div class="category-card__name"><a style="text-decoration:none" href="javascript:void(0)">{{category.name}}</a></div>
+                            <div class="category-card__name"><a style="text-decoration:none;cursor: pointer;" (click)="searchProductByCar('CATEGORY',category)">{{category.name}}</a></div>
                             <ul class="category-card__children">
-                                <li *ngFor="let sub of category.sub_category"><a style="text-decoration:none" href="javascript:void(0)">{{sub}}</a>
+                                <li *ngFor="let sub of category.sub_category"><a style="text-decoration:none;cursor: pointer;" (click)="searchProductByCar('CATEGORY',category)">{{sub}}</a>
                                 </li>
                             </ul>
                             <div class="category-card__actions">
-                                <a routerLink="/shop" class="btn btn-sm" style="background-color:#3f51b5;color:white">Shop All</a>
+                                <a (click)="searchProductByCar('CATEGORY',category)" class="btn btn-sm" style="background-color:#3f51b5;color:white">Shop All</a>
                             </div>
                         </div>
                     </div>
@@ -244,7 +244,10 @@ s0.4-0.1,0.5-0.2l1.8-1.8l5.3,5.3c0.2,0.2,0.4,0.2,0.5,0.2c0.2,0,0.4-0.1,0.5-0.2c0
                 </div>
                 <div class="row">
                     <div class="col-md-4" *ngFor="let product of (category.cars_part)!.slice(0,3)">
-                        <app-product [product]="product" view="carousel"></app-product>
+                        <app-product [product]="product" view="carousel">
+                            <app-cart-button CarouselButton view="CarouselButton" [product]="product">
+                            </app-cart-button>
+                        </app-product>
                     </div>
                 </div>
             </div>

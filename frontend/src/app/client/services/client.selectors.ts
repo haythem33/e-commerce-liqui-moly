@@ -5,5 +5,5 @@ export const getQuery = createFeatureSelector<client_State>('clientFeature');
 
 export const querySelector = createSelector(
   getQuery,
-  (state: client_State) => state.query
+  (state: client_State) => state
 );

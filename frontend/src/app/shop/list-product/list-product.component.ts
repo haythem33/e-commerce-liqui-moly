@@ -1,10 +1,8 @@
-import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatSelectionList } from '@angular/material/list';
-import { MatSlider } from '@angular/material/slider';
 import { Store } from '@ngrx/store';
-import { catchError, first, Observable, switchMap, tap } from 'rxjs';
+import { first, Observable, share, switchMap } from 'rxjs';
 import { querySelector } from 'src/app/client/services/client.selectors';
 import { ProductService } from 'src/app/core/services/product.service';
 import { cars_category } from 'src/app/models/cars-category.model';
@@ -19,12 +17,10 @@ import { ShopService } from '../services/shop.service';
   styleUrls: ['./list-product.component.sass'],
 })
 export class ListProductComponent implements OnInit {
-  query!: cars | car_parts | cars_category | null;
   products!: Observable<car_parts[]>;
-  allCategorys!: Observable<cars_category[]>;
+  allCategorys!: cars_category[];
   allCars: cars[] = [];
   allBrands!: Observable<string[]>;
-
   allFilters: {
     category: cars_category[];
     subCategory: string[];
@@ -50,38 +46,60 @@ export class ListProductComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getProducts();
     this.getCategorys();
-    this.allBrands = this.productService.getCarMake();
   }
 
   private getProducts(): void {
-    this.products = this.getQuery().pipe(
-      switchMap((query) => this.querySwitch(query))
-    );
+    this.getQuery()
+      .pipe(first())
+      .subscribe({
+        next: (query) =>
+          (this.products = this.querySwitch(query.query_type, query.value)),
+      });
   }
   private getCategorys(): void {
-    this.allCategorys = this.productService
+    this.productService
       .getProducts_Categorys()
-      .pipe(first());
+      .pipe(first())
+      .subscribe({
+        next: (res) => {
+          this.allCategorys = res;
+          this.getProducts();
+          this.allBrands = this.productService.getCarMake();
+        },
+      });
   }
-  private getQuery(): Observable<cars | car_parts | cars_category | null> {
+  private getQuery(): Observable<{
+    query_type: 'CARS' | 'CATEGORY' | 'CAR_PARTS' | null;
+    value: cars | car_parts | cars_category | null;
+  }> {
     return this.store.select(querySelector);
   }
   private querySwitch(
-    query: cars | car_parts | cars_category | null
+    query_type: 'CARS' | 'CATEGORY' | 'CAR_PARTS' | null,
+    value: cars | car_parts | cars_category | null
   ): Observable<car_parts[]> {
-    if (<cars>query) {
-      this.allCars.push(query as cars);
-      this.allFilters.car.push(query as cars);
-      return this.productService.getProducts_ByCars(query as cars);
+    if (!query_type || !value) {
+      return this.productService.getAllProducts();
+    }
+    if (query_type === 'CARS') {
+      this.allCars.push(value as cars);
+      this.allFilters.car.push(value as cars);
+      return this.productService.getProducts_ByCars(value as cars);
     }
     // if (<car_parts>query) {
 
     // }
-    // if(<cars_category>query) {
-
-    // }
+    if (query_type === 'CATEGORY') {
+      let categoryIndex = this.allCategorys.findIndex(
+        (ca) => ca._id === (value as cars_category)._id
+      );
+      this.allCategorys[categoryIndex] = value as cars_category;
+      this.allFilters.category.push(value as cars_category);
+      return this.productService.getProductsByCategory(
+        (value as cars_category)._id as string
+      );
+    }
     return this.productService.getAllProducts();
   }
   addCar(): void {
@@ -99,6 +117,10 @@ export class ListProductComponent implements OnInit {
       });
   }
   applyFilter(): void {
+    if (this.allFilters.car.length > 0) {
+      this.brandsSelect.deselectAll();
+      this.brandsSelect.disabled = true;
+    }
     this.products = this.shopService.fullFilter(this.allFilters);
   }
   resetFilter(): void {

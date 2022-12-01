@@ -28,7 +28,7 @@ C11.2,9.8,11.2,10.4,10.8,10.8z" />
                                             </mat-expansion-panel-header>
                                             <div class="filter-categories__list">
                                                 <mat-selection-list #categorySelect [(ngModel)]="allFilters.category" (ngModelChange)="removeSubCategory();applyFilter()" color="primary" [multiple]="false" role="list" dense>
-                                                    <ng-container *ngFor="let category of allCategorys | async;let i = index">
+                                                    <ng-container *ngFor="let category of allCategorys;let i = index">
                                                         <mat-list-option [value]="category">
                                                             <p style="font-weight:bold">{{category.name}}</p>
                                                         </mat-list-option>
@@ -56,8 +56,7 @@ C11.2,9.8,11.2,10.4,10.8,10.8z" />
                                                             <mat-divider></mat-divider>
                                                         </mat-list-option>
                                                     </mat-selection-list>
-
-                                                    <div class="text-center">
+                                                    <div class="text-center mt-2">
                                                         <button mat-mini-fab (click)="addCar()" color="primary">
                                                             <mat-icon>add</mat-icon>
                                                         </button>
@@ -177,16 +176,7 @@ C11.2,9.8,11.2,10.4,10.8,10.8z" />
                                 </mat-chip-list>
                             </div>
                         </div>
-                        <div class="products-view__list products-list products-list--grid--3" data-layout="grid" data-with-features="false">
-                            <div class="products-list__head">
-                                <div class="products-list__column products-list__column--image">Image</div>
-                                <div class="products-list__column products-list__column--meta">SKU</div>
-                                <div class="products-list__column products-list__column--product">Product
-                                </div>
-                                <div class="products-list__column products-list__column--rating">Rating
-                                </div>
-                                <div class="products-list__column products-list__column--price">Price</div>
-                            </div>
+                        <div class="products-view__list products-list products-list--grid--4" data-layout="grid" data-with-features="false">
                             <div class="products-list__content">
                                 <ng-container *ngIf="(products | async)">
                                     <div class="products-list__item" *ngFor="let product of products | async">

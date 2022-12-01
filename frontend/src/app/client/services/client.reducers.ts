@@ -5,13 +5,18 @@ import { cars } from 'src/app/models/cars.model';
 import { queryProductBy, removeQuery } from './client.actions';
 
 export interface client_State {
-  query: cars | car_parts | cars_category | null;
+  query_type: 'CARS' | 'CATEGORY' | 'CAR_PARTS' | null;
+  value: cars | car_parts | cars_category | null;
 }
 export const initialState: client_State = {
-  query: null,
+  query_type: null,
+  value: null,
 };
 export const ClientReducers = createReducer(
   initialState,
-  on(queryProductBy, (state, query) => ({ query: query })),
-  on(removeQuery, (state) => ({ query: null }))
+  on(queryProductBy, (state, query) => ({
+    query_type: query.query_type,
+    value: query.value,
+  })),
+  on(removeQuery, (state) => ({ query_type: null, value: null }))
 );

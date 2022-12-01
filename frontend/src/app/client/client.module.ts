@@ -11,6 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StoreModule } from '@ngrx/store';
 import { ClientReducers } from './services/client.reducers';
+import { CartModule } from '../cart/cart.module';
 
 @NgModule({
   declarations: [HomeComponent, AboutUsComponent, ContactUsComponent],
@@ -18,6 +19,7 @@ import { ClientReducers } from './services/client.reducers';
     CommonModule,
     ClientRoutingModule,
     CoreModule,
+    CartModule,
     FormsModule,
     MatSelectModule,
     MatFormFieldModule,

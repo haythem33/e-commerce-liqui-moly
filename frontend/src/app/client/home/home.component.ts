@@ -69,8 +69,11 @@ export class HomeComponent implements OnInit {
       this.carToFind.Model
     );
   }
-  async searchProductByCar(): Promise<void> {
-    this.store.dispatch(queryProductBy(this.carToFind));
+  async searchProductByCar(
+    query_type: 'CARS' | 'CATEGORY' | 'CAR_PARTS',
+    value: cars | cars_category | car_parts
+  ): Promise<void> {
+    this.store.dispatch(queryProductBy({ query_type, value }));
     await this.router.navigate(['shop']);
   }
 }
